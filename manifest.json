@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Scriptmonkey",
+  "version": "0.1.0",
+  "description": "Load user scripts on specific sites.",
+  "content_scripts": [
+    {
+      "matches": ["https://bitbucket.lab.dynatrace.org/*"],
+      "js": [
+        "userscripts/example.js"
+      ],
+      "world": "MAIN",
+      "run_at": "document_idle"
+    }
+  ]
+}
