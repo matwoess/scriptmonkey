@@ -1,11 +1,14 @@
+import { matchPattern } from '../utils/matching';
+import type { Script, ScriptMeta, ExtensionMessage, UpdateInfo } from '../types';
+
 const STORAGE_KEY = "scriptmonkey_scripts";
 
-function canUseUserScripts() {
+function canUseUserScripts(): boolean {
   return Boolean(chrome.userScripts?.register);
 }
 
-function parseMetadata(source) {
-  const meta = { matches: [] };
+function parseMetadata(source: string): ScriptMeta {
+  const meta: ScriptMeta = { matches: [] };
   const block = source.match(/\/\/\s*==UserScript==([\s\S]*?)\/\/\s*==\/UserScript==/);
   if (!block) {
     return meta;
@@ -31,23 +34,23 @@ function parseMetadata(source) {
   return meta;
 }
 
-async function loadScripts() {
+async function loadScripts(): Promise<Script[]> {
   const { [STORAGE_KEY]: scripts } = await chrome.storage.local.get(STORAGE_KEY);
-  return scripts ?? [];
+  return (scripts as Script[] | undefined) ?? [];
 }
 
-async function saveScripts(scripts) {
+async function saveScripts(scripts: Script[]): Promise<void> {
   await chrome.storage.local.set({ [STORAGE_KEY]: scripts });
 }
 
-function normalizeVersion(version) {
+function normalizeVersion(version?: string): (string | number)[] {
   return (version ?? "")
     .split(/[^0-9A-Za-z]+/)
     .filter(Boolean)
     .map(part => (/^\d+$/.test(part) ? Number(part) : part.toLowerCase()));
 }
 
-function compareVersions(left, right) {
+function compareVersions(left?: string, right?: string): number {
   const a = normalizeVersion(left);
   const b = normalizeVersion(right);
   const length = Math.max(a.length, b.length);
@@ -70,11 +73,11 @@ function compareVersions(left, right) {
   return 0;
 }
 
-function getUpdateUrl(script) {
-  return script.meta.downloadurl ?? script.meta.updateurl ?? null;
+function getUpdateUrl(script: Script): string | null {
+  return (script.meta.downloadurl as string | undefined) ?? (script.meta.updateurl as string | undefined) ?? null;
 }
 
-async function fetchScriptUpdate(script) {
+async function fetchScriptUpdate(script: Script): Promise<{ canUpdate: boolean; source?: string; meta?: ScriptMeta; hasUpdate?: boolean }> {
   const url = getUpdateUrl(script);
   if (!url) {
     return { canUpdate: false };
@@ -82,7 +85,7 @@ async function fetchScriptUpdate(script) {
 
   const response = await fetch(url, { cache: "no-store" });
   if (!response.ok) {
-    throw new Error(`Update check failed (${response.status}).`);
+    throw new Error(`Update check failed (${String(response.status)}).`);
   }
 
   const source = await response.text();
@@ -95,45 +98,9 @@ async function fetchScriptUpdate(script) {
   };
 }
 
-function escapeRegex(value) {
-  return value.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&");
-}
-
-function matchPattern(pattern, urlString) {
-  try {
-    const url = new URL(urlString);
-    const parsed = pattern.match(/^(\*|http|https|file|ftp):\/\/([^/]+)(\/.*)$/);
-    if (!parsed) {
-      return false;
-    }
-
-    const [, schemePattern, hostPattern, pathPattern] = parsed;
-
-    if (schemePattern !== "*" && schemePattern !== url.protocol.slice(0, -1)) {
-      return false;
-    }
-
-    const hostRegex = new RegExp(
-      "^" + escapeRegex(hostPattern).replace(/\\\*/g, ".*") + "$",
-      "i"
-    );
-    if (!hostRegex.test(url.host)) {
-      return false;
-    }
-
-    let pathRegexStr = "^" + escapeRegex(pathPattern);
-    pathRegexStr = pathRegexStr.replace(/\/\\\*$/, "(?:[/?#].*)?");
-    pathRegexStr = pathRegexStr.replace(/\\\*/g, ".*") + "$";
-    const pathRegex = new RegExp(pathRegexStr);
-    return pathRegex.test(`${url.pathname}${url.search}${url.hash}`);
-  } catch {
-    return false;
-  }
-}
-
-function getMatchingScripts(scripts, url) {
+function getMatchingScripts(scripts: Script[], url: string): Script[] {
   return scripts.filter(script => {
-    if (!script.enabled || !script.meta.matches?.length) {
+    if (!script.enabled || script.meta.matches.length === 0) {
       return false;
     }
 
@@ -141,7 +108,7 @@ function getMatchingScripts(scripts, url) {
   });
 }
 
-function toRegisteredScript(script) {
+function toRegisteredScript(script: Script): chrome.userScripts.RegisteredUserScript {
   return {
     id: script.id,
     matches: script.meta.matches,
@@ -151,7 +118,7 @@ function toRegisteredScript(script) {
   };
 }
 
-async function updateBadgeForTab(tabId, url) {
+async function updateBadgeForTab(tabId: number, url?: string): Promise<void> {
   try {
     if (!url || (!url.startsWith("http") && !url.startsWith("file"))) {
       await chrome.action.setBadgeText({ text: "", tabId });
@@ -162,16 +129,17 @@ async function updateBadgeForTab(tabId, url) {
     const text = active.length > 0 ? active.length.toString() : "";
     await chrome.action.setBadgeText({ text, tabId });
     await chrome.action.setBadgeBackgroundColor({ color: "#3b82f6", tabId });
-  } catch (err) {
+  } catch (_err: unknown) {
     // ignore
   }
 }
 
-async function updateAllBadges() {
+async function updateAllBadges(): Promise<void> {
   try {
     const tabs = await chrome.tabs.query({});
     const scripts = await loadScripts();
     for (const tab of tabs) {
+      if (tab.id === undefined) continue;
       if (!tab.url || (!tab.url.startsWith("http") && !tab.url.startsWith("file"))) {
         chrome.action.setBadgeText({ text: "", tabId: tab.id }).catch(() => { });
         continue;
@@ -188,19 +156,19 @@ async function updateAllBadges() {
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.url) {
-    updateBadgeForTab(tabId, changeInfo.url);
+    updateBadgeForTab(tabId, changeInfo.url).catch(() => {});
   } else if (changeInfo.status === "complete" && tab.url) {
-    updateBadgeForTab(tabId, tab.url);
+    updateBadgeForTab(tabId, tab.url).catch(() => {});
   }
 });
 
 chrome.tabs.onActivated.addListener((activeInfo) => {
   chrome.tabs.get(activeInfo.tabId, (tab) => {
-    if (tab && tab.url) updateBadgeForTab(tab.id, tab.url);
+    if (tab && tab.url) updateBadgeForTab(tab.id, tab.url).catch(() => {});
   });
 });
 
-async function syncRegisteredScripts() {
+async function syncRegisteredScripts(): Promise<void> {
   if (!canUseUserScripts()) {
     return;
   }
@@ -211,49 +179,40 @@ async function syncRegisteredScripts() {
   }
 
   const scripts = await loadScripts();
-  const enabled = scripts.filter(script => script.enabled && script.meta.matches?.length);
+  const enabled = scripts.filter(script => script.enabled && script.meta.matches.length > 0);
 
   if (enabled.length) {
     await chrome.userScripts.register(enabled.map(toRegisteredScript));
   }
 
-  updateAllBadges();
+  updateAllBadges().catch(() => {});
 }
 
 chrome.runtime.onInstalled.addListener(() => {
-  syncRegisteredScripts().catch(error => {
+  syncRegisteredScripts().catch((error: unknown) => {
     console.warn("[Scriptmonkey] Failed to sync registered scripts.", error);
   });
 });
 
 chrome.runtime.onStartup.addListener(() => {
-  syncRegisteredScripts().catch(error => {
+  syncRegisteredScripts().catch((error: unknown) => {
     console.warn("[Scriptmonkey] Failed to sync registered scripts.", error);
   });
 });
 
-chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: ExtensionMessage, _sender, sendResponse) => {
   handleMessage(message)
     .then(sendResponse)
-    .catch(error => sendResponse({ error: error.message }));
+    .catch((error: unknown) => {
+      sendResponse({ error: error instanceof Error ? error.message : String(error) });
+    });
   return true;
 });
 
-async function handleMessage(message) {
+async function handleMessage(message: ExtensionMessage): Promise<unknown> {
   switch (message.type) {
-    case "getStatus":
-      return { userScriptsAvailable: canUseUserScripts() };
-
     case "getScripts":
       return await loadScripts();
-
-    case "getScriptsForUrl": {
-      if (!message.url) {
-        return [];
-      }
-
-      return getMatchingScripts(await loadScripts(), message.url);
-    }
 
     case "toggleScript": {
       const scripts = await loadScripts();
@@ -266,47 +225,22 @@ async function handleMessage(message) {
       return scripts;
     }
 
-    case "addScript": {
-      const source = message.source?.trim();
-      if (!source) {
-        throw new Error("Script source is empty.");
-      }
-
-      const meta = parseMetadata(source);
-      if (!meta.matches.length) {
-        throw new Error("Script is missing at least one @match rule.");
-      }
-
-      const scripts = await loadScripts();
-      scripts.push({
-        id: crypto.randomUUID(),
-        filename: message.filename ?? "script.js",
-        source,
-        meta,
-        enabled: true,
-        createdAt: Date.now(),
-      });
-      await saveScripts(scripts);
-      await syncRegisteredScripts();
-      return scripts;
-    }
-
     case "addScripts": {
-      const entries = message.scripts ?? [];
+      const entries = message.scripts;
       if (!entries.length) {
         return await loadScripts();
       }
 
       const scripts = await loadScripts();
       for (const entry of entries) {
-        const source = entry.source?.trim();
+        const source = entry.source.trim();
         if (!source) {
-          throw new Error(`Script source is empty for ${entry.filename ?? "script.js"}.`);
+          throw new Error(`Script source is empty for ${entry.filename}.`);
         }
 
         const meta = parseMetadata(source);
         if (!meta.matches.length) {
-          throw new Error(`Script is missing at least one @match rule: ${entry.filename ?? "script.js"}.`);
+          throw new Error(`Script is missing at least one @match rule: ${entry.filename}.`);
         }
 
         const existingIndex = meta.name ? scripts.findIndex(
@@ -316,7 +250,7 @@ async function handleMessage(message) {
         if (existingIndex >= 0) {
           scripts[existingIndex] = {
             ...scripts[existingIndex],
-            filename: entry.filename ?? scripts[existingIndex].filename,
+            filename: entry.filename,
             source,
             meta,
             updatedAt: Date.now(),
@@ -324,7 +258,7 @@ async function handleMessage(message) {
         } else {
           scripts.push({
             id: crypto.randomUUID(),
-            filename: entry.filename ?? "script.js",
+            filename: entry.filename,
             source,
             meta,
             enabled: true,
@@ -340,7 +274,7 @@ async function handleMessage(message) {
 
     case "checkForUpdates": {
       const scripts = await loadScripts();
-      const updates = [];
+      const updates: UpdateInfo[] = [];
 
       for (const script of scripts) {
         try {
@@ -359,7 +293,7 @@ async function handleMessage(message) {
             hasUpdate: false,
             currentVersion: script.meta.version ?? null,
             nextVersion: null,
-            error: error.message,
+            error: error instanceof Error ? error.message : String(error),
           });
         }
       }
@@ -379,7 +313,7 @@ async function handleMessage(message) {
         throw new Error("Script does not define @updateURL or @downloadURL.");
       }
 
-      if (!result.hasUpdate) {
+      if (!result.hasUpdate || !result.source || !result.meta) {
         return { updated: false };
       }
 
@@ -389,37 +323,6 @@ async function handleMessage(message) {
       await saveScripts(scripts);
       await syncRegisteredScripts();
       return { updated: true, version: result.meta.version ?? null };
-    }
-
-    case "updateAllScripts": {
-      const scripts = await loadScripts();
-      const results = [];
-      let changed = false;
-
-      for (const script of scripts) {
-        try {
-          const result = await fetchScriptUpdate(script);
-          if (!result.canUpdate || !result.hasUpdate) {
-            results.push({ id: script.id, updated: false });
-            continue;
-          }
-
-          script.source = result.source;
-          script.meta = result.meta;
-          script.updatedAt = Date.now();
-          changed = true;
-          results.push({ id: script.id, updated: true, version: result.meta.version ?? null });
-        } catch (error) {
-          results.push({ id: script.id, updated: false, error: error.message });
-        }
-      }
-
-      if (changed) {
-        await saveScripts(scripts);
-        await syncRegisteredScripts();
-      }
-
-      return results;
     }
 
     case "removeScript": {
@@ -434,6 +337,6 @@ async function handleMessage(message) {
   }
 }
 
-syncRegisteredScripts().catch(error => {
+syncRegisteredScripts().catch((error: unknown) => {
   console.warn("[Scriptmonkey] Failed to sync registered scripts.", error);
 });

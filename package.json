@@ -1,0 +1,42 @@
+{
+  "name": "scriptmonkey",
+  "version": "1.0.0",
+  "description": "Lightweight Manifest V3 Chrome extension for managing user scripts — like Tampermonkey, but local and minimal.",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://mathiaswoess@github.com/mathiaswoess/Scriptmonkey.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/mathiaswoess/Scriptmonkey/issues"
+  },
+  "homepage": "https://github.com/mathiaswoess/Scriptmonkey#readme",
+  "dependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.0.0-beta.33",
+    "@eslint/js": "^10.0.1",
+    "@types/chrome": "^0.1.42",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^10.3.0",
+    "globals": "^17.6.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.3",
+    "vite": "^8.0.12"
+  }
+}
