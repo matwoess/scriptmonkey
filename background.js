@@ -148,6 +148,55 @@ function toRegisteredScript(script) {
   };
 }
 
+async function updateBadgeForTab(tabId, url) {
+  try {
+    if (!url || (!url.startsWith("http") && !url.startsWith("file"))) {
+      await chrome.action.setBadgeText({ text: "", tabId });
+      return;
+    }
+    const scripts = await loadScripts();
+    const active = getMatchingScripts(scripts, url);
+    const text = active.length > 0 ? active.length.toString() : "";
+    await chrome.action.setBadgeText({ text, tabId });
+    await chrome.action.setBadgeBackgroundColor({ color: "#3b82f6", tabId });
+  } catch (err) {
+    // ignore
+  }
+}
+
+async function updateAllBadges() {
+  try {
+    const tabs = await chrome.tabs.query({});
+    const scripts = await loadScripts();
+    for (const tab of tabs) {
+      if (!tab.url || (!tab.url.startsWith("http") && !tab.url.startsWith("file"))) {
+        chrome.action.setBadgeText({ text: "", tabId: tab.id }).catch(() => {});
+        continue;
+      }
+      const active = getMatchingScripts(scripts, tab.url);
+      const text = active.length > 0 ? active.length.toString() : "";
+      chrome.action.setBadgeText({ text, tabId: tab.id }).catch(() => {});
+      chrome.action.setBadgeBackgroundColor({ color: "#3b82f6", tabId: tab.id }).catch(() => {});
+    }
+  } catch (error) {
+    console.warn("[Scriptmonkey] Failed to update badges.", error);
+  }
+}
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.url) {
+    updateBadgeForTab(tabId, changeInfo.url);
+  } else if (changeInfo.status === "complete" && tab.url) {
+    updateBadgeForTab(tabId, tab.url);
+  }
+});
+
+chrome.tabs.onActivated.addListener((activeInfo) => {
+  chrome.tabs.get(activeInfo.tabId, (tab) => {
+    if (tab && tab.url) updateBadgeForTab(tab.id, tab.url);
+  });
+});
+
 async function syncRegisteredScripts() {
   if (!canUseUserScripts()) {
     return;
@@ -160,11 +209,12 @@ async function syncRegisteredScripts() {
 
   const scripts = await loadScripts();
   const enabled = scripts.filter(script => script.enabled && script.meta.matches?.length);
-  if (!enabled.length) {
-    return;
+  
+  if (enabled.length) {
+    await chrome.userScripts.register(enabled.map(toRegisteredScript));
   }
-
-  await chrome.userScripts.register(enabled.map(toRegisteredScript));
+  
+  updateAllBadges();
 }
 
 chrome.runtime.onInstalled.addListener(() => {
