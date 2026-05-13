@@ -52,6 +52,10 @@ async function getCurrentTabUrl() {
   return tab?.url ?? "";
 }
 
+function escapeRegex(value) {
+  return value.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&");
+}
+
 function matchPattern(pattern, url) {
   try {
     const parsed = pattern.match(/^(\*|http|https|file|ftp):\/\/([^/]+)(\/.*)$/);
@@ -67,15 +71,15 @@ function matchPattern(pattern, url) {
     }
 
     const hostRegex = new RegExp(
-      "^" + hostPattern.replace(/[|\\{}()[\]^$+?.]/g, "\\$&").replace(/\*/g, ".*") + "$",
+      "^" + escapeRegex(hostPattern).replace(/\\\*/g, ".*") + "$",
       "i"
     );
     if (!hostRegex.test(target.host)) {
       return false;
     }
 
-    let pathRegexStr = "^" + pathPattern.replace(/[|\\{}()[\]^$+?.]/g, "\\$&");
-    pathRegexStr = pathRegexStr.replace(/\\\/\\\*$/, "(?:[/?#].*)?");
+    let pathRegexStr = "^" + escapeRegex(pathPattern);
+    pathRegexStr = pathRegexStr.replace(/\/\\\*$/, "(?:[/?#].*)?");
     pathRegexStr = pathRegexStr.replace(/\\\*/g, ".*") + "$";
     const pathRegex = new RegExp(pathRegexStr);
     return pathRegex.test(`${target.pathname}${target.search}${target.hash}`);

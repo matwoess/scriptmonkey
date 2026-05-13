@@ -96,7 +96,7 @@ async function fetchScriptUpdate(script) {
 }
 
 function escapeRegex(value) {
-  return value.replace(/[|\\{}()[\]^$+?.]/g, "\\$&");
+  return value.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&");
 }
 
 function matchPattern(pattern, urlString) {
@@ -114,7 +114,7 @@ function matchPattern(pattern, urlString) {
     }
 
     const hostRegex = new RegExp(
-      "^" + escapeRegex(hostPattern).replace(/\*/g, ".*") + "$",
+      "^" + escapeRegex(hostPattern).replace(/\\\*/g, ".*") + "$",
       "i"
     );
     if (!hostRegex.test(url.host)) {
@@ -122,7 +122,7 @@ function matchPattern(pattern, urlString) {
     }
 
     let pathRegexStr = "^" + escapeRegex(pathPattern);
-    pathRegexStr = pathRegexStr.replace(/\\\/\\\*$/, "(?:[/?#].*)?");
+    pathRegexStr = pathRegexStr.replace(/\/\\\*$/, "(?:[/?#].*)?");
     pathRegexStr = pathRegexStr.replace(/\\\*/g, ".*") + "$";
     const pathRegex = new RegExp(pathRegexStr);
     return pathRegex.test(`${url.pathname}${url.search}${url.hash}`);
