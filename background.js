@@ -173,13 +173,13 @@ async function updateAllBadges() {
     const scripts = await loadScripts();
     for (const tab of tabs) {
       if (!tab.url || (!tab.url.startsWith("http") && !tab.url.startsWith("file"))) {
-        chrome.action.setBadgeText({ text: "", tabId: tab.id }).catch(() => {});
+        chrome.action.setBadgeText({ text: "", tabId: tab.id }).catch(() => { });
         continue;
       }
       const active = getMatchingScripts(scripts, tab.url);
       const text = active.length > 0 ? active.length.toString() : "";
-      chrome.action.setBadgeText({ text, tabId: tab.id }).catch(() => {});
-      chrome.action.setBadgeBackgroundColor({ color: "#3b82f6", tabId: tab.id }).catch(() => {});
+      chrome.action.setBadgeText({ text, tabId: tab.id }).catch(() => { });
+      chrome.action.setBadgeBackgroundColor({ color: "#3b82f6", tabId: tab.id }).catch(() => { });
     }
   } catch (error) {
     console.warn("[Scriptmonkey] Failed to update badges.", error);
@@ -212,11 +212,11 @@ async function syncRegisteredScripts() {
 
   const scripts = await loadScripts();
   const enabled = scripts.filter(script => script.enabled && script.meta.matches?.length);
-  
+
   if (enabled.length) {
     await chrome.userScripts.register(enabled.map(toRegisteredScript));
   }
-  
+
   updateAllBadges();
 }
 
@@ -309,14 +309,28 @@ async function handleMessage(message) {
           throw new Error(`Script is missing at least one @match rule: ${entry.filename ?? "script.js"}.`);
         }
 
-        scripts.push({
-          id: crypto.randomUUID(),
-          filename: entry.filename ?? "script.js",
-          source,
-          meta,
-          enabled: true,
-          createdAt: Date.now(),
-        });
+        const existingIndex = meta.name ? scripts.findIndex(
+          s => s.meta.name === meta.name && s.meta.namespace === meta.namespace
+        ) : -1;
+
+        if (existingIndex >= 0) {
+          scripts[existingIndex] = {
+            ...scripts[existingIndex],
+            filename: entry.filename ?? scripts[existingIndex].filename,
+            source,
+            meta,
+            updatedAt: Date.now(),
+          };
+        } else {
+          scripts.push({
+            id: crypto.randomUUID(),
+            filename: entry.filename ?? "script.js",
+            source,
+            meta,
+            enabled: true,
+            createdAt: Date.now(),
+          });
+        }
       }
 
       await saveScripts(scripts);
