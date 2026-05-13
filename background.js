@@ -121,7 +121,10 @@ function matchPattern(pattern, urlString) {
       return false;
     }
 
-    const pathRegex = new RegExp("^" + escapeRegex(pathPattern).replace(/\*/g, ".*") + "$");
+    let pathRegexStr = "^" + escapeRegex(pathPattern);
+    pathRegexStr = pathRegexStr.replace(/\\\/\\\*$/, "(?:[/?#].*)?");
+    pathRegexStr = pathRegexStr.replace(/\\\*/g, ".*") + "$";
+    const pathRegex = new RegExp(pathRegexStr);
     return pathRegex.test(`${url.pathname}${url.search}${url.hash}`);
   } catch {
     return false;

@@ -74,9 +74,10 @@ function matchPattern(pattern, url) {
       return false;
     }
 
-    const pathRegex = new RegExp(
-      "^" + pathPattern.replace(/[|\\{}()[\]^$+?.]/g, "\\$&").replace(/\*/g, ".*") + "$"
-    );
+    let pathRegexStr = "^" + pathPattern.replace(/[|\\{}()[\]^$+?.]/g, "\\$&");
+    pathRegexStr = pathRegexStr.replace(/\\\/\\\*$/, "(?:[/?#].*)?");
+    pathRegexStr = pathRegexStr.replace(/\\\*/g, ".*") + "$";
+    const pathRegex = new RegExp(pathRegexStr);
     return pathRegex.test(`${target.pathname}${target.search}${target.hash}`);
   } catch {
     return false;
