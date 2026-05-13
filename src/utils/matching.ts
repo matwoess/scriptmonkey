@@ -19,16 +19,16 @@ export function matchPattern(pattern: string, urlString: string): boolean {
 		}
 
 		const hostRegex = new RegExp(
-			"^" + escapeRegex(hostPattern).replace(/\\\*/g, ".*") + "$",
+			`^${escapeRegex(hostPattern).replace(/\\\*/g, ".*")}$`,
 			"i",
 		);
 		if (!hostRegex.test(url.host)) {
 			return false;
 		}
 
-		let pathRegexStr = "^" + escapeRegex(pathPattern);
+		let pathRegexStr = `^${escapeRegex(pathPattern)}`;
 		pathRegexStr = pathRegexStr.replace(/\/\\\*$/, "(?:[/?#].*)?");
-		pathRegexStr = pathRegexStr.replace(/\\\*/g, ".*") + "$";
+		pathRegexStr = `${pathRegexStr.replace(/\\\*/g, ".*")}$`;
 		const pathRegex = new RegExp(pathRegexStr);
 		return pathRegex.test(`${url.pathname}${url.search}${url.hash}`);
 	} catch {

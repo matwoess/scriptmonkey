@@ -191,7 +191,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 chrome.tabs.onActivated.addListener((activeInfo) => {
 	chrome.tabs.get(activeInfo.tabId, (tab) => {
-		if (tab && tab.url) updateBadgeForTab(tab.id, tab.url).catch(() => {});
+		if (tab?.url) updateBadgeForTab(tab.id, tab.url).catch(() => {});
 	});
 });
 

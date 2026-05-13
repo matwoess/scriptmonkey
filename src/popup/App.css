@@ -20,7 +20,7 @@
 	box-sizing: border-box;
 }
 [hidden] {
-	display: none !important;
+	display: none;
 }
 body {
 	width: 400px;
