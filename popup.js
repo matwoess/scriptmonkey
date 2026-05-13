@@ -293,6 +293,6 @@ updateAllButton.addEventListener("click", async () => {
 
 (async () => {
   currentUrl = await getCurrentTabUrl();
-  updateStatusEl.textContent = "Click 'Check for updates'";
+  updateStatusEl.textContent = "";
   await render();
 })();
