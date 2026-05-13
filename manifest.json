@@ -1,16 +1,16 @@
 {
-  "manifest_version": 3,
-  "name": "Scriptmonkey",
-  "version": "0.2.0",
-  "description": "Lightweight user script manager.",
-  "permissions": ["storage", "tabs", "userScripts"],
-  "host_permissions": ["<all_urls>"],
-  "background": {
-    "service_worker": "src/background/index.ts",
-    "type": "module"
-  },
-  "action": {
-    "default_popup": "index.html",
-    "default_title": "Scriptmonkey"
-  }
+	"manifest_version": 3,
+	"name": "Scriptmonkey",
+	"version": "0.2.0",
+	"description": "Lightweight user script manager.",
+	"permissions": ["storage", "tabs", "userScripts"],
+	"host_permissions": ["<all_urls>"],
+	"background": {
+		"service_worker": "src/background/index.ts",
+		"type": "module"
+	},
+	"action": {
+		"default_popup": "index.html",
+		"default_title": "Scriptmonkey"
+	}
 }

@@ -7,6 +7,7 @@ Built with **Vite**, **React**, and **TypeScript**.
 ## Setup & Installation
 
 ### 1. Build the Extension
+
 First, install the dependencies and build the extension:
 
 ```bash
@@ -17,6 +18,7 @@ npm run build
 This will create a `dist/` directory containing the compiled extension.
 
 ### 2. Load into Chrome
+
 1. Open `chrome://extensions` and enable **Developer mode**.
 2. Click **Load unpacked** and select the **`dist/` directory** (not the project root).
 3. Enable **Allow User Scripts** for the extension.
@@ -31,9 +33,24 @@ npm run dev
 
 Vite will watch your `src/` files and automatically inject updates into the popup and background worker when changes are made.
 
+## Formatting & Linting
+
+This project uses [Biome](https://biomejs.dev/) to enforce code formatting and catch issues.
+
+To format all files:
+```bash
+npm run format
+```
+
+To run the linter:
+```bash
+npm run lint
+```
+
 ## Usage
 
 Click the Scriptmonkey icon in the toolbar to see:
+
 - Scripts active on the current page
 - All other installed scripts
 - Toggle scripts on/off or remove them
@@ -59,6 +76,7 @@ Scripts use the standard `==UserScript==` metadata format (same as Tampermonkey)
 Add scripts via the popup: pick a `.js` file.
 
 If a script includes `@updateURL` or `@downloadURL`, Scriptmonkey checks for newer versions and shows:
+
 - Per-script update info
 - An `Update` button for that script
 - An `Update all` button when any installed script has an update
