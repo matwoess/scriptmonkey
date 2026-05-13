@@ -250,7 +250,13 @@ document.getElementById("file-input").addEventListener("change", async (e) => {
     await chrome.tabs.reload();
     await render();
   } catch (error) {
-    alert(error.message);
+    const errorMsg = document.createElement('div');
+    errorMsg.className = 'banner';
+    errorMsg.style.color = '#ef4444';
+    errorMsg.style.borderColor = '#ef4444';
+    errorMsg.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+    errorMsg.textContent = `Error adding scripts: ${error.message}`;
+    document.body.insertBefore(errorMsg, document.querySelector('.toolbar'));
   }
   e.target.value = "";
 });
