@@ -68,9 +68,10 @@
       font-weight: 500;
     }
 
-    .scripts { max-height: 400px; overflow-y: auto; }
-    .scripts::-webkit-scrollbar { width: 6px; }
-    .scripts::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
     .banner {
       margin: 12px 20px 0;
@@ -197,6 +198,9 @@
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: stretch;
+      position: sticky;
+      bottom: 0;
+      z-index: 10;
     }
     .btn {
       padding: 8px 16px;
