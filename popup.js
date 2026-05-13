@@ -14,6 +14,31 @@ let currentUrl = "";
 let updatesById = new Map();
 let hasCheckedUpdates = false;
 
+function customConfirm(title, message) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("confirm-modal");
+    document.getElementById("confirm-title").textContent = title;
+    document.getElementById("confirm-message").textContent = message;
+    
+    modal.classList.add("show");
+    
+    const cancelBtn = document.getElementById("confirm-cancel");
+    const okBtn = document.getElementById("confirm-ok");
+    
+    const cleanup = () => {
+      cancelBtn.removeEventListener("click", onCancel);
+      okBtn.removeEventListener("click", onOk);
+      modal.classList.remove("show");
+    };
+    
+    const onCancel = () => { cleanup(); resolve(false); };
+    const onOk = () => { cleanup(); resolve(true); };
+    
+    cancelBtn.addEventListener("click", onCancel);
+    okBtn.addEventListener("click", onOk);
+  });
+}
+
 async function send(message) {
   const response = await chrome.runtime.sendMessage(message);
   if (response?.error) {
@@ -106,7 +131,8 @@ function renderScript(script) {
   });
 
   div.querySelector(".btn-remove").addEventListener("click", async () => {
-    if (!confirm(`Remove "${name}"?`)) return;
+    const confirmed = await customConfirm("Remove Script", `Are you sure you want to remove "${name}"?`);
+    if (!confirmed) return;
     await send({ type: "removeScript", id: script.id });
     await chrome.tabs.reload();
     await render();
