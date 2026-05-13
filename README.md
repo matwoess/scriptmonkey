@@ -2,11 +2,34 @@
 
 Lightweight Manifest V3 Chrome extension for managing user scripts — like Tampermonkey, but local and minimal.
 
-## Setup
+Built with **Vite**, **React**, and **TypeScript**.
 
-1. Open `chrome://extensions`, enable **Developer mode**.
-2. Click **Load unpacked** and select this directory.
+## Setup & Installation
+
+### 1. Build the Extension
+First, install the dependencies and build the extension:
+
+```bash
+npm install
+npm run build
+```
+
+This will create a `dist/` directory containing the compiled extension.
+
+### 2. Load into Chrome
+1. Open `chrome://extensions` and enable **Developer mode**.
+2. Click **Load unpacked** and select the **`dist/` directory** (not the project root).
 3. Enable **Allow User Scripts** for the extension.
+
+## Development
+
+To work on the extension with Hot Module Replacement (HMR) enabled:
+
+```bash
+npm run dev
+```
+
+Vite will watch your `src/` files and automatically inject updates into the popup and background worker when changes are made.
 
 ## Usage
 
@@ -46,6 +69,8 @@ Each script must include at least one `@match` rule. Scriptmonkey only loads scr
 
 ## How it works
 
+- The UI is powered by a **React** application located in `src/popup/`.
+- The background service worker is built with strict **TypeScript** and handles Chrome APIs in `src/background/`.
 - Scripts are stored in `chrome.storage.local` with their parsed metadata.
 - Matching scripts are registered through Chrome's `userScripts` API.
 - The popup warns when `Allow User Scripts` is disabled.
