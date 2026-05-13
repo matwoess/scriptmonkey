@@ -200,6 +200,12 @@ async function render() {
   } else {
     otherSection.style.display = "none";
   }
+
+  const canUpdateAny = scripts.some(s => s.meta.downloadurl || s.meta.updateurl);
+  const toolbarEl = document.querySelector(".toolbar");
+  if (toolbarEl) {
+    toolbarEl.style.display = canUpdateAny ? "flex" : "none";
+  }
 }
 
 async function refreshUpdates() {
