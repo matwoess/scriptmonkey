@@ -44,3 +44,7 @@ public/icon16.png
 public/icon32.png
 public/icon48.png
 public/icon128.png
+
+# Playwright
+playwright-report/
+test-results/
