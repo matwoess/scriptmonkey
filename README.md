@@ -83,6 +83,7 @@ Vite will watch your `src/` files and automatically inject updates into the popu
 
 ## Testing
 
+### Unit Tests
 This project uses [Vitest](https://vitest.dev/) for unit testing.
 
 ```bash
@@ -90,15 +91,17 @@ npm run test         # run once
 npm run test:watch   # watch mode
 ```
 
-Tests live in `tests/`, mirroring the `src/` structure:
+Tests live in `tests/`, mirroring the `src/` structure. Pure utility logic is kept separate from Chrome-API-dependent code in `src/background/utils.ts` so it can be tested without mocks.
 
-```
-tests/
-├── background/utils.test.ts   → src/background/utils.ts
-└── utils/matching.test.ts     → src/utils/matching.ts
+### E2E Tests
+We use [Playwright](https://playwright.dev/) for end-to-end testing of the extension behavior.
+
+```bash
+npm run build        # E2E tests require a fresh build
+npm run test:e2e     # run Playwright tests
 ```
 
-Pure utility logic is kept separate from Chrome-API-dependent code in `src/background/utils.ts` so it can be tested without mocks.
+E2E tests are located in the `e2e/` directory and test the actual extension loaded in a browser.
 
 ## Formatting & Linting
 
