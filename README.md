@@ -44,22 +44,22 @@ Each script must include at least one `@match` rule. Scriptmonkey only loads scr
 
 ## Setup & Installation
 
-### 1. Build the Extension
+### Install from a GitHub Release (recommended)
 
-First, install the dependencies and build the extension:
+1. Download `scriptmonkey-vX.Y.Z.zip` from the [Releases](https://github.com/mathiaswoess/Scriptmonkey/releases) page.
+2. Unzip it to a permanent folder (don't delete it — Chrome needs the folder to stay).
+3. Open `chrome://extensions` and enable **Developer mode**.
+4. Click **Load unpacked** and select the unzipped folder.
+5. Enable **Allow User Scripts** for the extension.
+
+### Build from source
 
 ```bash
 npm install
 npm run build
 ```
 
-This will create a `dist/` directory containing the compiled extension.
-
-### 2. Load into Chrome
-
-1. Open `chrome://extensions` and enable **Developer mode**.
-2. Click **Load unpacked** and select the **`dist/` directory** (not the project root).
-3. Enable **Allow User Scripts** for the extension.
+Then follow steps 3–5 above, pointing at the `dist/` folder.
 
 ## How it works
 
@@ -119,3 +119,24 @@ npm run lint
 We use [Lefthook](https://github.com/evilmartians/lefthook) to automatically format and lint code before it is committed. 
 
 The hooks are installed automatically during `npm install`. When you run `git commit`, Lefthook executes Biome on your staged files. Any auto-fixable issues are corrected and re-staged automatically.
+
+## Releasing
+
+Releases are automated via GitHub Actions (`.github/workflows/release.yaml`). On every `v*` tag push, the workflow builds the extension, runs tests, and publishes a GitHub Release with the zipped `dist/` as an attachment.
+
+```bash
+# 1. Bump the version in manifest.json
+# 2. Commit and tag
+git add manifest.json
+git commit -m "chore: release v0.3.0"
+git tag v0.3.0
+git push origin main --tags
+```
+
+GitHub will build and attach `scriptmonkey-v0.3.0.zip` to the release automatically.
+
+To create a local zip without publishing:
+
+```bash
+npm run pack
+```

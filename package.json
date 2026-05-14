@@ -8,6 +8,7 @@
 		"test:watch": "vitest",
 		"dev": "vite",
 		"build": "vite build",
+		"pack": "npm run build && node -e \"const v=require('./manifest.json').version;const {execSync}=require('child_process');execSync('cd dist && zip -r ../scriptmonkey-v'+v+'.zip .',{stdio:'inherit'});console.log('Created scriptmonkey-v'+v+'.zip')\"",
 		"preview": "vite preview",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
