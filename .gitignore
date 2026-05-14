@@ -38,3 +38,9 @@ next-env.d.ts
 .vscode/
 *.swp
 *.swo
+
+# Generated Icons
+public/icon16.png
+public/icon32.png
+public/icon48.png
+public/icon128.png

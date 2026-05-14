@@ -6,10 +6,11 @@
 	"scripts": {
 		"test": "vitest run",
 		"test:watch": "vitest",
-		"dev": "vite",
-		"build": "vite build",
+		"dev": "npm run icons && vite",
+		"build": "npm run icons && vite build",
 		"pack": "npm run build && node -e \"const v=require('./manifest.json').version;const {execSync}=require('child_process');execSync('cd dist && zip -r ../scriptmonkey-v'+v+'.zip .',{stdio:'inherit'});console.log('Created scriptmonkey-v'+v+'.zip')\"",
 		"preview": "vite preview",
+		"icons": "node scripts/generate-icons.js",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"format:check": "biome format .",
@@ -43,6 +44,7 @@
 		"@vitejs/plugin-react": "^6.0.1",
 		"jsdom": "^29.1.1",
 		"lefthook": "^2.1.6",
+		"sharp": "^0.34.5",
 		"typescript": "^6.0.3",
 		"vite": "^8.0.12",
 		"vitest": "^4.1.6"
