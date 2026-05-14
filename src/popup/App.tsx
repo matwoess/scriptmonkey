@@ -180,8 +180,27 @@ export default function App() {
 
 			{!userScriptsAvailable && (
 				<div className="banner" id="warning">
-					"Allow User Scripts" is disabled for this extension. Enable it in
-					chrome://extensions to enable user scripts.
+					"Allow User Scripts" is disabled for this extension.{" "}
+					<button
+						type="button"
+						onClick={() => {
+							chrome.tabs.create({
+								url: `chrome://extensions/?id=${chrome.runtime.id}`,
+							});
+						}}
+						style={{
+							background: "none",
+							border: "none",
+							padding: 0,
+							color: "inherit",
+							textDecoration: "underline",
+							cursor: "pointer",
+							font: "inherit",
+						}}
+					>
+						Open extension settings
+					</button>{" "}
+					to enable them.
 				</div>
 			)}
 
@@ -291,7 +310,7 @@ export default function App() {
 						fileInputRef.current?.click();
 					}}
 				>
-					+ Add file
+					Add user script
 				</button>
 				<input
 					type="file"
