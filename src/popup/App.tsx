@@ -325,9 +325,9 @@ export default function App() {
 
 			<div
 				id="confirm-modal"
-				className={`modal-overlay ${confirmModal?.show ? "show" : ""}`}
+				className={`modal ${confirmModal?.show ? "show" : ""}`}
 			>
-				<div className="modal">
+				<div className="modal-content">
 					<h3 id="confirm-title">{confirmModal?.title}</h3>
 					<p id="confirm-message">{confirmModal?.message}</p>
 					<div className="modal-actions">

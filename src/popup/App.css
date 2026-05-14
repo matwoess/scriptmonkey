@@ -328,3 +328,9 @@ header .count {
 .modal-content h3 {
 	margin-bottom: 8px;
 }
+.modal-actions {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
+	margin-top: 24px;
+}
