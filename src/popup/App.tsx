@@ -180,8 +180,8 @@ export default function App() {
 
 			{!userScriptsAvailable && (
 				<div className="banner" id="warning">
-					Allow User Scripts is disabled for this extension. Enable it in
-					chrome://extensions before scripts can run.
+					"Allow User Scripts" is disabled for this extension. Enable it in
+					chrome://extensions to enable user scripts.
 				</div>
 			)}
 

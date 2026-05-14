@@ -31,9 +31,11 @@ export interface UpdateInfo {
 }
 
 export type ExtensionMessage =
+	| { type: "getStatus" }
 	| { type: "getScripts" }
 	| { type: "addScripts"; scripts: { filename: string; source: string }[] }
 	| { type: "removeScript"; id: string }
 	| { type: "toggleScript"; id: string }
-	| { type: "updateScript"; id: string; source: string }
+	| { type: "updateScript"; id: string }
+	| { type: "updateAllScripts" }
 	| { type: "checkForUpdates" };

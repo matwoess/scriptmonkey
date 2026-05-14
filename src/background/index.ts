@@ -246,6 +246,9 @@ chrome.runtime.onMessage.addListener(
 
 async function handleMessage(message: ExtensionMessage): Promise<unknown> {
 	switch (message.type) {
+		case "getStatus":
+			return { userScriptsAvailable: canUseUserScripts() };
+
 		case "getScripts":
 			return await loadScripts();
 
@@ -373,6 +376,29 @@ async function handleMessage(message: ExtensionMessage): Promise<unknown> {
 			await saveScripts(scripts);
 			await syncRegisteredScripts();
 			return scripts;
+		}
+
+		case "updateAllScripts": {
+			const scripts = await loadScripts();
+			let changed = false;
+			for (const script of scripts) {
+				try {
+					const result = await fetchScriptUpdate(script);
+					if (result.hasUpdate && result.source && result.meta) {
+						script.source = result.source;
+						script.meta = result.meta;
+						script.updatedAt = Date.now();
+						changed = true;
+					}
+				} catch {
+					// Skip scripts that fail to update.
+				}
+			}
+			if (changed) {
+				await saveScripts(scripts);
+				await syncRegisteredScripts();
+			}
+			return null;
 		}
 
 		default:
