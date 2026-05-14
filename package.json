@@ -10,7 +10,8 @@
 		"preview": "vite preview",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
-		"format:check": "biome format ."
+		"format:check": "biome format .",
+		"postinstall": "lefthook install"
 	},
 	"repository": {
 		"type": "git",
@@ -35,6 +36,7 @@
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
 		"@vitejs/plugin-react": "^6.0.1",
+		"lefthook": "^2.1.6",
 		"typescript": "^6.0.3",
 		"vite": "^8.0.12"
 	}

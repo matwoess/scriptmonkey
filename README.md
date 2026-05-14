@@ -94,3 +94,9 @@ To run the linter:
 ```bash
 npm run lint
 ```
+
+### Pre-commit Hooks
+
+We use [Lefthook](https://github.com/evilmartians/lefthook) to automatically format and lint code before it is committed. 
+
+The hooks are installed automatically during `npm install`. When you run `git commit`, Lefthook executes Biome on your staged files. Any auto-fixable issues are corrected and re-staged automatically.
