@@ -81,6 +81,25 @@ npm run dev
 
 Vite will watch your `src/` files and automatically inject updates into the popup and background worker when changes are made.
 
+## Testing
+
+This project uses [Vitest](https://vitest.dev/) for unit testing.
+
+```bash
+npm run test         # run once
+npm run test:watch   # watch mode
+```
+
+Tests live in `tests/`, mirroring the `src/` structure:
+
+```
+tests/
+├── background/utils.test.ts   → src/background/utils.ts
+└── utils/matching.test.ts     → src/utils/matching.ts
+```
+
+Pure utility logic is kept separate from Chrome-API-dependent code in `src/background/utils.ts` so it can be tested without mocks.
+
 ## Formatting & Linting
 
 This project uses [Biome](https://biomejs.dev/) to enforce code formatting and catch issues.

@@ -22,6 +22,9 @@ This project uses **Vitest** for testing.
 - **Run tests:** `npm run test`
 - **Run tests in watch mode:** `npm run test:watch`
 
+Tests live in `tests/`, mirroring the `src/` structure (e.g. `tests/background/utils.test.ts` for `src/background/utils.ts`).
+Pure utility functions are extracted from Chrome-API-dependent modules so they can be tested without mocks.
+
 ## Guidelines
 - Write smart, concise tests with high signal and low boilerplate.
 - Keep code diffs minimal.
