@@ -18,6 +18,31 @@ test.describe("Scriptmonkey Advanced E2E", () => {
 		});
 	});
 
+	test("should import multiple scripts at once from a fresh install", async ({
+		page,
+		extensionId,
+	}) => {
+		await page.goto(`chrome-extension://${extensionId}/index.html`);
+		await expect(page.locator("#count")).toHaveText("0 scripts");
+
+		const addBtnScript = path.join(
+			import.meta.dirname,
+			"fixtures/add_button.js",
+		);
+		const paraCountScript = path.join(
+			import.meta.dirname,
+			"fixtures/paragraph_counter.js",
+		);
+
+		await page
+			.locator("input[type='file']")
+			.setInputFiles([addBtnScript, paraCountScript]);
+
+		// Both scripts must appear — this was broken on fresh install
+		await expect(page.locator("#count")).toHaveText("2 scripts");
+		await expect(page.locator(".script-name")).toHaveCount(2);
+	});
+
 	test("should manage scripts, active/inactive lists, and badge", async ({
 		page,
 		extensionId,
@@ -30,11 +55,11 @@ test.describe("Scriptmonkey Advanced E2E", () => {
 		// 2. Upload test scripts
 		const addBtnScript = path.join(
 			import.meta.dirname,
-			"../test_scripts/add_button.js",
+			"fixtures/add_button.js",
 		);
 		const paraCountScript = path.join(
 			import.meta.dirname,
-			"../test_scripts/paragraph_counter.js",
+			"fixtures/paragraph_counter.js",
 		);
 
 		await page

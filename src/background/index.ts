@@ -123,12 +123,7 @@ async function syncRegisteredScripts(): Promise<void> {
 		return;
 	}
 
-	const existing = await chrome.userScripts.getScripts();
-	if (existing.length) {
-		await chrome.userScripts.unregister({
-			ids: existing.map((script) => script.id),
-		});
-	}
+	await chrome.userScripts.unregister();
 
 	const scripts = await loadScripts();
 	const enabled = scripts.filter(
