@@ -77,7 +77,7 @@ test.describe("Scriptmonkey Advanced E2E", () => {
 		const badgeTextA = await background.evaluate(async (url) => {
 			return new Promise((resolve) => {
 				chrome.tabs.query({ url }, (tabs) => {
-					if (tabs[0] && tabs[0].id) {
+					if (tabs[0]?.id) {
 						chrome.action.getBadgeText({ tabId: tabs[0].id }, resolve);
 					} else resolve(null);
 				});
@@ -108,7 +108,7 @@ test.describe("Scriptmonkey Advanced E2E", () => {
 		const badgeTextB = await background.evaluate(async (url) => {
 			return new Promise((resolve) => {
 				chrome.tabs.query({ url }, (tabs) => {
-					if (tabs[0] && tabs[0].id) {
+					if (tabs[0]?.id) {
 						chrome.action.getBadgeText({ tabId: tabs[0].id }, resolve);
 					} else resolve(null);
 				});

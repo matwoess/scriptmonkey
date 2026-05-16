@@ -6,7 +6,8 @@ export const test = base.extend<{
 	context: BrowserContext;
 	extensionId: string;
 }>({
-	context: async (_args, use) => {
+	// biome-ignore lint/correctness/noEmptyPattern: Playwright fixture API requires object destructuring
+	context: async ({}, use) => {
 		const pathToExtension = path.join(import.meta.dirname, "../dist");
 		if (!fs.existsSync(pathToExtension)) {
 			throw new Error("Extension not built yet. Run `npm run build` first.");

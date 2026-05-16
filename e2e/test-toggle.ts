@@ -29,7 +29,7 @@ async function main() {
 	await page.goto(`chrome://extensions/?id=${extensionId}`);
 
 	// Toggle user scripts
-	const toggle = page
+	const _toggle = page
 		.locator("extensions-manager")
 		.locator("extensions-detail-view")
 		.locator("#allow-interactive-checkbox"); // wait, let's find the exact ID.
