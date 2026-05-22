@@ -38,4 +38,5 @@ export type ExtensionMessage =
 	| { type: "toggleScript"; id: string }
 	| { type: "updateScript"; id: string }
 	| { type: "updateAllScripts" }
-	| { type: "checkForUpdates" };
+	| { type: "checkForUpdates" }
+	| { type: "saveScript"; id: string; source: string };

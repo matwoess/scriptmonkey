@@ -1,0 +1,172 @@
+:root {
+	--bg: #09090b;
+	--surface: #18181b;
+	--surface-hover: #27272a;
+	--border: #3f3f46;
+	--text: #f4f4f5;
+	--muted: #a1a1aa;
+	--accent: #3b82f6;
+	--accent-hover: #60a5fa;
+	--danger: #ef4444;
+	--danger-hover: #f87171;
+	--green: #10b981;
+	--yellow: #eab308;
+	--font: "Inter", system-ui, -apple-system, sans-serif;
+	--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	--radius: 8px;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: var(--font);
+	background: var(--bg);
+	color: var(--text);
+	-webkit-font-smoothing: antialiased;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.editor-container {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.editor-header {
+	height: 64px;
+	padding: 0 24px;
+	background: var(--surface);
+	border-bottom: 1px solid var(--border);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-shrink: 0;
+}
+
+.header-info {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.logo-emoji {
+	font-size: 24px;
+}
+
+.title-details h1 {
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--text);
+	line-height: 1.2;
+}
+
+.subtitle {
+	font-size: 11px;
+	color: var(--muted);
+	font-family: var(--font-mono);
+}
+
+.status-tag {
+	font-size: 11px;
+	font-weight: 600;
+	padding: 4px 10px;
+	border-radius: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.status-saving {
+	background: rgba(234, 179, 8, 0.1);
+	color: var(--yellow);
+	border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.status-saved {
+	background: rgba(16, 185, 129, 0.1);
+	color: var(--green);
+	border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-error {
+	background: rgba(239, 68, 68, 0.1);
+	color: var(--danger);
+	border: 1px solid rgba(239, 68, 68, 0.3);
+	cursor: help;
+}
+
+.banner-error {
+	background: rgba(239, 68, 68, 0.15);
+	border-bottom: 1px solid rgba(239, 68, 68, 0.4);
+	color: #fca5a5;
+	padding: 10px 24px;
+	font-size: 13px;
+	line-height: 1.4;
+	flex-shrink: 0;
+}
+
+.editor-main {
+	flex: 1;
+	overflow: hidden;
+	position: relative;
+}
+
+/* Status views (loading/error) */
+.status-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	background: var(--bg);
+	color: var(--text);
+	gap: 16px;
+	text-align: center;
+	padding: 24px;
+}
+
+.status-container.error h3 {
+	color: var(--danger);
+	font-size: 18px;
+}
+
+.status-container.error p {
+	color: var(--muted);
+	font-size: 14px;
+}
+
+.spinner {
+	width: 24px;
+	height: 24px;
+	border: 3px solid rgba(255, 255, 255, 0.1);
+	border-top-color: var(--accent);
+	border-radius: 50%;
+	animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* Customize CodeMirror 6 components to fit layout */
+.codemirror-wrapper {
+	height: 100%;
+}
+
+.codemirror-wrapper .cm-editor {
+	height: 100%;
+	font-family: var(--font-mono);
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+.codemirror-wrapper .cm-scroller {
+	font-family: var(--font-mono);
+}

@@ -3,6 +3,7 @@
 	"name": "Scriptmonkey",
 	"version": "0.4.0",
 	"description": "Lightweight user script manager.",
+	"options_page": "editor.html",
 	"permissions": ["storage", "tabs", "userScripts"],
 	"host_permissions": ["<all_urls>"],
 	"background": {

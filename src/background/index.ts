@@ -287,6 +287,25 @@ async function handleMessage(message: ExtensionMessage): Promise<unknown> {
 			return { updated: true, version: result.meta.version ?? null };
 		}
 
+		case "saveScript": {
+			const scripts = await loadScripts();
+			const script = scripts.find((item) => item.id === message.id);
+			if (!script) {
+				throw new Error("Script not found.");
+			}
+			const source = message.source.trim();
+			if (!source) {
+				throw new Error("Script source is empty.");
+			}
+			const meta = parseMetadata(source);
+			script.source = source;
+			script.meta = meta;
+			script.updatedAt = Date.now();
+			await saveScripts(scripts);
+			await syncRegisteredScripts();
+			return script;
+		}
+
 		case "removeScript": {
 			const scripts = (await loadScripts()).filter(
 				(script) => script.id !== message.id,

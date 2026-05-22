@@ -46,6 +46,7 @@ export default function App() {
 		message: string;
 		onConfirm: () => void;
 	} | null>(null);
+	const [selectedScript, setSelectedScript] = useState<Script | null>(null);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -270,6 +271,7 @@ export default function App() {
 								onUpdate={() => {
 									void handleUpdate(script.id);
 								}}
+								onSelect={() => setSelectedScript(script)}
 							/>
 						))
 					) : (
@@ -295,6 +297,7 @@ export default function App() {
 								onUpdate={() => {
 									void handleUpdate(script.id);
 								}}
+								onSelect={() => setSelectedScript(script)}
 							/>
 						))}
 					</div>
@@ -350,6 +353,123 @@ export default function App() {
 					</div>
 				</div>
 			</div>
+
+			{selectedScript && (
+				<div className="modal show" id="details-modal">
+					<div className="modal-content details-modal-content">
+						<h3 style={{ marginBottom: "16px" }}>Script Details</h3>
+						<div className="details-scroll">
+							<div className="detail-row">
+								<span className="detail-label">Name</span>
+								<span className="detail-val">
+									{selectedScript.meta.name ?? selectedScript.filename}
+								</span>
+							</div>
+							<div className="detail-row">
+								<span className="detail-label">Version</span>
+								<span className="detail-val">
+									{selectedScript.meta.version ?? "N/A"}
+								</span>
+							</div>
+							{selectedScript.meta.description && (
+								<div className="detail-row">
+									<span className="detail-label">Description</span>
+									<span className="detail-val">
+										{selectedScript.meta.description}
+									</span>
+								</div>
+							)}
+							<div className="detail-row">
+								<span className="detail-label">Filename</span>
+								<span className="detail-val font-mono">
+									{selectedScript.filename}
+								</span>
+							</div>
+							{selectedScript.meta.namespace && (
+								<div className="detail-row">
+									<span className="detail-label">Namespace</span>
+									<span className="detail-val font-mono">
+										{selectedScript.meta.namespace}
+									</span>
+								</div>
+							)}
+							<div className="detail-row">
+								<span className="detail-label">Matches</span>
+								<div className="detail-val matches-list">
+									{selectedScript.meta.matches.map((m) => (
+										<code key={m}>{m}</code>
+									))}
+								</div>
+							</div>
+							{selectedScript.meta["run-at"] && (
+								<div className="detail-row">
+									<span className="detail-label">Run At</span>
+									<span className="detail-val">
+										{selectedScript.meta["run-at"]}
+									</span>
+								</div>
+							)}
+							{selectedScript.meta.grant && (
+								<div className="detail-row">
+									<span className="detail-label">Grants</span>
+									<span className="detail-val font-mono">
+										{selectedScript.meta.grant}
+									</span>
+								</div>
+							)}
+							<div className="detail-row">
+								<span className="detail-label">Size</span>
+								<span className="detail-val">
+									{(selectedScript.source.length / 1024).toFixed(2)} KB (
+									{selectedScript.source.length} chars)
+								</span>
+							</div>
+							<div className="detail-row">
+								<span className="detail-label">Created</span>
+								<span className="detail-val">
+									{new Date(selectedScript.createdAt).toLocaleString()}
+								</span>
+							</div>
+							{selectedScript.updatedAt && (
+								<div className="detail-row">
+									<span className="detail-label">Updated</span>
+									<span className="detail-val">
+										{new Date(selectedScript.updatedAt).toLocaleString()}
+									</span>
+								</div>
+							)}
+						</div>
+						<div className="modal-actions">
+							<button
+								type="button"
+								className="btn btn-primary"
+								id="btn-edit-script"
+								onClick={() => {
+									chrome.windows.create({
+										url: chrome.runtime.getURL(
+											`editor.html?id=${selectedScript.id}`,
+										),
+										type: "popup",
+										width: 800,
+										height: 600,
+									});
+									setSelectedScript(null);
+								}}
+							>
+								Edit
+							</button>
+							<button
+								type="button"
+								className="btn"
+								id="btn-close-details"
+								onClick={() => setSelectedScript(null)}
+							>
+								Close
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</>
 	);
 }
@@ -361,6 +481,7 @@ function ScriptItem({
 	onToggle,
 	onRemove,
 	onUpdate,
+	onSelect,
 }: {
 	script: Script;
 	updateInfo?: UpdateInfo;
@@ -368,6 +489,7 @@ function ScriptItem({
 	onToggle: () => void;
 	onRemove: () => void;
 	onUpdate: () => void;
+	onSelect: () => void;
 }) {
 	const name = script.meta.name ?? script.filename;
 	const desc = script.meta.description ?? "";
@@ -386,12 +508,12 @@ function ScriptItem({
 
 	return (
 		<div className="script-item">
-			<div className="script-info">
+			<button type="button" className="script-info" onClick={onSelect}>
 				<div className="script-name">{name}</div>
 				{desc && <div className="script-desc">{desc}</div>}
 				<div className="script-match">{match}</div>
 				{updateLabel && <div className="script-update">{updateLabel}</div>}
-			</div>
+			</button>
 			{hasCheckedUpdates && updateInfo?.hasUpdate && (
 				<button type="button" className="btn btn-update" onClick={onUpdate}>
 					Update
