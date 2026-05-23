@@ -67,6 +67,19 @@ describe("parseMetadata", () => {
 		const meta = parseMetadata(src);
 		expect(meta.name).toBe("Test");
 	});
+
+	it("parses @run-at and @grant fields", () => {
+		const src = `
+		// ==UserScript==
+		// @name Test Extra
+		// @run-at document-start
+		// @grant GM_xmlhttpRequest
+		// ==/UserScript==
+		`;
+		const meta = parseMetadata(src);
+		expect(meta["run-at"]).toBe("document-start");
+		expect(meta.grant).toBe("GM_xmlhttpRequest");
+	});
 });
 
 // ---------------------------------------------------------------------------

@@ -456,7 +456,18 @@ export default function App() {
 									setSelectedScript(null);
 								}}
 							>
-								Edit
+								Edit script
+							</button>
+							<button
+								type="button"
+								className="btn btn-danger"
+								id="btn-delete-details"
+								onClick={() => {
+									handleRemove(selectedScript);
+									setSelectedScript(null);
+								}}
+							>
+								Delete
 							</button>
 							<button
 								type="button"

@@ -344,29 +344,29 @@ header .count {
 
 /* Details Modal Custom Styling */
 .details-modal-content {
-	width: 360px;
-	padding: 20px;
+	width: 340px;
+	padding: 16px;
 }
 .details-scroll {
-	max-height: 380px;
+	max-height: 280px;
 	overflow-y: auto;
 	padding-right: 4px;
 }
 .detail-row {
-	margin-bottom: 12px;
+	margin-bottom: 8px;
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
+	gap: 2px;
 }
 .detail-label {
-	font-size: 10px;
+	font-size: 9px;
 	font-weight: 600;
 	text-transform: uppercase;
 	color: var(--muted);
 	letter-spacing: 0.05em;
 }
 .detail-val {
-	font-size: 12px;
+	font-size: 11px;
 	color: var(--text);
 	word-break: break-all;
 }
@@ -387,4 +387,14 @@ header .count {
 	border-radius: 4px;
 	font-family: var(--font-mono);
 	font-size: 10px;
+}
+
+.btn-danger {
+	background: var(--danger);
+	color: white;
+	border-color: var(--danger);
+}
+.btn-danger:hover:not(:disabled) {
+	background: var(--danger-hover);
+	border-color: var(--danger-hover);
 }

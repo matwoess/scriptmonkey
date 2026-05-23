@@ -289,8 +289,8 @@ async function handleMessage(message: ExtensionMessage): Promise<unknown> {
 
 		case "saveScript": {
 			const scripts = await loadScripts();
-			const script = scripts.find((item) => item.id === message.id);
-			if (!script) {
+			const index = scripts.findIndex((item) => item.id === message.id);
+			if (index === -1) {
 				throw new Error("Script not found.");
 			}
 			const source = message.source.trim();
@@ -298,12 +298,16 @@ async function handleMessage(message: ExtensionMessage): Promise<unknown> {
 				throw new Error("Script source is empty.");
 			}
 			const meta = parseMetadata(source);
-			script.source = source;
-			script.meta = meta;
-			script.updatedAt = Date.now();
+			const updatedScript = {
+				...scripts[index],
+				source,
+				meta,
+				updatedAt: Date.now(),
+			};
+			scripts[index] = updatedScript;
 			await saveScripts(scripts);
 			await syncRegisteredScripts();
-			return script;
+			return updatedScript;
 		}
 
 		case "removeScript": {

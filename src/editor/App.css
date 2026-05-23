@@ -170,3 +170,65 @@ body {
 .codemirror-wrapper .cm-scroller {
 	font-family: var(--font-mono);
 }
+
+.codemirror-wrapper .cm-editor .cm-error {
+	text-decoration: underline wavy var(--danger);
+}
+
+.header-actions {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.status-unsaved {
+	background: rgba(234, 179, 8, 0.1);
+	color: var(--yellow);
+	border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+/* Button styles in Editor */
+.btn {
+	padding: 8px 16px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	background: var(--surface);
+	color: var(--text);
+	font-family: var(--font);
+	font-size: 12px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	text-align: center;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+}
+
+.btn:hover:not(:disabled) {
+	border-color: var(--border);
+	background: var(--surface-hover);
+}
+
+.btn-primary {
+	background: var(--accent);
+	color: white;
+	border-color: var(--accent);
+}
+
+.btn-primary:hover:not(:disabled) {
+	background: var(--accent-hover);
+	border-color: var(--accent-hover);
+}
+
+.btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.btn-save {
+	padding: 6px 16px;
+	height: 32px;
+	font-size: 12px;
+}

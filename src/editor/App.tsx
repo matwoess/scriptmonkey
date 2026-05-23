@@ -1,6 +1,7 @@
 import { javascript } from "@codemirror/lang-javascript";
-import CodeMirror from "@uiw/react-codemirror";
-import { useEffect, useRef, useState } from "react";
+import { ensureSyntaxTree, syntaxTree } from "@codemirror/language";
+import CodeMirror, { type ViewUpdate } from "@uiw/react-codemirror";
+import { useEffect, useState } from "react";
 import type { ExtensionMessage, Script } from "../types";
 
 async function send<T = unknown>(message: ExtensionMessage): Promise<T> {
@@ -11,7 +12,6 @@ async function send<T = unknown>(message: ExtensionMessage): Promise<T> {
 		response &&
 		typeof response === "object" &&
 		"error" in response &&
-		"error" in response &&
 		typeof response.error === "string"
 	) {
 		throw new Error(response.error);
@@ -21,14 +21,15 @@ async function send<T = unknown>(message: ExtensionMessage): Promise<T> {
 
 export default function App() {
 	const [script, setScript] = useState<Script | null>(null);
+	const [baselineCode, setBaselineCode] = useState<string>("");
 	const [code, setCode] = useState<string>("");
 	const [saveStatus, setSaveStatus] = useState<
-		"saved" | "saving" | "error" | ""
+		"saved" | "unsaved" | "saving" | "error" | ""
 	>("");
 	const [errorMessage, setErrorMessage] = useState<string>("");
+	const [syntaxErrorMessage, setSyntaxErrorMessage] = useState<string>("");
+	const [hasSyntaxError, setHasSyntaxError] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
-
-	const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
 	const params = new URLSearchParams(window.location.search);
 	const id = params.get("id");
@@ -45,6 +46,7 @@ export default function App() {
 				const found = loadedScripts.find((s) => s.id === id);
 				if (found) {
 					setScript(found);
+					setBaselineCode(found.source);
 					setCode(found.source);
 					setSaveStatus("saved");
 				} else {
@@ -59,28 +61,55 @@ export default function App() {
 			});
 	}, [id]);
 
-	const handleCodeChange = (newCode: string) => {
+	const handleCodeChange = (newCode: string, viewUpdate?: ViewUpdate) => {
 		setCode(newCode);
+
+		let hasError = false;
+
+		if (viewUpdate) {
+			const tree =
+				ensureSyntaxTree(viewUpdate.state, newCode.length, 500) ||
+				syntaxTree(viewUpdate.state);
+			tree.iterate({
+				enter(node) {
+					if (node.type.name === "⚠" || node.type.name === "Error") {
+						hasError = true;
+						return false;
+					}
+				},
+			});
+		}
+
+		const syntaxMsg = hasError ? "Invalid JavaScript syntax detected." : "";
+
+		setHasSyntaxError(hasError);
+		setSyntaxErrorMessage(syntaxMsg);
+
+		if (newCode !== baselineCode) {
+			setSaveStatus(hasError ? "error" : "unsaved");
+			if (!hasError) setErrorMessage("");
+		} else {
+			setSaveStatus("saved");
+			setErrorMessage("");
+		}
+	};
+
+	const handleSave = () => {
+		if (!id) return;
 		setSaveStatus("saving");
 		setErrorMessage("");
 
-		if (debounceTimerRef.current) {
-			clearTimeout(debounceTimerRef.current);
-		}
-
-		debounceTimerRef.current = setTimeout(() => {
-			if (!id) return;
-			send<Script>({ type: "saveScript", id, source: newCode })
-				.then((updatedScript) => {
-					setScript(updatedScript);
-					setSaveStatus("saved");
-				})
-				.catch((err) => {
-					console.error("Failed to save:", err);
-					setSaveStatus("error");
-					setErrorMessage(err instanceof Error ? err.message : String(err));
-				});
-		}, 500);
+		send<Script>({ type: "saveScript", id, source: code })
+			.then((updatedScript) => {
+				setScript(updatedScript);
+				setBaselineCode(code);
+				setSaveStatus("saved");
+			})
+			.catch((err) => {
+				console.error("Failed to save:", err);
+				setSaveStatus("error");
+				setErrorMessage(err instanceof Error ? err.message : String(err));
+			});
 	};
 
 	if (isLoading) {
@@ -103,6 +132,7 @@ export default function App() {
 
 	const displayName =
 		script?.meta.name ?? script?.filename ?? "Untitled Script";
+	const hasChanges = code !== baselineCode;
 
 	return (
 		<div className="editor-container">
@@ -117,7 +147,10 @@ export default function App() {
 						</span>
 					</div>
 				</div>
-				<div className="header-status">
+				<div className="header-actions">
+					{saveStatus === "unsaved" && (
+						<span className="status-tag status-unsaved">Unsaved changes</span>
+					)}
 					{saveStatus === "saving" && (
 						<span className="status-tag status-saving">Saving...</span>
 					)}
@@ -125,16 +158,34 @@ export default function App() {
 						<span className="status-tag status-saved">Saved</span>
 					)}
 					{saveStatus === "error" && (
-						<span className="status-tag status-error" title={errorMessage}>
-							Save Error
+						<span
+							className="status-tag status-error"
+							title={errorMessage || syntaxErrorMessage}
+						>
+							Error
 						</span>
 					)}
+					<button
+						type="button"
+						className="btn btn-primary btn-save"
+						id="btn-save-script"
+						onClick={handleSave}
+						disabled={!hasChanges || hasSyntaxError || saveStatus === "saving"}
+					>
+						Save
+					</button>
 				</div>
 			</header>
 
+			{hasSyntaxError && syntaxErrorMessage && (
+				<div className="banner-error" id="syntax-error-banner">
+					<strong>Syntax Error:</strong> {syntaxErrorMessage}
+				</div>
+			)}
+
 			{saveStatus === "error" && errorMessage && (
 				<div className="banner-error">
-					<strong>Validation Error:</strong> {errorMessage}
+					<strong>Save Error:</strong> {errorMessage}
 				</div>
 			)}
 

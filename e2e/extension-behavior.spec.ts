@@ -154,4 +154,128 @@ test.describe("Scriptmonkey Advanced E2E", () => {
 		// Verify it's gone
 		await expect(page.locator("#other-list")).toBeHidden();
 	});
+
+	test("should show script details overlay and allow editing/saving and deleting from details overlay", async ({
+		page,
+		extensionId,
+		context,
+	}) => {
+		// 1. Open popup
+		await page.goto(`chrome-extension://${extensionId}/index.html`);
+
+		// 2. Upload a test script
+		const addBtnScript = path.join(
+			import.meta.dirname,
+			"fixtures/add_button.js",
+		);
+		await page.locator("input[type='file']").setInputFiles([addBtnScript]);
+
+		// Verify script exists
+		await expect(page.locator("#other-list .script-name")).toHaveText(
+			"Test Script - Add Button",
+		);
+
+		// 3. Click the script info card button to open details overlay
+		await page.locator("#other-list .script-info").click();
+
+		// Verify details overlay shows up and is visible
+		const detailsModal = page.locator("#details-modal");
+		await expect(detailsModal).toBeVisible();
+
+		// Verify detailed fields inside details modal
+		await expect(
+			detailsModal
+				.locator(".detail-row")
+				.filter({ has: page.locator(".detail-label", { hasText: /^Name$/ }) })
+				.locator(".detail-val"),
+		).toHaveText("Test Script - Add Button");
+		await expect(
+			detailsModal
+				.locator(".detail-row")
+				.filter({
+					has: page.locator(".detail-label", { hasText: /^Matches$/ }),
+				})
+				.locator(".detail-val"),
+		).toContainText("https://example.com/site-a/*");
+
+		// 4. Click "Edit script" and wait for the editor page to open
+		const [editorPage] = await Promise.all([
+			context.waitForEvent("page"),
+			detailsModal.locator("#btn-edit-script").click(),
+		]);
+
+		editorPage.on("console", (msg) => {
+			console.log(`[BROWSER CONSOLE] ${msg.text()}`);
+		});
+
+		// Verify editor page loaded successfully and displays the script name
+		await expect(editorPage.locator("header.editor-header h1")).toHaveText(
+			"Test Script - Add Button",
+		);
+
+		// The Save button should initially be disabled because there are no changes
+		const saveButton = editorPage.locator("#btn-save-script");
+		await expect(saveButton).toBeDisabled();
+
+		// Status should show "Saved" initially
+		await expect(editorPage.locator(".status-tag.status-saved")).toHaveText(
+			"Saved",
+		);
+
+		// 5. Trigger a syntax error by typing invalid syntax
+		const editorContent = editorPage.locator(".cm-content");
+		await editorContent.focus();
+		await editorPage.keyboard.press("Control+A");
+		await editorPage.keyboard.press("Backspace");
+		await editorPage.keyboard.type("const = 5;");
+
+		// Wait for CodeMirror parse tree/evaluation to detect error
+		await expect(saveButton).toBeDisabled();
+		await expect(editorPage.locator("#syntax-error-banner")).toBeVisible();
+		await expect(editorPage.locator(".status-tag.status-error")).toHaveText(
+			"Error",
+		);
+
+		// 6. Fix syntax error to make it valid code but modified
+		await editorPage.keyboard.press("Control+A");
+		await editorPage.keyboard.press("Backspace");
+		await editorPage.keyboard.type("console.log('syntax is now fixed');");
+
+		// The Save button must be enabled now since there is valid syntax and changes exist
+		await expect(saveButton).toBeEnabled();
+		await expect(editorPage.locator(".status-tag.status-unsaved")).toHaveText(
+			"Unsaved changes",
+		);
+		await expect(editorPage.locator("#syntax-error-banner")).toBeHidden();
+
+		// 7. Click Save button
+		await saveButton.click();
+
+		// Save status should show "Saved" and Save button should disable
+		await expect(editorPage.locator(".status-tag.status-saved")).toHaveText(
+			"Saved",
+		);
+		await expect(saveButton).toBeDisabled();
+
+		// Close the editor page
+		await editorPage.close();
+
+		// 8. Go back to popup tab, reload or verify changes persist
+		await page.reload();
+
+		// Reopen the details modal
+		await page.locator("#other-list .script-info").click();
+		await expect(detailsModal).toBeVisible();
+
+		// Click "Delete" button inside details modal
+		await detailsModal.locator("#btn-delete-details").click();
+
+		// Confirm modal should pop up
+		const confirmModal = page.locator("#confirm-modal");
+		await expect(confirmModal).toBeVisible();
+		await page.locator("#confirm-ok").click();
+
+		// Verify script is completely removed
+		await expect(page.locator("#other-list")).toBeHidden();
+	});
 });
