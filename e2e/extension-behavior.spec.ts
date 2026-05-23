@@ -278,4 +278,134 @@ test.describe("Scriptmonkey Advanced E2E", () => {
 		// Verify script is completely removed
 		await expect(page.locator("#other-list")).toBeHidden();
 	});
+
+	test("should detect updates and update script successfully", async ({
+		page,
+		extensionId,
+		context,
+	}) => {
+		// 1. Open popup
+		await page.goto(`chrome-extension://${extensionId}/index.html`);
+
+		// 2. Upload test script (which starts at version 1.0)
+		const addBtnScript = path.join(
+			import.meta.dirname,
+			"fixtures/add_button.js",
+		);
+		await page.locator("input[type='file']").setInputFiles([addBtnScript]);
+
+		// Verify script exists in popup
+		await expect(page.locator("#other-list .script-name")).toHaveText(
+			"Test Script - Add Button",
+		);
+
+		// 3. Open details overlay, click "Edit script"
+		const detailsModal = page.locator("#details-modal");
+		await page.locator("#other-list .script-info").click();
+		await expect(detailsModal).toBeVisible();
+
+		const [editorPage] = await Promise.all([
+			context.waitForEvent("page"),
+			detailsModal.locator("#btn-edit-script").click(),
+		]);
+
+		// Verify editor page loaded successfully
+		await expect(editorPage.locator("header.editor-header h1")).toHaveText(
+			"Test Script - Add Button",
+		);
+
+		// 4. Downgrade version to 0.9 in the source code
+		const editorContent = editorPage.locator(".cm-content");
+		await editorContent.focus();
+		await editorPage.keyboard.press("Control+A");
+		await editorPage.keyboard.press("Backspace");
+
+		// Construct the downgraded script content
+		const downgradedSource = `// ==UserScript==
+// @name         Test Script - Add Button
+// @namespace    http://scriptmonkey.local/
+// @version      0.9
+// @description  Adds a simple floating button to site-a
+// @match        https://example.com/site-a/*
+// @grant        none
+// @updateURL    http://localhost:8080/add_button.user.js
+// ==/UserScript==
+
+console.log('downgraded');
+`;
+
+		await editorPage.keyboard.type(downgradedSource);
+
+		// Save the editor changes
+		const saveButton = editorPage.locator("#btn-save-script");
+		await expect(saveButton).toBeEnabled();
+		await saveButton.click();
+		await expect(editorPage.locator(".status-tag.status-saved")).toHaveText(
+			"Saved",
+		);
+
+		// Close the editor window
+		await editorPage.close();
+
+		// 5. Go back to popup tab, reload
+		await page.reload();
+
+		// Reopen the details modal to confirm version is 0.9
+		await page.locator("#other-list .script-info").click();
+		await expect(detailsModal).toBeVisible();
+		await expect(
+			detailsModal
+				.locator(".detail-row")
+				.filter({
+					has: page.locator(".detail-label", { hasText: /^Version$/ }),
+				})
+				.locator(".detail-val"),
+		).toHaveText("0.9");
+
+		// Close details modal
+		await detailsModal.locator("#btn-close-details").click();
+		await expect(detailsModal).toBeHidden();
+
+		// 6. Click "Check for updates"
+		const updateStatus = page.locator("#update-status");
+		await page.locator("button", { hasText: "Check for updates" }).click();
+
+		// Wait for updates check to complete and status to update
+		await expect(updateStatus).toHaveText("1 update available", {
+			timeout: 10000,
+		});
+
+		// Verify the update button next to the script is visible
+		const scriptItem = page.locator("#other-list .script-item", {
+			hasText: "Test Script - Add Button",
+		});
+		await expect(scriptItem.locator(".script-update")).toContainText(
+			"Update available: 0.9 -> 1.0",
+		);
+		const updateBtn = scriptItem.locator(".btn-update");
+		await expect(updateBtn).toBeVisible();
+
+		// 7. Click the Update button
+		await updateBtn.click();
+
+		// Update status should clear/change
+		await expect(updateBtn).toBeHidden({ timeout: 10000 });
+
+		// 8. Re-open details overlay and verify the version is back to 1.0
+		await page.locator("#other-list .script-info").click();
+		await expect(detailsModal).toBeVisible();
+		await expect(
+			detailsModal
+				.locator(".detail-row")
+				.filter({
+					has: page.locator(".detail-label", { hasText: /^Version$/ }),
+				})
+				.locator(".detail-val"),
+		).toHaveText("1.0");
+
+		// Close details modal and clean up by deleting
+		await detailsModal.locator("#btn-delete-details").click();
+		await page.locator("#confirm-ok").click();
+		await expect(page.locator("#other-list")).toBeHidden();
+	});
 });

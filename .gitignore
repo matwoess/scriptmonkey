@@ -1,6 +1,3 @@
-# Local test scripts
-test_scripts/
-
 # Dependencies
 node_modules/
 .pnp
