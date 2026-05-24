@@ -408,4 +408,86 @@ console.log('downgraded');
 		await page.locator("#confirm-ok").click();
 		await expect(page.locator("#other-list")).toBeHidden();
 	});
+
+	test("should trigger save via Ctrl+S keypress and prompt warning on closing with unsaved changes", async ({
+		page,
+		extensionId,
+		context,
+	}) => {
+		// 1. Open popup
+		await page.goto(`chrome-extension://${extensionId}/index.html`);
+
+		// 2. Upload test script
+		const addBtnScript = path.join(
+			import.meta.dirname,
+			"fixtures/add_button.js",
+		);
+		await page.locator("input[type='file']").setInputFiles([addBtnScript]);
+
+		// 3. Open details overlay, click "Edit script"
+		const detailsModal = page.locator("#details-modal");
+		await page.locator("#other-list .script-info").click();
+		await expect(detailsModal).toBeVisible();
+
+		const [editorPage] = await Promise.all([
+			context.waitForEvent("page"),
+			detailsModal.locator("#btn-edit-script").click(),
+		]);
+
+		// 4. Modify the code
+		const editorContent = editorPage.locator(".cm-content");
+		await editorContent.click();
+		await editorPage.keyboard.press("Control+A");
+		await editorPage.keyboard.press("Backspace");
+		await editorPage.keyboard.type("console.log('saved via ctrl+s shortcut');");
+
+		// Verify it shows unsaved changes status
+		await expect(editorPage.locator(".status-tag.status-unsaved")).toHaveText(
+			"Unsaved changes",
+		);
+
+		// 5. Save using Ctrl+S
+		await editorPage.keyboard.press("Control+S");
+
+		// Verify status becomes "Saved" and save button is disabled
+		await expect(editorPage.locator(".status-tag.status-saved")).toHaveText(
+			"Saved",
+		);
+		await expect(editorPage.locator("#btn-save-script")).toBeDisabled();
+
+		// 6. Make a new change so it becomes unsaved again
+		await editorContent.click();
+		await editorPage.keyboard.type("\n// new unsaved comment");
+
+		await expect(editorPage.locator(".status-tag.status-unsaved")).toHaveText(
+			"Unsaved changes",
+		);
+
+		// 7. Try to reload the page and verify beforeunload dialog prompts
+		let beforeUnloadFired = false;
+		editorPage.on("dialog", async (dialog) => {
+			if (dialog.type() === "beforeunload") {
+				beforeUnloadFired = true;
+				await dialog.accept(); // Allow navigation/reload to proceed
+			}
+		});
+
+		// Click the header to guarantee a top-level user gesture is registered by Chromium
+		await editorPage.locator("header.editor-header").click();
+
+		// Trigger reload which fires beforeunload
+		await editorPage.reload();
+		expect(beforeUnloadFired).toBe(true);
+
+		// Now close the editor page
+		await editorPage.close();
+
+		// Clean up by deleting the script from popup
+		await page.reload();
+		await page.locator("#other-list .script-info").click();
+		await expect(detailsModal).toBeVisible();
+		await detailsModal.locator("#btn-delete-details").click();
+		await page.locator("#confirm-ok").click();
+		await expect(page.locator("#other-list")).toBeHidden();
+	});
 });

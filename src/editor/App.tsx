@@ -1,7 +1,7 @@
 import { javascript } from "@codemirror/lang-javascript";
 import { ensureSyntaxTree, syntaxTree } from "@codemirror/language";
 import CodeMirror, { type ViewUpdate } from "@uiw/react-codemirror";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ExtensionMessage, Script } from "../types";
 
 async function send<T = unknown>(message: ExtensionMessage): Promise<T> {
@@ -112,6 +112,44 @@ export default function App() {
 			});
 	};
 
+	const displayName =
+		script?.meta.name ?? script?.filename ?? "Untitled Script";
+	const hasChanges = code !== baselineCode;
+
+	const saveRef = useRef(() => {});
+	saveRef.current = () => {
+		if (hasChanges && !hasSyntaxError && saveStatus !== "saving") {
+			handleSave();
+		}
+	};
+
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+				e.preventDefault();
+				saveRef.current();
+			}
+		};
+		window.addEventListener("keydown", handleKeyDown, { capture: true });
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown, { capture: true });
+		};
+	}, []);
+
+	useEffect(() => {
+		const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+			if (hasChanges) {
+				e.preventDefault();
+				e.returnValue = "";
+				return "";
+			}
+		};
+		window.addEventListener("beforeunload", handleBeforeUnload);
+		return () => {
+			window.removeEventListener("beforeunload", handleBeforeUnload);
+		};
+	}, [hasChanges]);
+
 	if (isLoading) {
 		return (
 			<div className="status-container">
@@ -129,10 +167,6 @@ export default function App() {
 			</div>
 		);
 	}
-
-	const displayName =
-		script?.meta.name ?? script?.filename ?? "Untitled Script";
-	const hasChanges = code !== baselineCode;
 
 	return (
 		<div className="editor-container">
