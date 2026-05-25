@@ -92,7 +92,10 @@ export default function App() {
 
 	const handleToggle = async (id: string) => {
 		await send({ type: "toggleScript", id });
-		await chrome.tabs.reload();
+		const script = scripts.find((s) => s.id === id);
+		if (script && isActiveOnUrl(script, currentUrl)) {
+			await chrome.tabs.reload();
+		}
 		await loadData();
 	};
 

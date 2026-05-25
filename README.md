@@ -69,7 +69,7 @@ Then follow steps 3–5 above, pointing at the `dist/` folder.
 - Matching scripts are registered through Chrome's `userScripts` API.
 - The popup warns when `Allow User Scripts` is disabled.
 - Script updates are fetched from `@downloadURL` or `@updateURL` and compared via `@version`.
-- After adding, removing, or toggling a script, the popup reloads the current tab so the page picks up the new state.
+- After adding, removing, or toggling an active script, the popup reloads the current tab so the page picks up the new state. Inactive "other" scripts can be toggled without forcing a page reload.
 
 ## Development
 
