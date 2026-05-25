@@ -177,14 +177,6 @@ export default function App() {
 				<div className="header-actions">
 					<button
 						type="button"
-						className="btn btn-header btn-primary"
-						id="btn-add-file"
-						onClick={() => fileInputRef.current?.click()}
-					>
-						Add
-					</button>
-					<button
-						type="button"
 						className={
 							hasCheckedUpdates && availableUpdates > 0
 								? "btn btn-header btn-accent"
@@ -209,6 +201,14 @@ export default function App() {
 							: hasCheckedUpdates && availableUpdates > 0
 								? `Update ${availableUpdates} script${availableUpdates === 1 ? "" : "s"}`
 								: "Check for updates"}
+					</button>
+					<button
+						type="button"
+						className="btn btn-header btn-primary"
+						id="btn-add-file"
+						onClick={() => fileInputRef.current?.click()}
+					>
+						Add
 					</button>
 				</div>
 
@@ -350,11 +350,11 @@ export default function App() {
 						</button>
 						<button
 							type="button"
-							className="btn btn-primary"
+							className="btn btn-danger"
 							id="confirm-ok"
 							onClick={confirmModal?.onConfirm}
 						>
-							OK
+							Remove
 						</button>
 					</div>
 				</div>
@@ -473,7 +473,7 @@ export default function App() {
 									setSelectedScript(null);
 								}}
 							>
-								Delete
+								Remove
 							</button>
 							<button
 								type="button"
