@@ -1,6 +1,6 @@
 {
 	"name": "scriptmonkey",
-	"version": "0.5.1",
+	"version": "0.6.0",
 	"description": "Lightweight Manifest V3 Chrome extension for managing user scripts — like Tampermonkey, but local and minimal.",
 	"main": "background.js",
 	"scripts": {
