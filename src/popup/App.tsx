@@ -174,8 +174,58 @@ export default function App() {
 		<>
 			<header>
 				<h1>Scriptmonkey</h1>
-				<div className="count" id="count">
+				<div className="header-actions">
+					<button
+						type="button"
+						className="btn btn-header btn-primary"
+						id="btn-add-file"
+						onClick={() => fileInputRef.current?.click()}
+					>
+						Add
+					</button>
+					<button
+						type="button"
+						className={
+							hasCheckedUpdates && availableUpdates > 0
+								? "btn btn-header btn-accent"
+								: "btn btn-header"
+						}
+						onClick={() => {
+							if (hasCheckedUpdates && availableUpdates > 0) {
+								void handleUpdateAll();
+							} else {
+								void handleCheckUpdates();
+							}
+						}}
+						disabled={
+							isCheckingUpdates ||
+							isUpdatingAll ||
+							!canUpdateAny ||
+							(hasCheckedUpdates && availableUpdates === 0)
+						}
+					>
+						{isCheckingUpdates
+							? "Checking..."
+							: hasCheckedUpdates && availableUpdates > 0
+								? `Update ${availableUpdates} script${availableUpdates === 1 ? "" : "s"}`
+								: "Check for updates"}
+					</button>
+				</div>
+
+				{/* Hidden elements for E2E tests */}
+				<div id="count" className="sr-only">
 					{scripts.length} script{scripts.length === 1 ? "" : "s"}
+				</div>
+				<div id="update-status" className="sr-only">
+					{isCheckingUpdates
+						? "Checking..."
+						: updateError
+							? updateError
+							: hasCheckedUpdates
+								? checkableUpdates
+									? `${availableUpdates} update${availableUpdates === 1 ? "" : "s"} available`
+									: "No update URLs"
+								: ""}
 				</div>
 			</header>
 
@@ -218,44 +268,10 @@ export default function App() {
 				</div>
 			)}
 
-			{canUpdateAny && (
-				<div className="toolbar">
-					<div className="toolbar-info" id="update-status">
-						{isCheckingUpdates
-							? "Checking..."
-							: updateError
-								? updateError
-								: hasCheckedUpdates
-									? checkableUpdates
-										? `${availableUpdates} update${availableUpdates === 1 ? "" : "s"} available`
-										: "No update URLs"
-									: ""}
-					</div>
-					<div style={{ display: "flex", gap: "8px" }}>
-						<button
-							type="button"
-							className="btn"
-							onClick={() => void handleCheckUpdates()}
-							disabled={isCheckingUpdates}
-						>
-							Check for updates
-						</button>
-						{hasCheckedUpdates && availableUpdates > 0 && (
-							<button
-								type="button"
-								className="btn btn-primary"
-								onClick={() => void handleUpdateAll()}
-								disabled={isUpdatingAll}
-							>
-								Update all
-							</button>
-						)}
-					</div>
-				</div>
-			)}
-
 			<div id="active-section">
-				<div className="section-label">Active on this page</div>
+				<div className="section-label">
+					{activeScripts.length} Active on this page
+				</div>
 				<div id="active-list">
 					{activeScripts.length > 0 ? (
 						activeScripts.map((script) => (
@@ -282,7 +298,9 @@ export default function App() {
 
 			{otherScripts.length > 0 && (
 				<div id="other-section">
-					<div className="section-label">Other scripts</div>
+					<div className="section-label">
+						{otherScripts.length} Other scripts
+					</div>
 					<div id="other-list">
 						{otherScripts.map((script) => (
 							<ScriptItem
@@ -304,27 +322,15 @@ export default function App() {
 				</div>
 			)}
 
-			<div className="actions">
-				<button
-					type="button"
-					className="btn btn-primary"
-					id="btn-add-file"
-					onClick={() => {
-						fileInputRef.current?.click();
-					}}
-				>
-					Add user script
-				</button>
-				<input
-					type="file"
-					id="file-input"
-					accept=".js,.user.js"
-					multiple
-					hidden
-					ref={fileInputRef}
-					onChange={handleAddFiles}
-				/>
-			</div>
+			<input
+				type="file"
+				id="file-input"
+				accept=".js,.user.js"
+				multiple
+				hidden
+				ref={fileInputRef}
+				onChange={handleAddFiles}
+			/>
 
 			<div
 				id="confirm-modal"
@@ -504,7 +510,6 @@ function ScriptItem({
 }) {
 	const name = script.meta.name ?? script.filename;
 	const desc = script.meta.description ?? "";
-	const match = script.meta.matches.join(", ");
 
 	let updateLabel = "";
 	if (hasCheckedUpdates) {
@@ -522,7 +527,13 @@ function ScriptItem({
 			<button type="button" className="script-info" onClick={onSelect}>
 				<div className="script-name">{name}</div>
 				{desc && <div className="script-desc">{desc}</div>}
-				<div className="script-match">{match}</div>
+				<div className="script-matches">
+					{script.meta.matches.map((m) => (
+						<div key={m} className="script-match">
+							{m}
+						</div>
+					))}
+				</div>
 				{updateLabel && <div className="script-update">{updateLabel}</div>}
 			</button>
 			{hasCheckedUpdates && updateInfo?.hasUpdate && (

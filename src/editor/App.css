@@ -1,19 +1,25 @@
 :root {
-	--bg: #09090b;
-	--surface: #18181b;
-	--surface-hover: #27272a;
-	--border: #3f3f46;
-	--text: #f4f4f5;
-	--muted: #a1a1aa;
-	--accent: #3b82f6;
-	--accent-hover: #60a5fa;
-	--danger: #ef4444;
-	--danger-hover: #f87171;
-	--green: #10b981;
-	--yellow: #eab308;
+	--bg: #10121a;
+	--bg-gradient: linear-gradient(135deg, #10121a 0%, #16161e 100%);
+	--surface: rgba(26, 29, 46, 0.7);
+	--surface-hover: rgba(32, 36, 57, 0.85);
+	--border: rgba(0, 242, 254, 0.08);
+	--border-hover: rgba(0, 242, 254, 0.25);
+	--text: #a9b1d6;
+	--text-bold: #c0caf5;
+	--muted: #565f89;
+	--accent: #00f2fe;
+	--accent-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+	--danger: #f7768e;
+	--danger-bg: rgba(247, 118, 142, 0.12);
+	--danger-border: rgba(247, 118, 142, 0.25);
+	--green: #73daca;
+	--green-glow: rgba(115, 218, 202, 0.3);
+	--yellow: #e0af68;
 	--font: "Inter", system-ui, -apple-system, sans-serif;
 	--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-	--radius: 8px;
+	--radius: 10px;
+	--transition-speed: 0.2s;
 }
 
 * {
@@ -24,7 +30,7 @@
 
 body {
 	font-family: var(--font);
-	background: var(--bg);
+	background: var(--bg-gradient);
 	color: var(--text);
 	-webkit-font-smoothing: antialiased;
 	height: 100vh;
@@ -36,17 +42,36 @@ body {
 	flex-direction: column;
 	height: 100vh;
 	overflow: hidden;
+	position: relative;
+}
+
+.editor-container::before {
+	content: "";
+	position: absolute;
+	top: -50px;
+	left: -50px;
+	width: 250px;
+	height: 250px;
+	background: radial-gradient(
+		circle,
+		rgba(0, 242, 254, 0.08) 0%,
+		transparent 70%
+	);
+	pointer-events: none;
+	z-index: 0;
 }
 
 .editor-header {
 	height: 64px;
 	padding: 0 24px;
-	background: var(--surface);
+	background: rgba(22, 22, 30, 0.85);
 	border-bottom: 1px solid var(--border);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	flex-shrink: 0;
+	backdrop-filter: blur(12px);
+	z-index: 10;
 }
 
 .header-info {
@@ -57,63 +82,76 @@ body {
 
 .logo-emoji {
 	font-size: 24px;
+	filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.3));
 }
 
 .title-details h1 {
-	font-size: 16px;
-	font-weight: 600;
-	color: var(--text);
+	font-size: 14.5px;
+	font-weight: 700;
+	color: var(--text-bold);
 	line-height: 1.2;
+	letter-spacing: -0.02em;
 }
 
 .subtitle {
-	font-size: 11px;
+	font-size: 10.5px;
 	color: var(--muted);
 	font-family: var(--font-mono);
 }
 
 .status-tag {
-	font-size: 11px;
-	font-weight: 600;
+	font-size: 9.5px;
+	font-weight: 700;
 	padding: 4px 10px;
-	border-radius: 12px;
+	border-radius: 20px;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
+	display: inline-flex;
+	align-items: center;
 }
 
 .status-saving {
-	background: rgba(234, 179, 8, 0.1);
+	background: rgba(224, 175, 104, 0.08);
 	color: var(--yellow);
-	border: 1px solid rgba(234, 179, 8, 0.3);
+	border: 1px solid rgba(224, 175, 104, 0.25);
 }
 
 .status-saved {
-	background: rgba(16, 185, 129, 0.1);
+	background: rgba(115, 218, 202, 0.08);
 	color: var(--green);
-	border: 1px solid rgba(16, 185, 129, 0.3);
+	border: 1px solid rgba(115, 218, 202, 0.25);
 }
 
 .status-error {
-	background: rgba(239, 68, 68, 0.1);
+	background: rgba(247, 118, 142, 0.08);
 	color: var(--danger);
-	border: 1px solid rgba(239, 68, 68, 0.3);
+	border: 1px solid rgba(247, 118, 142, 0.25);
 	cursor: help;
 }
 
+.status-unsaved {
+	background: rgba(224, 175, 104, 0.08);
+	color: var(--yellow);
+	border: 1px solid rgba(224, 175, 104, 0.25);
+}
+
 .banner-error {
-	background: rgba(239, 68, 68, 0.15);
-	border-bottom: 1px solid rgba(239, 68, 68, 0.4);
+	background: rgba(247, 118, 142, 0.12);
+	border-bottom: 1px solid rgba(247, 118, 142, 0.25);
 	color: #fca5a5;
 	padding: 10px 24px;
-	font-size: 13px;
-	line-height: 1.4;
+	font-size: 11.5px;
+	line-height: 1.5;
 	flex-shrink: 0;
+	z-index: 5;
+	backdrop-filter: blur(4px);
 }
 
 .editor-main {
 	flex: 1;
 	overflow: hidden;
 	position: relative;
+	background: rgba(22, 22, 30, 0.2);
 }
 
 /* Status views (loading/error) */
@@ -123,7 +161,7 @@ body {
 	align-items: center;
 	justify-content: center;
 	height: 100vh;
-	background: var(--bg);
+	background: var(--bg-gradient);
 	color: var(--text);
 	gap: 16px;
 	text-align: center;
@@ -132,18 +170,20 @@ body {
 
 .status-container.error h3 {
 	color: var(--danger);
-	font-size: 18px;
+	font-size: 16px;
+	font-weight: 700;
+	letter-spacing: -0.02em;
 }
 
 .status-container.error p {
 	color: var(--muted);
-	font-size: 14px;
+	font-size: 12.5px;
 }
 
 .spinner {
-	width: 24px;
-	height: 24px;
-	border: 3px solid rgba(255, 255, 255, 0.1);
+	width: 26px;
+	height: 26px;
+	border: 3px solid rgba(0, 242, 254, 0.1);
 	border-top-color: var(--accent);
 	border-radius: 50%;
 	animation: spin 0.8s linear infinite;
@@ -163,8 +203,10 @@ body {
 .codemirror-wrapper .cm-editor {
 	height: 100%;
 	font-family: var(--font-mono);
-	font-size: 13px;
+	font-size: 12.5px;
 	line-height: 1.6;
+	/* biome-ignore lint/complexity/noImportantStyles: required to override CodeMirror default theme background */
+	background: transparent !important;
 }
 
 .codemirror-wrapper .cm-scroller {
@@ -175,30 +217,34 @@ body {
 	text-decoration: underline wavy var(--danger);
 }
 
+/* CodeMirror theme overrides to blend nicely with our glass theme */
+.codemirror-wrapper .cm-gutters {
+	/* biome-ignore lint/complexity/noImportantStyles: required to override CodeMirror panel backgrounds */
+	background: rgba(22, 22, 30, 0.5) !important;
+	/* biome-ignore lint/complexity/noImportantStyles: required to override CodeMirror borders */
+	border-right: 1px solid var(--border) !important;
+	/* biome-ignore lint/complexity/noImportantStyles: required to override CodeMirror font colors */
+	color: var(--muted) !important;
+}
+
 .header-actions {
 	display: flex;
 	align-items: center;
 	gap: 12px;
 }
 
-.status-unsaved {
-	background: rgba(234, 179, 8, 0.1);
-	color: var(--yellow);
-	border: 1px solid rgba(234, 179, 8, 0.3);
-}
-
 /* Button styles in Editor */
 .btn {
-	padding: 8px 16px;
-	border: 1px solid var(--border);
+	padding: 6px 14px;
+	border: 1px solid rgba(255, 255, 255, 0.05);
 	border-radius: var(--radius);
-	background: var(--surface);
+	background: rgba(255, 255, 255, 0.03);
 	color: var(--text);
 	font-family: var(--font);
-	font-size: 12px;
-	font-weight: 500;
+	font-size: 11.5px;
+	font-weight: 600;
 	cursor: pointer;
-	transition: all 0.2s ease;
+	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 	text-align: center;
 	display: inline-flex;
 	align-items: center;
@@ -206,29 +252,48 @@ body {
 	gap: 6px;
 }
 
-.btn:hover:not(:disabled) {
-	border-color: var(--border);
-	background: var(--surface-hover);
+.btn:hover:not(:disabled):not(.btn-primary):not(.btn-danger) {
+	border-color: rgba(255, 255, 255, 0.15);
+	background: rgba(255, 255, 255, 0.08);
+	color: var(--text-bold);
+	transform: translateY(-1px);
+}
+
+.btn:active:not(:disabled) {
+	transform: translateY(0);
 }
 
 .btn-primary {
-	background: var(--accent);
-	color: white;
-	border-color: var(--accent);
+	background: var(--accent-gradient);
+	color: #10121a;
+	font-weight: 700;
+	border: none;
+	box-shadow: 0 2px 8px rgba(0, 242, 254, 0.2);
 }
 
 .btn-primary:hover:not(:disabled) {
-	background: var(--accent-hover);
-	border-color: var(--accent-hover);
+	filter: brightness(1.1);
+	box-shadow: 0 4px 12px rgba(0, 242, 254, 0.35);
+	color: #10121a;
+	transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+	filter: brightness(0.95);
+	transform: translateY(0);
 }
 
 .btn:disabled {
-	opacity: 0.5;
+	opacity: 0.4;
 	cursor: not-allowed;
+	/* biome-ignore lint/complexity/noImportantStyles: override hover transform when disabled */
+	transform: none !important;
+	/* biome-ignore lint/complexity/noImportantStyles: override hover shadow when disabled */
+	box-shadow: none !important;
 }
 
 .btn-save {
-	padding: 6px 16px;
+	padding: 6px 14px;
 	height: 32px;
-	font-size: 12px;
+	font-size: 11.5px;
 }
