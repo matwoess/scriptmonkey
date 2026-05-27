@@ -108,7 +108,9 @@ export default function App() {
 				void (async () => {
 					await send({ type: "removeScript", id: script.id });
 					setConfirmModal(null);
-					await chrome.tabs.reload();
+					if (script.enabled && isActiveOnUrl(script, currentUrl)) {
+						await chrome.tabs.reload();
+					}
 					await loadData();
 				})();
 			},

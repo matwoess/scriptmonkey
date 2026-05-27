@@ -490,4 +490,94 @@ console.log('downgraded');
 		await page.locator("#confirm-ok").click();
 		await expect(page.locator("#other-list")).toBeHidden();
 	});
+
+	test("should not reload target page when deleting an inactive script or a script that does not match current url", async ({
+		page,
+		extensionId,
+		context,
+	}) => {
+		// 1. Open popup
+		await page.goto(`chrome-extension://${extensionId}/index.html`);
+
+		// 2. Upload both test scripts (Add Button and Paragraph Counter)
+		const addBtnScript = path.join(
+			import.meta.dirname,
+			"fixtures/add_button.js",
+		);
+		const paraCountScript = path.join(
+			import.meta.dirname,
+			"fixtures/paragraph_counter.js",
+		);
+		await page
+			.locator("input[type='file']")
+			.setInputFiles([addBtnScript, paraCountScript]);
+
+		// Wait for the scripts to be loaded and rendered in the popup
+		await expect(page.locator("#other-list .script-name")).toHaveCount(2);
+
+		// 3. Open a target page: Site B (Matches ONLY paragraph_counter)
+		const targetPage = await context.newPage();
+		await targetPage.goto("https://example.com/site-b/");
+
+		// Bring targetPage to front so popup operates on it
+		await targetPage.bringToFront();
+		await page.reload();
+
+		// Verification:
+		// Active list should have "Test Script - Paragraph Counter" (enabled by default)
+		// Other list should have "Test Script - Add Button" (enabled by default, but does not match URL)
+		await expect(page.locator("#active-list .script-name")).toHaveText(
+			"Test Script - Paragraph Counter",
+		);
+		await expect(page.locator("#other-list .script-name")).toHaveText(
+			"Test Script - Add Button",
+		);
+
+		// Let's first make sure we can disable/inactive "Test Script - Paragraph Counter"
+		// 4. Disable Paragraph Counter script by clicking the slider
+		const toggleSlider = page
+			.locator("#active-list .script-item", {
+				hasText: "Test Script - Paragraph Counter",
+			})
+			.locator(".toggle .slider");
+		await Promise.all([targetPage.waitForNavigation(), toggleSlider.click()]);
+
+		// Now Paragraph Counter script is inactive (disabled)
+		// Let's delete this inactive script and verify targetPage does NOT reload.
+		let reloaded = false;
+		const onNavigate = (frame) => {
+			if (frame === targetPage.mainFrame()) reloaded = true;
+		};
+		targetPage.on("framenavigated", onNavigate);
+
+		// Remove Paragraph Counter
+		const removeParaBtn = page
+			.locator("#active-list .script-item", {
+				hasText: "Test Script - Paragraph Counter",
+			})
+			.locator(".btn-remove");
+		await removeParaBtn.click();
+		await page.locator("#confirm-ok").click();
+
+		// Wait to ensure no reload happened
+		await page.waitForTimeout(1000);
+		expect(reloaded).toBe(false);
+
+		// Now let's try deleting the active but non-matching script (Add Button)
+		// Add Button is active (enabled) but does not match URL (in other-list)
+		const removeAddBtn = page
+			.locator("#other-list .script-item", {
+				hasText: "Test Script - Add Button",
+			})
+			.locator(".btn-remove");
+		await removeAddBtn.click();
+		await page.locator("#confirm-ok").click();
+
+		// Wait to ensure no reload happened
+		await page.waitForTimeout(1000);
+		expect(reloaded).toBe(false);
+
+		targetPage.off("framenavigated", onNavigate);
+		await targetPage.close();
+	});
 });
