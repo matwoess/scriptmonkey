@@ -178,33 +178,35 @@ export default function App() {
 			<header>
 				<h1>Scriptmonkey</h1>
 				<div className="header-actions">
-					<button
-						type="button"
-						className={
-							hasCheckedUpdates && availableUpdates > 0
-								? "btn btn-header btn-accent"
-								: "btn btn-header"
-						}
-						onClick={() => {
-							if (hasCheckedUpdates && availableUpdates > 0) {
-								void handleUpdateAll();
-							} else {
-								void handleCheckUpdates();
+					{scripts.length > 0 && (
+						<button
+							type="button"
+							className={
+								hasCheckedUpdates && availableUpdates > 0
+									? "btn btn-header btn-accent"
+									: "btn btn-header"
 							}
-						}}
-						disabled={
-							isCheckingUpdates ||
-							isUpdatingAll ||
-							!canUpdateAny ||
-							(hasCheckedUpdates && availableUpdates === 0)
-						}
-					>
-						{isCheckingUpdates
-							? "Checking..."
-							: hasCheckedUpdates && availableUpdates > 0
-								? `Update ${availableUpdates} script${availableUpdates === 1 ? "" : "s"}`
-								: "Check for updates"}
-					</button>
+							onClick={() => {
+								if (hasCheckedUpdates && availableUpdates > 0) {
+									void handleUpdateAll();
+								} else {
+									void handleCheckUpdates();
+								}
+							}}
+							disabled={
+								isCheckingUpdates ||
+								isUpdatingAll ||
+								!canUpdateAny ||
+								(hasCheckedUpdates && availableUpdates === 0)
+							}
+						>
+							{isCheckingUpdates
+								? "Checking..."
+								: hasCheckedUpdates && availableUpdates > 0
+									? `Update ${availableUpdates} script${availableUpdates === 1 ? "" : "s"}`
+									: "Check for updates"}
+						</button>
+					)}
 					<button
 						type="button"
 						className="btn btn-header btn-primary"
@@ -234,7 +236,8 @@ export default function App() {
 
 			{!userScriptsAvailable && (
 				<div className="banner" id="warning">
-					"Allow User Scripts" is disabled for this extension.{" "}
+					"Allow User Scripts" is disabled for this extension. This permission
+					is required in order to run user scripts on web pages.{" "}
 					<button
 						type="button"
 						onClick={() => {
@@ -254,7 +257,7 @@ export default function App() {
 					>
 						Open extension settings
 					</button>{" "}
-					to enable them.
+					to enable it.
 				</div>
 			)}
 
@@ -271,58 +274,100 @@ export default function App() {
 				</div>
 			)}
 
-			<div id="active-section">
-				<div className="section-label">
-					{activeScripts.length} Active on this page
+			{scripts.length === 0 ? (
+				<div className="empty-state-welcome">
+					<div className="welcome-illustration">🐒</div>
+					<h2>Get Started with Scriptmonkey</h2>
+					<p className="welcome-desc">
+						You haven't added any user scripts yet. User scripts allow you to
+						customize and automate your favorite websites.
+					</p>
+					<div className="welcome-steps">
+						<div className="step-item">
+							<span className="step-number">1</span>
+							<p>
+								Click the <strong>Add</strong> button in the top right.
+							</p>
+						</div>
+						<div className="step-item">
+							<span className="step-number">2</span>
+							<p>
+								Select your <code>.user.js</code> or <code>.js</code> script
+								files from your computer.
+							</p>
+						</div>
+						<div className="step-item">
+							<span className="step-number">3</span>
+							<p>
+								Scripts with Tampermonkey syntax (with <code>@updateURL</code>)
+								can be updated automatically.
+							</p>
+						</div>
+					</div>
+					<button
+						type="button"
+						className="btn btn-primary btn-welcome"
+						onClick={() => fileInputRef.current?.click()}
+					>
+						Add script
+					</button>
 				</div>
-				<div id="active-list">
-					{activeScripts.length > 0 ? (
-						activeScripts.map((script) => (
-							<ScriptItem
-								key={script.id}
-								script={script}
-								updateInfo={updatesById.get(script.id)}
-								hasCheckedUpdates={hasCheckedUpdates}
-								onToggle={() => {
-									void handleToggle(script.id);
-								}}
-								onRemove={() => handleRemove(script)}
-								onUpdate={() => {
-									void handleUpdate(script.id);
-								}}
-								onSelect={() => setSelectedScript(script)}
-							/>
-						))
-					) : (
-						<div className="empty">No scripts for this page</div>
-					)}
-				</div>
-			</div>
+			) : (
+				<>
+					<div id="active-section">
+						<div className="section-label">
+							{activeScripts.length} Active on this page
+						</div>
+						<div id="active-list">
+							{activeScripts.length > 0 ? (
+								activeScripts.map((script) => (
+									<ScriptItem
+										key={script.id}
+										script={script}
+										updateInfo={updatesById.get(script.id)}
+										hasCheckedUpdates={hasCheckedUpdates}
+										onToggle={() => {
+											void handleToggle(script.id);
+										}}
+										onRemove={() => handleRemove(script)}
+										onUpdate={() => {
+											void handleUpdate(script.id);
+										}}
+										onSelect={() => setSelectedScript(script)}
+									/>
+								))
+							) : (
+								<div className="empty">No scripts for this page</div>
+							)}
+						</div>
+					</div>
 
-			{otherScripts.length > 0 && (
-				<div id="other-section">
-					<div className="section-label">
-						{otherScripts.length} Other scripts
-					</div>
-					<div id="other-list">
-						{otherScripts.map((script) => (
-							<ScriptItem
-								key={script.id}
-								script={script}
-								updateInfo={updatesById.get(script.id)}
-								hasCheckedUpdates={hasCheckedUpdates}
-								onToggle={() => {
-									void handleToggle(script.id);
-								}}
-								onRemove={() => handleRemove(script)}
-								onUpdate={() => {
-									void handleUpdate(script.id);
-								}}
-								onSelect={() => setSelectedScript(script)}
-							/>
-						))}
-					</div>
-				</div>
+					{otherScripts.length > 0 && (
+						<div id="other-section">
+							<div className="section-label">
+								{otherScripts.length} Other scripts
+							</div>
+							<div id="other-list">
+								{otherScripts.map((script) => (
+									<ScriptItem
+										key={script.id}
+										script={script}
+										updateInfo={updatesById.get(script.id)}
+										hasCheckedUpdates={hasCheckedUpdates}
+										onToggle={() => {
+											void handleToggle(script.id);
+										}}
+										onRemove={() => handleRemove(script)}
+										onUpdate={() => {
+											void handleUpdate(script.id);
+										}}
+										onSelect={() => setSelectedScript(script)}
+									/>
+								))}
+							</div>
+						</div>
+					)}
+				</>
 			)}
 
 			<input

@@ -590,3 +590,102 @@ header h1::before {
 .btn-danger:active:not(:disabled) {
 	filter: brightness(0.9);
 }
+
+/* Welcome empty state for first-time use */
+.empty-state-welcome {
+	margin: 20px 16px;
+	padding: 24px 20px;
+	background: rgba(30, 32, 48, 0.4);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-illustration {
+	font-size: 36px;
+	margin-bottom: 12px;
+	animation: float-monkey 3s ease-in-out infinite;
+}
+
+@keyframes float-monkey {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-6px);
+	}
+}
+
+.empty-state-welcome h2 {
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--text-bold);
+	margin-bottom: 8px;
+}
+
+.welcome-desc {
+	font-size: 11px;
+	color: var(--text);
+	line-height: 1.5;
+	margin-bottom: 16px;
+}
+
+.welcome-steps {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-bottom: 20px;
+	text-align: left;
+	background: rgba(16, 18, 26, 0.5);
+	padding: 12px 14px;
+	border-radius: 6px;
+	border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.step-item {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+}
+
+.step-number {
+	width: 16px;
+	height: 16px;
+	background: rgba(0, 242, 254, 0.1);
+	border: 1px solid rgba(0, 242, 254, 0.3);
+	color: var(--accent);
+	font-size: 9px;
+	font-weight: 700;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	margin-top: 1px;
+}
+
+.step-item p {
+	font-size: 10.5px;
+	color: var(--text);
+	line-height: 1.4;
+}
+
+.step-item p code {
+	font-family: var(--font-mono);
+	background: rgba(255, 255, 255, 0.05);
+	padding: 1px 4px;
+	border-radius: 3px;
+	font-size: 9.5px;
+}
+
+.btn-welcome {
+	width: 100%;
+	height: 32px;
+	font-size: 12px;
+}
