@@ -30,10 +30,8 @@ Tests live in `tests/`, mirroring the `src/` structure. Pure utility functions a
 - **Run tests:** `npm run test:e2e`
 - **Run tests with UI:** `npm run test:e2e:ui`
 
-**⚠️ CRITICAL WARNING FOR AGENTS:**
-Playwright tests may fail and automatically start a local web server to host the HTML report (e.g., at `http://localhost:9323`). This is a **blocking process**. 
-- If you see "Serving HTML report...", you **must** terminate the process (e.g., send SIGINT/Ctrl+C) to continue. 
-- Avoid running E2E tests in a way that blocks your execution flow unless you can handle background processes.
+**⚠️ E2E TEST INFORMATION FOR AGENTS:**
+- Playwright is configured with `open: "never"` for its HTML reporter to prevent automatically launching a blocking local report web server on failure.
 - Ensure the extension is built (`npm run build`) before running E2E tests, as they test the compiled `dist/` folder.
 
 ## Guidelines
