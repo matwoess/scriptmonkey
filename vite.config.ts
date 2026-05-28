@@ -5,6 +5,15 @@ import manifest from "./manifest.json" with { type: "json" };
 
 export default defineConfig({
 	plugins: [react(), crx({ manifest })],
+	build: {
+		rolldownOptions: {
+			input: {
+				popup: "index.html",
+				editor: "editor.html",
+			},
+		},
+		chunkSizeWarningLimit: 1024,
+	},
 	test: {
 		environment: "jsdom",
 		globals: true,
