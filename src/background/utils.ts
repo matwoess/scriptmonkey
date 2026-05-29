@@ -24,6 +24,14 @@ export function parseMetadata(source: string): ScriptMeta {
 			meta.matches.push(value);
 			continue;
 		}
+		if (key === "include" || key === "exclude") {
+			const arrKey = key === "include" ? "include" : "exclude";
+			if (!meta[arrKey]) {
+				meta[arrKey] = [];
+			}
+			(meta[arrKey] as string[]).push(value);
+			continue;
+		}
 
 		meta[key] = value;
 	}

@@ -80,6 +80,22 @@ describe("parseMetadata", () => {
 		expect(meta["run-at"]).toBe("document-start");
 		expect(meta.grant).toBe("GM_xmlhttpRequest");
 	});
+
+	it("parses multiple @include and @exclude tags into arrays", () => {
+		const src = `
+		// ==UserScript==
+		// @include http://*.example.com/*
+		// @include https://*.example.com/*
+		// @exclude https://*.google.com/*
+		// ==/UserScript==
+		`;
+		const meta = parseMetadata(src);
+		expect(meta.include).toEqual([
+			"http://*.example.com/*",
+			"https://*.example.com/*",
+		]);
+		expect(meta.exclude).toEqual(["https://*.google.com/*"]);
+	});
 });
 
 // ---------------------------------------------------------------------------
