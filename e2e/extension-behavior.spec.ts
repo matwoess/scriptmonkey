@@ -209,7 +209,7 @@ test.describe("Scriptmonkey Advanced E2E", () => {
 		});
 
 		// Verify editor page loaded successfully and displays the script name
-		await expect(editorPage.locator("header.editor-header h1")).toHaveText(
+		await expect(editorPage.locator(".editor-title-block h2")).toHaveText(
 			"Test Script - Add Button",
 		);
 
@@ -218,7 +218,7 @@ test.describe("Scriptmonkey Advanced E2E", () => {
 		await expect(saveButton).toBeDisabled();
 
 		// Status should show "Saved" initially
-		await expect(editorPage.locator(".status-tag.status-saved")).toHaveText(
+		await expect(editorPage.locator(".status-badge.tag-saved")).toHaveText(
 			"Saved",
 		);
 
@@ -232,7 +232,7 @@ test.describe("Scriptmonkey Advanced E2E", () => {
 		// Wait for CodeMirror parse tree/evaluation to detect error
 		await expect(saveButton).toBeDisabled();
 		await expect(editorPage.locator("#syntax-error-banner")).toBeVisible();
-		await expect(editorPage.locator(".status-tag.status-error")).toHaveText(
+		await expect(editorPage.locator(".status-badge.tag-error")).toHaveText(
 			"Error",
 		);
 
@@ -243,7 +243,7 @@ test.describe("Scriptmonkey Advanced E2E", () => {
 
 		// The Save button must be enabled now since there is valid syntax and changes exist
 		await expect(saveButton).toBeEnabled();
-		await expect(editorPage.locator(".status-tag.status-unsaved")).toHaveText(
+		await expect(editorPage.locator(".status-badge.tag-unsaved")).toHaveText(
 			"Unsaved changes",
 		);
 		await expect(editorPage.locator("#syntax-error-banner")).toBeHidden();
@@ -252,7 +252,7 @@ test.describe("Scriptmonkey Advanced E2E", () => {
 		await saveButton.click();
 
 		// Save status should show "Saved" and Save button should disable
-		await expect(editorPage.locator(".status-tag.status-saved")).toHaveText(
+		await expect(editorPage.locator(".status-badge.tag-saved")).toHaveText(
 			"Saved",
 		);
 		await expect(saveButton).toBeDisabled();
@@ -310,7 +310,7 @@ test.describe("Scriptmonkey Advanced E2E", () => {
 		]);
 
 		// Verify editor page loaded successfully
-		await expect(editorPage.locator("header.editor-header h1")).toHaveText(
+		await expect(editorPage.locator(".editor-title-block h2")).toHaveText(
 			"Test Script - Add Button",
 		);
 
@@ -340,7 +340,7 @@ console.log('downgraded');
 		const saveButton = editorPage.locator("#btn-save-script");
 		await expect(saveButton).toBeEnabled();
 		await saveButton.click();
-		await expect(editorPage.locator(".status-tag.status-saved")).toHaveText(
+		await expect(editorPage.locator(".status-badge.tag-saved")).toHaveText(
 			"Saved",
 		);
 
@@ -442,7 +442,7 @@ console.log('downgraded');
 		await editorPage.keyboard.type("console.log('saved via ctrl+s shortcut');");
 
 		// Verify it shows unsaved changes status
-		await expect(editorPage.locator(".status-tag.status-unsaved")).toHaveText(
+		await expect(editorPage.locator(".status-badge.tag-unsaved")).toHaveText(
 			"Unsaved changes",
 		);
 
@@ -450,7 +450,7 @@ console.log('downgraded');
 		await editorPage.keyboard.press("Control+S");
 
 		// Verify status becomes "Saved" and save button is disabled
-		await expect(editorPage.locator(".status-tag.status-saved")).toHaveText(
+		await expect(editorPage.locator(".status-badge.tag-saved")).toHaveText(
 			"Saved",
 		);
 		await expect(editorPage.locator("#btn-save-script")).toBeDisabled();
@@ -459,7 +459,7 @@ console.log('downgraded');
 		await editorContent.click();
 		await editorPage.keyboard.type("\n// new unsaved comment");
 
-		await expect(editorPage.locator(".status-tag.status-unsaved")).toHaveText(
+		await expect(editorPage.locator(".status-badge.tag-unsaved")).toHaveText(
 			"Unsaved changes",
 		);
 
@@ -473,7 +473,7 @@ console.log('downgraded');
 		});
 
 		// Click the header to guarantee a top-level user gesture is registered by Chromium
-		await editorPage.locator("header.editor-header").click();
+		await editorPage.locator(".editor-view-header").click();
 
 		// Trigger reload which fires beforeunload
 		await editorPage.reload();

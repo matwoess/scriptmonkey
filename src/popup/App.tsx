@@ -47,8 +47,26 @@ export default function App() {
 		onConfirm: () => void;
 	} | null>(null);
 	const [selectedScript, setSelectedScript] = useState<Script | null>(null);
+	const [isDragging, setIsDragging] = useState<boolean>(false);
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	const openDashboard = async (editScriptId?: string) => {
+		const url = chrome.runtime.getURL(
+			`dashboard.html${editScriptId ? `?edit=${editScriptId}` : ""}`,
+		);
+		const tabs = await chrome.tabs.query({
+			url: `${chrome.runtime.getURL("dashboard.html")}*`,
+		});
+		if (tabs.length > 0 && tabs[0].id !== undefined) {
+			await chrome.tabs.update(tabs[0].id, { active: true });
+			if (editScriptId) {
+				await chrome.tabs.update(tabs[0].id, { url });
+			}
+		} else {
+			await chrome.tabs.create({ url });
+		}
+	};
 
 	const loadData = useCallback(async () => {
 		const url = await getCurrentTabUrl();
@@ -67,12 +85,9 @@ export default function App() {
 		loadData().catch(console.error);
 	}, [loadData]);
 
-	const handleAddFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
+	const processFiles = async (files: File[]) => {
 		setAddError("");
 		try {
-			const files = Array.from(e.target.files ?? []);
-			if (!files.length) return;
-
 			const newScripts = await Promise.all(
 				files.map(async (file) => ({
 					filename: file.name,
@@ -81,13 +96,53 @@ export default function App() {
 			);
 
 			await send({ type: "addScripts", scripts: newScripts });
-			await chrome.tabs.reload();
+			const loadedScripts = await send<Script[]>({ type: "getScripts" });
+			const anyActive = newScripts.some((ns) => {
+				const parsed = loadedScripts.find((s) => s.filename === ns.filename);
+				return parsed && isActiveOnUrl(parsed, currentUrl);
+			});
+			if (anyActive) {
+				await chrome.tabs.reload();
+			}
 			await loadData();
 		} catch (error) {
 			setAddError(error instanceof Error ? error.message : String(error));
-		} finally {
-			if (e.target) e.target.value = "";
 		}
+	};
+
+	const handleAddFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const files = Array.from(e.target.files ?? []);
+		if (!files.length) return;
+		void processFiles(files);
+		if (e.target) e.target.value = "";
+	};
+
+	const handleDragOver = (e: React.DragEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+	};
+
+	const handleDragEnter = (e: React.DragEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+		setIsDragging(true);
+	};
+
+	const handleDragLeave = (e: React.DragEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+		if (e.currentTarget === e.target) {
+			setIsDragging(false);
+		}
+	};
+
+	const handleDrop = (e: React.DragEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+		setIsDragging(false);
+		const files = Array.from(e.dataTransfer.files ?? []);
+		if (!files.length) return;
+		void processFiles(files);
 	};
 
 	const handleToggle = async (id: string) => {
@@ -176,7 +231,23 @@ export default function App() {
 	).length;
 
 	return (
-		<>
+		// biome-ignore lint/a11y/noStaticElementInteractions: drag drop container
+		<div
+			onDragOver={handleDragOver}
+			onDragEnter={handleDragEnter}
+			onDragLeave={handleDragLeave}
+			onDrop={handleDrop}
+			style={{ minHeight: "100vh", position: "relative" }}
+		>
+			{isDragging && (
+				<div className="drag-overlay">
+					<div className="drag-overlay-message">
+						<span className="overlay-emoji">🐒</span>
+						<h2>Drop scripts here!</h2>
+						<p>Accepts .js and .user.js files</p>
+					</div>
+				</div>
+			)}
 			<header>
 				<h1>Scriptmonkey</h1>
 				<div className="header-actions">
@@ -212,10 +283,10 @@ export default function App() {
 					<button
 						type="button"
 						className="btn btn-header btn-primary"
-						id="btn-add-file"
-						onClick={() => fileInputRef.current?.click()}
+						id="btn-manage"
+						onClick={() => void openDashboard()}
 					>
-						Add
+						Manage
 					</button>
 				</div>
 
@@ -288,14 +359,14 @@ export default function App() {
 						<div className="step-item">
 							<span className="step-number">1</span>
 							<p>
-								Click the <strong>Add</strong> button in the top right.
+								Click the <strong>Manage</strong> button to open the dashboard.
 							</p>
 						</div>
 						<div className="step-item">
 							<span className="step-number">2</span>
 							<p>
-								Select your <code>.user.js</code> or <code>.js</code> script
-								files from your computer.
+								Or <strong>drag and drop</strong> multiple script files directly
+								here.
 							</p>
 						</div>
 						<div className="step-item">
@@ -309,9 +380,9 @@ export default function App() {
 					<button
 						type="button"
 						className="btn btn-primary btn-welcome"
-						onClick={() => fileInputRef.current?.click()}
+						onClick={() => void openDashboard()}
 					>
-						Add script
+						Manage scripts
 					</button>
 				</div>
 			) : (
@@ -501,14 +572,7 @@ export default function App() {
 								className="btn btn-primary"
 								id="btn-edit-script"
 								onClick={() => {
-									chrome.windows.create({
-										url: chrome.runtime.getURL(
-											`editor.html?id=${selectedScript.id}`,
-										),
-										type: "popup",
-										width: 800,
-										height: 600,
-									});
+									void openDashboard(selectedScript.id);
 									setSelectedScript(null);
 								}}
 							>
@@ -537,7 +601,7 @@ export default function App() {
 					</div>
 				</div>
 			)}
-		</>
+		</div>
 	);
 }
 

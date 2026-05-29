@@ -9,7 +9,7 @@ export default defineConfig({
 		rolldownOptions: {
 			input: {
 				popup: "index.html",
-				editor: "editor.html",
+				dashboard: "dashboard.html",
 			},
 		},
 		chunkSizeWarningLimit: 1024,
