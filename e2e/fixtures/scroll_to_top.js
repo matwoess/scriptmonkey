@@ -6,7 +6,7 @@
 // @match        https://www.matwoess.org/*
 // @match        https://vercel.com/docs/*
 // @grant        none
-// @updateURL    http://localhost:8080/scroll_to_top.user.js
+// @updateURL    http://localhost:8080/scroll_to_top.js
 // ==/UserScript==
 
 (function () {

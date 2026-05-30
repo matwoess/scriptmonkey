@@ -5,7 +5,7 @@
 // @description  Creates an overlay when pressing Shift+K on Vercel docs
 // @match        https://vercel.com/docs/*
 // @grant        none
-// @updateURL    http://localhost:8080/control_palette_overlay.user.js
+// @updateURL    http://localhost:8080/control_palette_overlay.js
 // ==/UserScript==
 
 (function () {

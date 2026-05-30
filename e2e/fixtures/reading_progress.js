@@ -6,7 +6,7 @@
 // @match        https://vercel.com/docs/*
 // @match        https://www.matwoess.org/*
 // @grant        none
-// @updateURL    http://localhost:8080/reading_progress.user.js
+// @updateURL    http://localhost:8080/reading_progress.js
 // ==/UserScript==
 
 (function () {

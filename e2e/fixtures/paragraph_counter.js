@@ -6,7 +6,7 @@
 // @match        https://example.com/site-a/*
 // @match        https://example.com/site-b/*
 // @grant        none
-// @updateURL    http://localhost:8080/paragraph_counter.user.js
+// @updateURL    http://localhost:8080/paragraph_counter.js
 // ==/UserScript==
 
 (function () {

@@ -5,7 +5,7 @@
 // @description  Adds a simple floating button to site-a
 // @match        https://example.com/site-a/*
 // @grant        none
-// @updateURL    http://localhost:8080/add_button.user.js
+// @updateURL    http://localhost:8080/add_button.js
 // ==/UserScript==
 
 (function () {
