@@ -284,6 +284,9 @@ test.describe("Scriptmonkey Advanced E2E", () => {
 		extensionId,
 		context,
 	}) => {
+		page.on("console", (msg) => {
+			console.log(`[POPUP CONSOLE] ${msg.text()}`);
+		});
 		// 1. Open popup
 		await page.goto(`chrome-extension://${extensionId}/index.html`);
 

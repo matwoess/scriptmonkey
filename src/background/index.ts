@@ -249,6 +249,11 @@ async function handleMessage(message: ExtensionMessage): Promise<unknown> {
 						nextVersion: result.meta?.version ?? null,
 					});
 				} catch (error) {
+					console.error(
+						"[BG Update Error] Failed for script:",
+						script.id,
+						error,
+					);
 					updates.push({
 						id: script.id,
 						canUpdate: Boolean(getUpdateUrl(script)),
