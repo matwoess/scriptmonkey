@@ -387,7 +387,7 @@ export default function App() {
 				<div className="drag-overlay">
 					<div className="drag-overlay-message">
 						<img
-							src={chrome.runtime.getURL("icon.svg")}
+							src={chrome.runtime.getURL("images/icon.svg")}
 							className="drag-overlay-logo"
 							alt="logo"
 						/>
@@ -403,7 +403,7 @@ export default function App() {
 					<aside className="sidebar">
 						<div className="sidebar-brand">
 							<img
-								src={chrome.runtime.getURL("icon.svg")}
+								src={chrome.runtime.getURL("images/icon.svg")}
 								className="brand-logo-img"
 								alt="logo"
 							/>
@@ -1115,7 +1115,7 @@ export default function App() {
 							<div className="welcome-view">
 								<div className="welcome-hero">
 									<img
-										src={chrome.runtime.getURL("icon.svg")}
+										src={chrome.runtime.getURL("images/icon.svg")}
 										className="welcome-logo-img"
 										alt="logo"
 									/>

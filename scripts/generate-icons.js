@@ -2,9 +2,9 @@ import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
 
-const input = "public/icon.svg";
+const input = "public/images/icon.svg";
 const sizes = [16, 32, 48, 128];
-const outputDir = "public";
+const outputDir = "public/images";
 
 if (!fs.existsSync(input)) {
 	console.error(`Error: ${input} not found!`);

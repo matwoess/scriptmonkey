@@ -37,10 +37,10 @@ next-env.d.ts
 *.swo
 
 # Generated Icons
-public/icon16.png
-public/icon32.png
-public/icon48.png
-public/icon128.png
+public/images/icon16.png
+public/images/icon32.png
+public/images/icon48.png
+public/images/icon128.png
 
 # Playwright
 playwright-report/

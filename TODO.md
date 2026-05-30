@@ -13,5 +13,3 @@ List of future features and improvements for Scriptmonkey:
   - Implement script version history / change log tracking.
 - **Permissions & Settings**:
   - Granular control over script permissions (e.g., restricting network requests per script).
-- **Tidy up the dist folder.**:
-  - All icon files in a subfolder
