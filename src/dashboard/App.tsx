@@ -67,8 +67,10 @@ export default function App() {
 	const [syntaxErrorMessage, setSyntaxErrorMessage] = useState<string>("");
 	const [hasSyntaxError, setHasSyntaxError] = useState<boolean>(false);
 
-	// Tab states ("details" or "editor")
-	const [activeTab, setActiveTab] = useState<"details" | "editor">("details");
+	// Collapsible metadata state, default to open but persist collapses
+	const [isMetadataCollapsed, setIsMetadataCollapsed] = useState<boolean>(
+		() => localStorage.getItem("metadata_collapsed") === "true",
+	);
 
 	// Confirm modal state
 	const [confirmModal, setConfirmModal] = useState<{
@@ -112,7 +114,6 @@ export default function App() {
 			setErrorMessage("");
 			setSyntaxErrorMessage("");
 			setHasSyntaxError(false);
-			setActiveTab("details");
 
 			// Update URL query parameter
 			const url = new URL(window.location.href);
@@ -132,7 +133,6 @@ export default function App() {
 			if (found) {
 				hasInitializedRef.current = true;
 				handleEdit(found);
-				setActiveTab("editor");
 			}
 		}
 	}, [scripts, handleEdit]);
@@ -755,7 +755,7 @@ export default function App() {
 						</div>
 					</aside>
 
-					{/* Right pane: integrated details/editor view or dashboard welcome */}
+					{/* Right pane: integrated editor/collapsible-metadata split view or dashboard welcome */}
 					<main className="main-content">
 						{selectedScript ? (
 							<div className="editor-view">
@@ -771,6 +771,14 @@ export default function App() {
 											>
 												{selectedScript.enabled ? "Enabled" : "Disabled"}
 											</span>
+											{hasSyntaxError && (
+												<span
+													className="tab-error-badge"
+													style={{ marginLeft: "8px" }}
+												>
+													✕ 1 error
+												</span>
+											)}
 										</div>
 									</div>
 
@@ -805,92 +813,35 @@ export default function App() {
 											</svg>
 											<span>Delete Script</span>
 										</button>
-										{activeTab === "details" ? (
-											<button
-												type="button"
-												className="btn btn-primary"
-												id="btn-edit-script"
-												onClick={() => setActiveTab("editor")}
+										<button
+											type="button"
+											className="btn btn-primary btn-save-changes-styled"
+											id="btn-save-script"
+											onClick={handleSave}
+											disabled={
+												!hasChanges || hasSyntaxError || saveStatus === "saving"
+											}
+										>
+											<svg
+												aria-hidden="true"
+												viewBox="0 0 24 24"
+												width="14"
+												height="14"
+												fill="none"
+												stroke="currentColor"
+												strokeWidth="2.5"
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												className="svg-icon"
 											>
-												<svg
-													aria-hidden="true"
-													viewBox="0 0 24 24"
-													width="14"
-													height="14"
-													fill="none"
-													stroke="currentColor"
-													strokeWidth="2.5"
-													strokeLinecap="round"
-													strokeLinejoin="round"
-													className="svg-icon"
-												>
-													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-													<path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-												</svg>
-												<span>Edit Script</span>
-											</button>
-										) : (
-											<button
-												type="button"
-												className="btn btn-primary btn-save-changes-styled"
-												id="btn-save-script"
-												onClick={handleSave}
-												disabled={
-													!hasChanges ||
-													hasSyntaxError ||
-													saveStatus === "saving"
-												}
-											>
-												<svg
-													aria-hidden="true"
-													viewBox="0 0 24 24"
-													width="14"
-													height="14"
-													fill="none"
-													stroke="currentColor"
-													strokeWidth="2.5"
-													strokeLinecap="round"
-													strokeLinejoin="round"
-													className="svg-icon"
-												>
-													<polyline points="20 6 9 17 4 12" />
-												</svg>
-												<span>
-													{saveStatus === "saving"
-														? "Saving..."
-														: "Save Changes"}
-												</span>
-											</button>
-										)}
+												<polyline points="20 6 9 17 4 12" />
+											</svg>
+											<span>
+												{saveStatus === "saving" ? "Saving..." : "Save Changes"}
+											</span>
+										</button>
 									</div>
 								</header>
-
-								{/* Tabs subheader row */}
-								<div className="editor-subheader">
-									<div className="editor-tabs">
-										<button
-											type="button"
-											className={`tab-btn ${activeTab === "details" ? "active" : ""}`}
-											onClick={() => setActiveTab("details")}
-										>
-											Details
-										</button>
-										<button
-											type="button"
-											className={`tab-btn ${activeTab === "editor" ? "active" : ""}`}
-											onClick={() => setActiveTab("editor")}
-										>
-											Editor
-										</button>
-									</div>
-
-									{/* Error indicator on the right of tabs */}
-									<div className="editor-tabs-right">
-										{activeTab === "editor" && hasSyntaxError && (
-											<span className="tab-error-badge">✕ 1 error</span>
-										)}
-									</div>
-								</div>
 
 								{/* Hidden status elements for E2E tests */}
 								<div style={{ display: "none" }}>
@@ -910,9 +861,9 @@ export default function App() {
 									)}
 								</div>
 
-								{/* Tab view rendering */}
-								{activeTab === "editor" && (
-									<div className="editor-workspace-tab">
+								{/* Split Workspace */}
+								<div className="editor-workspace">
+									<div className="editor-wrapper-box">
 										{hasSyntaxError && syntaxErrorMessage && (
 											<div
 												id="syntax-error-banner"
@@ -960,138 +911,187 @@ export default function App() {
 													<span>Error: {errorMessage}</span>
 												</div>
 											)}
-										<div className="editor-wrapper-box">
-											<CodeMirror
-												value={code}
-												height="100%"
-												theme="dark"
-												extensions={[javascript()]}
-												onChange={handleCodeChange}
-												className="codemirror-editor"
-											/>
-										</div>
+										<CodeMirror
+											value={code}
+											height="100%"
+											theme="dark"
+											extensions={[javascript()]}
+											onChange={handleCodeChange}
+											className="codemirror-editor"
+										/>
 									</div>
-								)}
 
-								{activeTab === "details" && (
-									<div className="editor-workspace-tab tab-details-view">
-										<div className="details-grid-list">
-											<div className="details-row">
-												<div className="details-label">Name</div>
-												<div className="details-val">
-													{selectedScript.meta.name ?? selectedScript.filename}
-												</div>
+									{/* Collapsible bottom metadata panel */}
+									<div
+										className={`metadata-panel ${isMetadataCollapsed ? "collapsed" : ""}`}
+									>
+										<button
+											type="button"
+											className="metadata-header"
+											onClick={() => {
+												const nextState = !isMetadataCollapsed;
+												setIsMetadataCollapsed(nextState);
+												localStorage.setItem(
+													"metadata_collapsed",
+													String(nextState),
+												);
+											}}
+										>
+											<div className="metadata-title">
+												<svg
+													aria-hidden="true"
+													viewBox="0 0 24 24"
+													width="14"
+													height="14"
+													fill="none"
+													stroke="currentColor"
+													strokeWidth="2"
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													className="svg-icon"
+												>
+													<circle cx="12" cy="12" r="10" />
+													<line x1="12" y1="16" x2="12" y2="12" />
+													<line x1="12" y1="8" x2="12.01" y2="8" />
+												</svg>
+												<span>Script Details & Metadata</span>
 											</div>
-											<div className="details-row">
-												<div className="details-label">Description</div>
-												<div className="details-val">
-													{selectedScript.meta.description ??
-														"Shows no description"}
-												</div>
-											</div>
-											<div className="details-row">
-												<div className="details-label">Version</div>
-												<div className="details-val">
-													{selectedScript.meta.version ?? "1.0.0"}
-												</div>
-											</div>
-											<div className="details-row">
-												<div className="details-label">Created</div>
-												<div className="details-val">
-													{formatDate(selectedScript.createdAt)}
-												</div>
-											</div>
-											<div className="details-row">
-												<div className="details-label">Last Updated</div>
-												<div className="details-val">
-													{formatDate(
-														selectedScript.updatedAt ??
-															selectedScript.createdAt,
-													)}{" "}
-													(
-													{getRelativeTime(
-														selectedScript.updatedAt ??
-															selectedScript.createdAt,
-													)}
-													)
-												</div>
-											</div>
-											<div className="details-row">
-												<div className="details-label">Size</div>
-												<div className="details-val">
-													{(selectedScript.source.length / 1024).toFixed(1)} KB
-												</div>
-											</div>
-											<div className="details-row">
-												<div className="details-label">Match Sites</div>
-												<div className="details-val">
-													<div className="detail-badges">
-														{selectedScript.meta.matches.map((m) => (
-															<span key={m} className="match-badge">
-																{m}
-															</span>
-														))}
+											<svg
+												aria-hidden="true"
+												viewBox="0 0 24 24"
+												width="14"
+												height="14"
+												fill="none"
+												stroke="currentColor"
+												strokeWidth="2.5"
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												className="chevron-icon"
+											>
+												<polyline points="18 15 12 9 6 15" />
+											</svg>
+										</button>
+										<div className="metadata-content">
+											<div className="details-grid-list">
+												<div className="details-row">
+													<div className="details-label">Name</div>
+													<div className="details-val">
+														{selectedScript.meta.name ??
+															selectedScript.filename}
 													</div>
 												</div>
-											</div>
-											<div className="details-row">
-												<div className="details-label">Run At</div>
-												<div className="details-val">
-													{selectedScript.meta["run-at"] === "document-start"
-														? "Document Start (document-start)"
-														: "Document Idle (document-idle)"}
+												<div className="details-row wide">
+													<div className="details-label">Description</div>
+													<div className="details-val">
+														{selectedScript.meta.description ??
+															"Shows no description"}
+													</div>
 												</div>
-											</div>
-											<div className="details-row">
-												<div className="details-label">Grant</div>
-												<div className="details-val">
-													<span>
-														{selectedScript.meta.grant ?? "none"}
-														{selectedScript.meta.grant &&
-															selectedScript.meta.grant !== "none" && (
+												<div className="details-row">
+													<div className="details-label">Version</div>
+													<div className="details-val">
+														{selectedScript.meta.version ?? "1.0.0"}
+													</div>
+												</div>
+												<div className="details-row">
+													<div className="details-label">Created</div>
+													<div className="details-val">
+														{formatDate(selectedScript.createdAt)}
+													</div>
+												</div>
+												<div className="details-row">
+													<div className="details-label">Last Updated</div>
+													<div className="details-val">
+														{formatDate(
+															selectedScript.updatedAt ??
+																selectedScript.createdAt,
+														)}{" "}
+														(
+														{getRelativeTime(
+															selectedScript.updatedAt ??
+																selectedScript.createdAt,
+														)}
+														)
+													</div>
+												</div>
+												<div className="details-row">
+													<div className="details-label">Size</div>
+													<div className="details-val">
+														{(selectedScript.source.length / 1024).toFixed(1)}{" "}
+														KB
+													</div>
+												</div>
+												<div className="details-row wide">
+													<div className="details-label">Match Sites</div>
+													<div className="details-val">
+														<div className="detail-badges">
+															{selectedScript.meta.matches.map((m) => (
+																<span key={m} className="match-badge">
+																	{m}
+																</span>
+															))}
+														</div>
+													</div>
+												</div>
+												<div className="details-row">
+													<div className="details-label">Run At</div>
+													<div className="details-val">
+														{selectedScript.meta["run-at"] === "document-start"
+															? "Document Start (document-start)"
+															: "Document Idle (document-idle)"}
+													</div>
+												</div>
+												<div className="details-row">
+													<div className="details-label">Grant</div>
+													<div className="details-val">
+														<span>
+															{selectedScript.meta.grant ?? "none"}
+															{selectedScript.meta.grant &&
+																selectedScript.meta.grant !== "none" && (
+																	<span className="unsupported-tag">
+																		{" "}
+																		(unsupported)
+																	</span>
+																)}
+														</span>
+													</div>
+												</div>
+												<div className="details-row wide">
+													<div className="details-label">Includes</div>
+													<div className="details-val">
+														<span>
+															{Array.isArray(selectedScript.meta.include)
+																? selectedScript.meta.include.join(", ")
+																: (selectedScript.meta.include ?? "—")}
+															{selectedScript.meta.include && (
 																<span className="unsupported-tag">
 																	{" "}
 																	(unsupported)
 																</span>
 															)}
-													</span>
+														</span>
+													</div>
 												</div>
-											</div>
-											<div className="details-row">
-												<div className="details-label">Includes</div>
-												<div className="details-val">
-													<span>
-														{Array.isArray(selectedScript.meta.include)
-															? selectedScript.meta.include.join(", ")
-															: (selectedScript.meta.include ?? "—")}
-														{selectedScript.meta.include && (
-															<span className="unsupported-tag">
-																{" "}
-																(unsupported)
-															</span>
-														)}
-													</span>
-												</div>
-											</div>
-											<div className="details-row">
-												<div className="details-label">Excludes</div>
-												<div className="details-val">
-													<span>
-														{Array.isArray(selectedScript.meta.exclude)
-															? selectedScript.meta.exclude.join(", ")
-															: (selectedScript.meta.exclude ?? "—")}
-														{selectedScript.meta.exclude && (
-															<span className="unsupported-tag">
-																{" "}
-																(unsupported)
-															</span>
-														)}
-													</span>
+												<div className="details-row wide">
+													<div className="details-label">Excludes</div>
+													<div className="details-val">
+														<span>
+															{Array.isArray(selectedScript.meta.exclude)
+																? selectedScript.meta.exclude.join(", ")
+																: (selectedScript.meta.exclude ?? "—")}
+															{selectedScript.meta.exclude && (
+																<span className="unsupported-tag">
+																	{" "}
+																	(unsupported)
+																</span>
+															)}
+														</span>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								)}
+								</div>
 							</div>
 						) : (
 							<div className="welcome-view">
