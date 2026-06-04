@@ -1,0 +1,28 @@
+:root {
+	--bg: #101114; /* sleek neutral dark gray */
+	--bg-gradient: linear-gradient(135deg, #101114 0%, #141518 100%);
+	--surface: #1a1c20; /* dark gray card bg */
+	--surface-sidebar: #141518; /* slightly darker neutral gray for sidebar */
+	--surface-hover: #22242a; /* hover cool gray */
+	--surface-card-active: #1e2026; /* active script card bg for popup */
+	--surface-card-inactive: #141518; /* inactive script card bg for popup */
+	--border: #292c33; /* sleek cool gray border */
+	--border-hover: #383c46;
+	--text: #abb2bf; /* sleek silver-gray text */
+	--text-bold: #f3f4f6; /* bright off-white text */
+	--muted: #6f7682; /* cool gray/slate muted */
+	--accent: #00d2ff; /* cyan accent */
+	--accent-gradient: linear-gradient(135deg, #00d2ff 0%, #00a8e8 100%);
+	--yellow: #f97316;
+	--badge-bg: #3e2a20; /* terracotta badge background */
+	--badge-text: #ff9e64; /* badge orange text */
+	--danger: #f7768e;
+	--danger-bg: rgba(247, 118, 142, 0.1);
+	--danger-border: rgba(247, 118, 142, 0.25);
+	--green: #73daca;
+	--radius: 8px;
+	--transition-speed: 0.15s;
+	--font: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
+	--font-mono:
+		"Fira Code", "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}

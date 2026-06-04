@@ -389,7 +389,8 @@ export default function App() {
 				<>
 					<div id="active-section">
 						<div className="section-label">
-							{activeScripts.length} Active on this page
+							<span className="section-count">{activeScripts.length}</span>{" "}
+							Active on this page
 						</div>
 						<div id="active-list">
 							{activeScripts.length > 0 ? (
@@ -418,7 +419,8 @@ export default function App() {
 					{otherScripts.length > 0 && (
 						<div id="other-section">
 							<div className="section-label">
-								{otherScripts.length} Other scripts
+								<span className="section-count">{otherScripts.length}</span>{" "}
+								Other scripts
 							</div>
 							<div id="other-list">
 								{otherScripts.map((script) => (
@@ -648,7 +650,11 @@ function ScriptItem({
 						</div>
 					))}
 				</div>
-				{updateLabel && <div className="script-update">{updateLabel}</div>}
+				{updateLabel && (
+					<div className={`script-update ${updateInfo?.error ? "error" : ""}`}>
+						{updateLabel}
+					</div>
+				)}
 			</button>
 			{hasCheckedUpdates && updateInfo?.hasUpdate && (
 				<button type="button" className="btn btn-update" onClick={onUpdate}>
