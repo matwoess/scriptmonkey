@@ -972,120 +972,297 @@ export default function App() {
 											</svg>
 										</button>
 										<div className="metadata-content">
-											<div className="details-grid-list">
-												<div className="details-row">
-													<div className="details-label">Name</div>
-													<div className="details-val">
-														{selectedScript.meta.name ??
-															selectedScript.filename}
+											<div className="metadata-grid">
+												{/* Card 1: General */}
+												<div className="metadata-card">
+													<div className="metadata-card-header">
+														<svg
+															aria-hidden="true"
+															viewBox="0 0 24 24"
+															width="14"
+															height="14"
+															fill="none"
+															stroke="currentColor"
+															strokeWidth="2.5"
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															className="svg-icon"
+														>
+															<line x1="8" y1="6" x2="21" y2="6" />
+															<line x1="8" y1="12" x2="21" y2="12" />
+															<line x1="8" y1="18" x2="21" y2="18" />
+															<line x1="3" y1="6" x2="3.01" y2="6" />
+															<line x1="3" y1="12" x2="3.01" y2="12" />
+															<line x1="3" y1="18" x2="3.01" y2="18" />
+														</svg>
+														<span>General</span>
 													</div>
-												</div>
-												<div className="details-row wide">
-													<div className="details-label">Description</div>
-													<div className="details-val">
-														{selectedScript.meta.description ??
-															"Shows no description"}
-													</div>
-												</div>
-												<div className="details-row">
-													<div className="details-label">Version</div>
-													<div className="details-val">
-														{selectedScript.meta.version ?? "1.0.0"}
-													</div>
-												</div>
-												<div className="details-row">
-													<div className="details-label">Created</div>
-													<div className="details-val">
-														{formatDate(selectedScript.createdAt)}
-													</div>
-												</div>
-												<div className="details-row">
-													<div className="details-label">Last Updated</div>
-													<div className="details-val">
-														{formatDate(
-															selectedScript.updatedAt ??
-																selectedScript.createdAt,
-														)}{" "}
-														(
-														{getRelativeTime(
-															selectedScript.updatedAt ??
-																selectedScript.createdAt,
-														)}
-														)
-													</div>
-												</div>
-												<div className="details-row">
-													<div className="details-label">Size</div>
-													<div className="details-val">
-														{(selectedScript.source.length / 1024).toFixed(1)}{" "}
-														KB
-													</div>
-												</div>
-												<div className="details-row wide">
-													<div className="details-label">Match Sites</div>
-													<div className="details-val">
-														<div className="detail-badges">
-															{selectedScript.meta.matches.map((m) => (
-																<span key={m} className="match-badge">
-																	{m}
+													<div className="metadata-card-body">
+														<div className="metadata-field">
+															<span className="metadata-field-label">Name</span>
+															<span className="metadata-field-value">
+																{selectedScript.meta.name ??
+																	selectedScript.filename}
+															</span>
+														</div>
+														<div className="metadata-field">
+															<span className="metadata-field-label">
+																Description
+															</span>
+															<span className="metadata-field-value">
+																{selectedScript.meta.description ??
+																	"Shows no description"}
+															</span>
+														</div>
+														<div className="metadata-field">
+															<span className="metadata-field-label">
+																Version
+															</span>
+															<span className="metadata-field-value">
+																{selectedScript.meta.version ?? "1.0.0"}
+															</span>
+														</div>
+														{selectedScript.meta.author && (
+															<div className="metadata-field">
+																<span className="metadata-field-label">
+																	Author
 																</span>
-															))}
+																<span className="metadata-field-value">
+																	{selectedScript.meta.author}
+																</span>
+															</div>
+														)}
+														<div className="metadata-field">
+															<span className="metadata-field-label">Size</span>
+															<span className="metadata-field-value">
+																{(selectedScript.source.length / 1024).toFixed(
+																	1,
+																)}{" "}
+																KB
+															</span>
 														</div>
 													</div>
 												</div>
-												<div className="details-row">
-													<div className="details-label">Run At</div>
-													<div className="details-val">
-														{selectedScript.meta["run-at"] === "document-start"
-															? "Document Start (document-start)"
-															: "Document Idle (document-idle)"}
+
+												{/* Card 2: Match Rules */}
+												<div className="metadata-card">
+													<div className="metadata-card-header">
+														<svg
+															aria-hidden="true"
+															viewBox="0 0 24 24"
+															width="14"
+															height="14"
+															fill="none"
+															stroke="currentColor"
+															strokeWidth="2.5"
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															className="svg-icon"
+														>
+															<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+														</svg>
+														<span>
+															Match Rules ({selectedScript.meta.matches.length})
+														</span>
+													</div>
+													<div className="metadata-card-body matches-list-container">
+														{selectedScript.meta.matches.map((m) => (
+															<div key={m} className="match-rule-item">
+																<span className="match-icon-check">✓</span>
+																<span className="match-pattern" title={m}>
+																	{m}
+																</span>
+															</div>
+														))}
 													</div>
 												</div>
-												<div className="details-row">
-													<div className="details-label">Grant</div>
-													<div className="details-val">
-														<span>
-															{selectedScript.meta.grant ?? "none"}
-															{selectedScript.meta.grant &&
-																selectedScript.meta.grant !== "none" && (
-																	<span className="unsupported-tag">
-																		{" "}
-																		(unsupported)
-																	</span>
+
+												{/* Card 3: Execution */}
+												<div className="metadata-card">
+													<div className="metadata-card-header">
+														<svg
+															aria-hidden="true"
+															viewBox="0 0 24 24"
+															width="14"
+															height="14"
+															fill="none"
+															stroke="currentColor"
+															strokeWidth="2.5"
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															className="svg-icon"
+														>
+															<polygon points="5 3 19 12 5 21 5 3" />
+														</svg>
+														<span>Execution</span>
+													</div>
+													<div className="metadata-card-body">
+														<div className="metadata-field">
+															<span className="metadata-field-label">
+																Enabled
+															</span>
+															<span
+																className="metadata-field-value"
+																style={{
+																	color: selectedScript.enabled
+																		? "var(--accent)"
+																		: "var(--muted)",
+																}}
+															>
+																{selectedScript.enabled ? "Yes" : "No"}
+															</span>
+														</div>
+														<div className="metadata-field">
+															<span className="metadata-field-label">
+																Run At
+															</span>
+															<span className="metadata-field-value">
+																{selectedScript.meta["run-at"] ===
+																"document-start"
+																	? "document-start"
+																	: "document-idle"}
+															</span>
+														</div>
+														<div className="metadata-field">
+															<span className="metadata-field-label">
+																Last Updated
+															</span>
+															<span className="metadata-field-value">
+																{formatDate(
+																	selectedScript.updatedAt ??
+																		selectedScript.createdAt,
 																)}
-														</span>
+															</span>
+														</div>
 													</div>
 												</div>
-												<div className="details-row wide">
-													<div className="details-label">Includes</div>
-													<div className="details-val">
-														<span>
-															{Array.isArray(selectedScript.meta.include)
-																? selectedScript.meta.include.join(", ")
-																: (selectedScript.meta.include ?? "—")}
-															{selectedScript.meta.include && (
-																<span className="unsupported-tag">
-																	{" "}
-																	(unsupported)
-																</span>
-															)}
-														</span>
+
+												{/* Card 4: Update */}
+												<div className="metadata-card card-span-2">
+													<div className="metadata-card-header">
+														<svg
+															aria-hidden="true"
+															viewBox="0 0 24 24"
+															width="14"
+															height="14"
+															fill="none"
+															stroke="currentColor"
+															strokeWidth="2.5"
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															className="svg-icon"
+														>
+															<path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+														</svg>
+														<span>Update</span>
+													</div>
+													<div className="metadata-card-body">
+														<div className="metadata-field">
+															<span className="metadata-field-label">
+																Update URL
+															</span>
+															<span className="metadata-field-value font-mono">
+																{selectedScript.meta.updateURL ??
+																	selectedScript.meta.updateurl ??
+																	"—"}
+															</span>
+														</div>
+														<div className="metadata-field">
+															<span className="metadata-field-label">
+																Download URL
+															</span>
+															<span className="metadata-field-value font-mono">
+																{selectedScript.meta.downloadURL ??
+																	selectedScript.meta.downloadurl ??
+																	"—"}
+															</span>
+														</div>
+														<div className="metadata-field">
+															<span className="metadata-field-label">
+																Status
+															</span>
+															<span className="metadata-field-value">
+																{(() => {
+																	const updateInfo = updatesById.get(
+																		selectedScript.id,
+																	);
+																	if (hasCheckedUpdates) {
+																		if (updateInfo?.hasUpdate) {
+																			return `Update available: ${updateInfo.currentVersion ?? "?"} -> ${updateInfo.nextVersion ?? "?"}`;
+																		}
+																		if (updateInfo?.error) {
+																			return `Update check failed: ${updateInfo.error}`;
+																		}
+																		return "Up to date";
+																	}
+																	return "Not checked";
+																})()}
+															</span>
+														</div>
 													</div>
 												</div>
-												<div className="details-row wide">
-													<div className="details-label">Excludes</div>
-													<div className="details-val">
-														<span>
-															{Array.isArray(selectedScript.meta.exclude)
-																? selectedScript.meta.exclude.join(", ")
-																: (selectedScript.meta.exclude ?? "—")}
-															{selectedScript.meta.exclude && (
-																<span className="unsupported-tag">
-																	{" "}
-																	(unsupported)
+
+												{/* Card 5: Advanced */}
+												<div className="metadata-card">
+													<div className="metadata-card-header">
+														<svg
+															aria-hidden="true"
+															viewBox="0 0 24 24"
+															width="14"
+															height="14"
+															fill="none"
+															stroke="currentColor"
+															strokeWidth="2.5"
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															className="svg-icon"
+														>
+															<circle cx="12" cy="12" r="3" />
+															<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+														</svg>
+														<span>Advanced</span>
+													</div>
+													<div className="metadata-card-body">
+														<div className="metadata-field">
+															<span className="metadata-field-label">
+																Namespace
+															</span>
+															<span className="metadata-field-value font-mono">
+																{selectedScript.meta.namespace ?? "—"}
+															</span>
+														</div>
+														<div className="metadata-field">
+															<span className="metadata-field-label">
+																Grants
+															</span>
+															<span className="metadata-field-value font-mono">
+																{selectedScript.meta.grant ?? "none"}
+															</span>
+														</div>
+														{selectedScript.meta.include && (
+															<div className="metadata-field">
+																<span className="metadata-field-label">
+																	Includes
 																</span>
-															)}
-														</span>
+																<span className="metadata-field-value">
+																	{Array.isArray(selectedScript.meta.include)
+																		? selectedScript.meta.include.join(", ")
+																		: selectedScript.meta.include}
+																</span>
+															</div>
+														)}
+														{selectedScript.meta.exclude && (
+															<div className="metadata-field">
+																<span className="metadata-field-label">
+																	Excludes
+																</span>
+																<span className="metadata-field-value">
+																	{Array.isArray(selectedScript.meta.exclude)
+																		? selectedScript.meta.exclude.join(", ")
+																		: selectedScript.meta.exclude}
+																</span>
+															</div>
+														)}
 													</div>
 												</div>
 											</div>
