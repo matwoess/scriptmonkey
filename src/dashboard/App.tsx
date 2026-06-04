@@ -72,6 +72,91 @@ export default function App() {
 		() => localStorage.getItem("metadata_collapsed") === "true",
 	);
 
+	// Draggable sidebar state
+	const [sidebarWidth, setSidebarWidth] = useState<number>(() => {
+		const saved = localStorage.getItem("sidebar_width");
+		const initial = saved ? Number.parseInt(saved, 10) : 440;
+		const minEditorWidth = 480;
+		const minSidebarWidth = 240;
+		if (window.innerWidth < minEditorWidth + minSidebarWidth) {
+			return Math.max(
+				minSidebarWidth,
+				Math.min(initial, window.innerWidth - 300),
+			);
+		}
+		return Math.min(initial, window.innerWidth - minEditorWidth);
+	});
+	const [isResizing, setIsResizing] = useState<boolean>(false);
+
+	const startResizing = useCallback((e: React.MouseEvent) => {
+		e.preventDefault();
+		setIsResizing(true);
+	}, []);
+
+	const stopResizing = useCallback(() => {
+		setIsResizing(false);
+	}, []);
+
+	const resize = useCallback(
+		(e: MouseEvent) => {
+			if (isResizing) {
+				const minEditorWidth = 480;
+				const minSidebarWidth = 240;
+				const maxSidebarWidth = Math.max(
+					minSidebarWidth,
+					window.innerWidth - minEditorWidth,
+				);
+				const newWidth = Math.max(
+					minSidebarWidth,
+					Math.min(maxSidebarWidth, e.clientX),
+				);
+				setSidebarWidth(newWidth);
+				localStorage.setItem("sidebar_width", String(newWidth));
+			}
+		},
+		[isResizing],
+	);
+
+	useEffect(() => {
+		if (isResizing) {
+			window.addEventListener("mousemove", resize);
+			window.addEventListener("mouseup", stopResizing);
+			document.body.style.cursor = "col-resize";
+			document.body.style.userSelect = "none";
+		} else {
+			window.removeEventListener("mousemove", resize);
+			window.removeEventListener("mouseup", stopResizing);
+			document.body.style.cursor = "";
+			document.body.style.userSelect = "";
+		}
+		return () => {
+			window.removeEventListener("mousemove", resize);
+			window.removeEventListener("mouseup", stopResizing);
+			document.body.style.cursor = "";
+			document.body.style.userSelect = "";
+		};
+	}, [isResizing, resize, stopResizing]);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setSidebarWidth((prev) => {
+				const minEditorWidth = 480;
+				const minSidebarWidth = 240;
+				if (window.innerWidth < minEditorWidth + minSidebarWidth) {
+					return Math.max(
+						minSidebarWidth,
+						Math.min(prev, window.innerWidth - 300),
+					);
+				}
+				return Math.min(prev, window.innerWidth - minEditorWidth);
+			});
+		};
+		window.addEventListener("resize", handleResize);
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, []);
+
 	// Confirm modal state
 	const [confirmModal, setConfirmModal] = useState<{
 		show: boolean;
@@ -400,7 +485,7 @@ export default function App() {
 			<div className="app-container">
 				<div className="workspace-container">
 					{/* Left sidebar: brand, import zone, search, and list */}
-					<aside className="sidebar">
+					<aside className="sidebar" style={{ width: sidebarWidth }}>
 						<div className="sidebar-brand">
 							<img
 								src={chrome.runtime.getURL("images/icon.svg")}
@@ -754,6 +839,11 @@ export default function App() {
 							)}
 						</div>
 					</aside>
+					{/* biome-ignore lint/a11y/noStaticElementInteractions: drag resizer handle */}
+					<div
+						className={`sidebar-resizer ${isResizing ? "resizing" : ""}`}
+						onMouseDown={startResizing}
+					/>
 
 					{/* Right pane: integrated editor/collapsible-metadata split view or dashboard welcome */}
 					<main className="main-content">
@@ -787,7 +877,7 @@ export default function App() {
 										{saveStatus === "unsaved" && (
 											<span className="unsaved-header-label">
 												<span className="unsaved-status-dot" />
-												Unsaved changes
+												<span>Unsaved changes</span>
 											</span>
 										)}
 										<button
@@ -795,6 +885,7 @@ export default function App() {
 											className="btn btn-danger-outline"
 											id="btn-delete-details"
 											onClick={() => handleRemove(selectedScript)}
+											title="Delete Script"
 										>
 											<svg
 												aria-hidden="true"
@@ -820,6 +911,9 @@ export default function App() {
 											onClick={handleSave}
 											disabled={
 												!hasChanges || hasSyntaxError || saveStatus === "saving"
+											}
+											title={
+												saveStatus === "saving" ? "Saving..." : "Save Changes"
 											}
 										>
 											<svg
