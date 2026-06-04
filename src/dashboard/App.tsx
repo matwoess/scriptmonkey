@@ -44,6 +44,22 @@ function getRelativeTime(timestamp?: number): string {
 	return "just now";
 }
 
+const MIN_EDITOR_WIDTH = 480;
+const MIN_SIDEBAR_WIDTH = 240;
+
+function getConstrainedSidebarWidth(
+	width: number,
+	windowWidth: number,
+): number {
+	if (windowWidth < MIN_EDITOR_WIDTH + MIN_SIDEBAR_WIDTH) {
+		return Math.max(MIN_SIDEBAR_WIDTH, Math.min(width, windowWidth - 300));
+	}
+	return Math.max(
+		MIN_SIDEBAR_WIDTH,
+		Math.min(width, windowWidth - MIN_EDITOR_WIDTH),
+	);
+}
+
 export default function App() {
 	const [scripts, setScripts] = useState<Script[]>([]);
 	const [selectedScript, setSelectedScript] = useState<Script | null>(null);
@@ -76,15 +92,7 @@ export default function App() {
 	const [sidebarWidth, setSidebarWidth] = useState<number>(() => {
 		const saved = localStorage.getItem("sidebar_width");
 		const initial = saved ? Number.parseInt(saved, 10) : 440;
-		const minEditorWidth = 480;
-		const minSidebarWidth = 240;
-		if (window.innerWidth < minEditorWidth + minSidebarWidth) {
-			return Math.max(
-				minSidebarWidth,
-				Math.min(initial, window.innerWidth - 300),
-			);
-		}
-		return Math.min(initial, window.innerWidth - minEditorWidth);
+		return getConstrainedSidebarWidth(initial, window.innerWidth);
 	});
 	const [isResizing, setIsResizing] = useState<boolean>(false);
 
@@ -100,15 +108,9 @@ export default function App() {
 	const resize = useCallback(
 		(e: MouseEvent) => {
 			if (isResizing) {
-				const minEditorWidth = 480;
-				const minSidebarWidth = 240;
-				const maxSidebarWidth = Math.max(
-					minSidebarWidth,
-					window.innerWidth - minEditorWidth,
-				);
-				const newWidth = Math.max(
-					minSidebarWidth,
-					Math.min(maxSidebarWidth, e.clientX),
+				const newWidth = getConstrainedSidebarWidth(
+					e.clientX,
+					window.innerWidth,
 				);
 				setSidebarWidth(newWidth);
 				localStorage.setItem("sidebar_width", String(newWidth));
@@ -139,17 +141,9 @@ export default function App() {
 
 	useEffect(() => {
 		const handleResize = () => {
-			setSidebarWidth((prev) => {
-				const minEditorWidth = 480;
-				const minSidebarWidth = 240;
-				if (window.innerWidth < minEditorWidth + minSidebarWidth) {
-					return Math.max(
-						minSidebarWidth,
-						Math.min(prev, window.innerWidth - 300),
-					);
-				}
-				return Math.min(prev, window.innerWidth - minEditorWidth);
-			});
+			setSidebarWidth((prev) =>
+				getConstrainedSidebarWidth(prev, window.innerWidth),
+			);
 		};
 		window.addEventListener("resize", handleResize);
 		return () => {
