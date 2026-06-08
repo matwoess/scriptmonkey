@@ -2,7 +2,7 @@
 	"manifest_version": 3,
 	"name": "Scriptmonkey",
 	"version": "0.8.0",
-	"description": "Lightweight user script manager.",
+	"description": "A lightweight Manifest V3 user script manager to customize any website.",
 	"permissions": ["storage", "tabs", "userScripts"],
 	"host_permissions": ["<all_urls>"],
 	"background": {
