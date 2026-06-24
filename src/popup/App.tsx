@@ -349,7 +349,11 @@ export default function App() {
 
 			{scripts.length === 0 ? (
 				<div className="empty-state-welcome">
-					<div className="welcome-illustration">🐒</div>
+					<img
+						src={chrome.runtime.getURL("images/icon.svg")}
+						className="welcome-logo-img"
+						alt="logo"
+					/>
 					<h2>Get Started with Scriptmonkey</h2>
 					<p className="welcome-desc">
 						You haven't added any user scripts yet. User scripts allow you to
@@ -379,7 +383,7 @@ export default function App() {
 					</div>
 					<button
 						type="button"
-						className="btn btn-primary btn-welcome"
+						className="btn btn-welcome"
 						onClick={() => void openDashboard()}
 					>
 						Manage scripts
