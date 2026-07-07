@@ -383,7 +383,7 @@ export default function App() {
 					</div>
 					<button
 						type="button"
-						className="btn btn-welcome"
+						className="btn btn-primary btn-welcome"
 						onClick={() => void openDashboard()}
 					>
 						Manage scripts

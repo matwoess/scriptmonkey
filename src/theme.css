@@ -13,9 +13,13 @@
 	--muted: #6f7682; /* cool gray/slate muted */
 	--accent: #00d2ff; /* cyan accent */
 	--accent-gradient: linear-gradient(135deg, #00d2ff 0%, #00a8e8 100%);
+	--text-on-accent: #101114; /* high-contrast dark text on accent colors */
+	--backdrop-bg: rgba(16, 17, 20, 0.85); /* modal backdrop background */
+	--overlay-bg: rgba(16, 17, 20, 0.95); /* drag overlay background */
 	--yellow: #f97316;
 	--badge-bg: #3e2a20; /* terracotta badge background */
 	--badge-text: #ff9e64; /* badge orange text */
+	--badge-border: rgba(255, 158, 100, 0.25); /* terracotta badge border */
 	--danger: #f7768e;
 	--danger-bg: rgba(247, 118, 142, 0.1);
 	--danger-border: rgba(247, 118, 142, 0.25);
