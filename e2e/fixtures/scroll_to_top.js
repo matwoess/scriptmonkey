@@ -3,8 +3,8 @@
 // @namespace    http://scriptmonkey.local/
 // @version      1.3
 // @description  Adds a smooth scroll to top button
-// @match        https://www.matwoess.org/*
 // @match        https://vercel.com/docs/*
+// @match        https://example.com/*
 // @grant        none
 // @updateURL    http://localhost:8080/scroll_to_top.js
 // ==/UserScript==

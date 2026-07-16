@@ -4,7 +4,7 @@
 // @version      1.2
 // @description  Adds a reading progress bar at the top of the page
 // @match        https://vercel.com/docs/*
-// @match        https://www.matwoess.org/*
+// @match        https://example.com/*
 // @grant        none
 // @updateURL    http://localhost:8080/reading_progress.js
 // ==/UserScript==
