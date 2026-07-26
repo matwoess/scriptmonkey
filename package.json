@@ -20,16 +20,16 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://mathiaswoess@github.com/mathiaswoess/Scriptmonkey.git"
+		"url": "git+https://matwoess@github.com/matwoess/Scriptmonkey.git"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"type": "module",
 	"bugs": {
-		"url": "https://github.com/mathiaswoess/Scriptmonkey/issues"
+		"url": "https://github.com/matwoess/Scriptmonkey/issues"
 	},
-	"homepage": "https://github.com/mathiaswoess/Scriptmonkey#readme",
+	"homepage": "https://github.com/matwoess/Scriptmonkey#readme",
 	"dependencies": {
 		"@codemirror/lang-javascript": "^6.2.5",
 		"@uiw/react-codemirror": "^4.25.10",

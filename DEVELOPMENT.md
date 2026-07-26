@@ -6,7 +6,7 @@ This document provides instructions for setting up, developing, testing, formatt
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/mathiaswoess/Scriptmonkey.git
+   git clone https://github.com/matwoess/Scriptmonkey.git
    cd Scriptmonkey
    ```
 2. Install dependencies:

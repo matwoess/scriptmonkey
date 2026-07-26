@@ -20,4 +20,4 @@ If a user script includes an `@updateURL` or `@downloadURL` tag, Scriptmonkey wi
 We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated "Last updated" date.
 
 ## 5. Contact & Support
-If you have any questions or concerns regarding privacy, please open an issue on the [Scriptmonkey GitHub Repository](https://github.com/mathiaswoess/Scriptmonkey/issues).
+If you have any questions or concerns regarding privacy, please open an issue on the [Scriptmonkey GitHub Repository](https://github.com/matwoess/Scriptmonkey/issues).
