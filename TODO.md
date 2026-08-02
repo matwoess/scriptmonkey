@@ -2,8 +2,6 @@
 
 List of future features and improvements for Scriptmonkey:
 
-- **Match Matching expansion**:
-  - Support `@include` and `@exclude` matching patterns in the extension background script.
 - **GreaseMonkey APIs**:
   - Implement `@grant` support to provide standard GreaseMonkey functions (e.g. `GM_addStyle`, `GM_xmlhttpRequest`, `GM_setValue`, `GM_getValue`).
 - **Icon Support**:
