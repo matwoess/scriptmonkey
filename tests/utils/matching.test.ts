@@ -159,5 +159,14 @@ describe("matching utils", () => {
 				scriptMatchesUrl({ matches: [] }, "https://example.com/test"),
 			).toBe(true);
 		});
+
+		it("returns false for non-web schemes such as chrome-extension://", () => {
+			expect(
+				scriptMatchesUrl(
+					{ matches: [] },
+					"chrome-extension://abcdefghijklmnopqrstuvwxyz/index.html",
+				),
+			).toBe(false);
+		});
 	});
 });

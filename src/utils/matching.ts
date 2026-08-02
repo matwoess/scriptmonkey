@@ -78,6 +78,16 @@ function toArray(val: string | string[] | undefined): string[] {
 }
 
 export function scriptMatchesUrl(meta: ScriptMeta, urlString: string): boolean {
+	if (
+		!urlString ||
+		(!urlString.startsWith("http://") &&
+			!urlString.startsWith("https://") &&
+			!urlString.startsWith("file://") &&
+			!urlString.startsWith("ftp://"))
+	) {
+		return false;
+	}
+
 	const excludes = toArray(meta.exclude);
 	if (excludes.some((pattern) => matchIncludeExclude(pattern, urlString))) {
 		return false;
