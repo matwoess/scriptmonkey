@@ -1,7 +1,7 @@
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ExtensionMessage, Script, UpdateInfo } from "../types";
-import { matchPattern } from "../utils/matching";
+import { scriptMatchesUrl } from "../utils/matching";
 
 async function send<T = unknown>(message: ExtensionMessage): Promise<T> {
 	const response = (await chrome.runtime.sendMessage(message)) as
@@ -24,7 +24,7 @@ async function getCurrentTabUrl(): Promise<string> {
 }
 
 function isActiveOnUrl(script: Script, url: string): boolean {
-	return script.meta.matches.some((p) => matchPattern(p, url));
+	return scriptMatchesUrl(script.meta, url);
 }
 
 export default function App() {
@@ -529,7 +529,10 @@ export default function App() {
 							<div className="detail-row">
 								<span className="detail-label">Matches</span>
 								<div className="detail-val matches-list">
-									{selectedScript.meta.matches.map((m) => (
+									{[
+										...(selectedScript.meta.matches ?? []),
+										...(selectedScript.meta.include ?? []),
+									].map((m) => (
 										<code key={m}>{m}</code>
 									))}
 								</div>
@@ -648,11 +651,13 @@ function ScriptItem({
 				<div className="script-name">{name}</div>
 				{desc && <div className="script-desc">{desc}</div>}
 				<div className="script-matches">
-					{script.meta.matches.map((m) => (
-						<div key={m} className="script-match">
-							{m}
-						</div>
-					))}
+					{[...(script.meta.matches ?? []), ...(script.meta.include ?? [])].map(
+						(m) => (
+							<div key={m} className="script-match">
+								{m}
+							</div>
+						),
+					)}
 				</div>
 				{updateLabel && (
 					<div className={`script-update ${updateInfo?.error ? "error" : ""}`}>

@@ -1,5 +1,5 @@
 import type { Script, ScriptMeta } from "../types";
-import { matchPattern } from "../utils/matching";
+import { scriptMatchesUrl } from "../utils/matching";
 
 /** Parses the ==UserScript== metadata block from a script source string. */
 export function parseMetadata(source: string): ScriptMeta {
@@ -83,10 +83,10 @@ export function getUpdateUrl(script: Script): string | null {
 /** Filters scripts that are enabled and match the given URL. */
 export function getMatchingScripts(scripts: Script[], url: string): Script[] {
 	return scripts.filter((script) => {
-		if (!script.enabled || script.meta.matches.length === 0) {
+		if (!script.enabled) {
 			return false;
 		}
 
-		return script.meta.matches.some((pattern) => matchPattern(pattern, url));
+		return scriptMatchesUrl(script.meta, url);
 	});
 }

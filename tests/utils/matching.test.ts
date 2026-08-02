@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { escapeRegex, matchPattern } from "../../src/utils/matching";
+import {
+	escapeRegex,
+	matchIncludeExclude,
+	matchPattern,
+	scriptMatchesUrl,
+} from "../../src/utils/matching";
 
 describe("matching utils", () => {
 	describe("escapeRegex", () => {
@@ -62,6 +67,97 @@ describe("matching utils", () => {
 
 		it("handles invalid urls safely", () => {
 			expect(matchPattern("https://example.com/*", "not-a-url")).toBe(false);
+		});
+	});
+
+	describe("matchIncludeExclude", () => {
+		it("handles regex patterns", () => {
+			expect(
+				matchIncludeExclude(
+					"/^https?:\\/\\/example\\.com\\/page/",
+					"https://example.com/page?id=1",
+				),
+			).toBe(true);
+			expect(
+				matchIncludeExclude(
+					"/^https?:\\/\\/example\\.com\\/page/",
+					"https://example.org/page",
+				),
+			).toBe(false);
+		});
+
+		it("handles invalid regex safely", () => {
+			expect(matchIncludeExclude("/[unclosed/", "https://example.com/")).toBe(
+				false,
+			);
+		});
+
+		it("handles glob wildcards including query strings", () => {
+			expect(
+				matchIncludeExclude(
+					"http://example.com/page?id=*",
+					"http://example.com/page?id=42",
+				),
+			).toBe(true);
+			expect(
+				matchIncludeExclude(
+					"http://example.com/page?id=*",
+					"http://example.com/page",
+				),
+			).toBe(false);
+		});
+
+		it("handles .tld in domain patterns", () => {
+			expect(
+				matchIncludeExclude(
+					"http://example.tld/test",
+					"http://example.com/test",
+				),
+			).toBe(true);
+			expect(
+				matchIncludeExclude(
+					"http://example.tld/test",
+					"http://example.org/test",
+				),
+			).toBe(true);
+		});
+	});
+
+	describe("scriptMatchesUrl", () => {
+		it("matches @include when @match is empty", () => {
+			expect(
+				scriptMatchesUrl(
+					{ matches: [], include: ["https://example.com/*"] },
+					"https://example.com/test",
+				),
+			).toBe(true);
+		});
+
+		it("respects @exclude over @match and @include", () => {
+			expect(
+				scriptMatchesUrl(
+					{
+						matches: ["https://example.com/*"],
+						exclude: ["https://example.com/admin/*"],
+					},
+					"https://example.com/admin/dashboard",
+				),
+			).toBe(false);
+		});
+
+		it("returns false when no rules match", () => {
+			expect(
+				scriptMatchesUrl(
+					{ matches: ["https://example.com/*"] },
+					"https://other.com/test",
+				),
+			).toBe(false);
+		});
+
+		it("defaults to matching all pages when matches and include are both empty", () => {
+			expect(
+				scriptMatchesUrl({ matches: [] }, "https://example.com/test"),
+			).toBe(true);
 		});
 	});
 });

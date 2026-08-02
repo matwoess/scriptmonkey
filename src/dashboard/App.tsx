@@ -762,18 +762,29 @@ export default function App() {
 												</div>
 
 												<div className="card-matches">
-													{script.meta.matches.slice(0, 2).map((m) => (
-														<span
-															key={m}
-															className="card-match-badge"
-															title={m}
-														>
-															{m}
-														</span>
-													))}
-													{script.meta.matches.length > 2 && (
+													{[
+														...(script.meta.matches ?? []),
+														...(script.meta.include ?? []),
+													]
+														.slice(0, 2)
+														.map((m) => (
+															<span
+																key={m}
+																className="card-match-badge"
+																title={m}
+															>
+																{m}
+															</span>
+														))}
+													{(script.meta.matches?.length ?? 0) +
+														(script.meta.include?.length ?? 0) >
+														2 && (
 														<span className="card-match-badge text-muted">
-															+{script.meta.matches.length - 2} more
+															+
+															{(script.meta.matches?.length ?? 0) +
+																(script.meta.include?.length ?? 0) -
+																2}{" "}
+															more
 														</span>
 													)}
 												</div>
@@ -1150,11 +1161,17 @@ export default function App() {
 															<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
 														</svg>
 														<span>
-															Match Rules ({selectedScript.meta.matches.length})
+															Match Rules (
+															{(selectedScript.meta.matches?.length ?? 0) +
+																(selectedScript.meta.include?.length ?? 0)}
+															)
 														</span>
 													</div>
 													<div className="metadata-card-body matches-list-container">
-														{selectedScript.meta.matches.map((m) => (
+														{[
+															...(selectedScript.meta.matches ?? []),
+															...(selectedScript.meta.include ?? []),
+														].map((m) => (
 															<div key={m} className="match-rule-item">
 																<span className="match-icon-check">✓</span>
 																<span className="match-pattern" title={m}>

@@ -48,12 +48,33 @@ async function fetchScriptUpdate(script: Script): Promise<{
 	};
 }
 
+function getRegisteredMatches(meta: ScriptMeta): string[] {
+	const matches: string[] = [];
+	const patterns = [...(meta.matches ?? []), ...(meta.include ?? [])];
+	let hasNonMatchPattern = false;
+
+	for (const p of patterns) {
+		const parsed = p.match(/^(\*|http|https|file|ftp):\/\/([^/]+)(\/.*)$/);
+		if (parsed) {
+			matches.push(p);
+		} else {
+			hasNonMatchPattern = true;
+		}
+	}
+
+	if (hasNonMatchPattern || matches.length === 0) {
+		return ["*://*/*"];
+	}
+
+	return Array.from(new Set(matches));
+}
+
 function toRegisteredScript(
 	script: Script,
 ): chrome.userScripts.RegisteredUserScript {
 	return {
 		id: script.id,
-		matches: script.meta.matches,
+		matches: getRegisteredMatches(script.meta),
 		js: [{ code: script.source }],
 		runAt:
 			script.meta["run-at"] === "document-start"
@@ -126,9 +147,7 @@ async function syncRegisteredScripts(): Promise<void> {
 	await chrome.userScripts.unregister();
 
 	const scripts = await loadScripts();
-	const enabled = scripts.filter(
-		(script) => script.enabled && script.meta.matches.length > 0,
-	);
+	const enabled = scripts.filter((script) => script.enabled);
 
 	if (enabled.length) {
 		await chrome.userScripts.register(enabled.map(toRegisteredScript));
@@ -195,11 +214,6 @@ async function handleMessage(message: ExtensionMessage): Promise<unknown> {
 				}
 
 				const meta = parseMetadata(source);
-				if (!meta.matches.length) {
-					throw new Error(
-						`Script is missing at least one @match rule: ${entry.filename}.`,
-					);
-				}
 
 				const existingIndex = meta.name
 					? scripts.findIndex(

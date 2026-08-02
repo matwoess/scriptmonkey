@@ -36,6 +36,18 @@ const MINIMAL_SOURCE = `
 console.log("hello");
 `;
 
+const FIXTURE_WITH_INCLUDE_EXCLUDE = `
+// ==UserScript==
+// @name        Include Exclude Script
+// @namespace   https://example.com
+// @version     1.0.0
+// @include     https://example.com/pages/*
+// @include     /^https?:\\/\\/.*\\.example\\.org\\//
+// @exclude     https://example.com/pages/admin/*
+// ==/UserScript==
+console.log("include exclude test");
+`;
+
 // ---------------------------------------------------------------------------
 // parseMetadata
 // ---------------------------------------------------------------------------
@@ -60,6 +72,15 @@ describe("parseMetadata", () => {
 			"https://example.com/*",
 			"https://*.example.com/*",
 		]);
+	});
+
+	it("parses @include and @exclude entries into arrays", () => {
+		const meta = parseMetadata(FIXTURE_WITH_INCLUDE_EXCLUDE);
+		expect(meta.include).toEqual([
+			"https://example.com/pages/*",
+			"/^https?:\\/\\/.*\\.example\\.org\\//",
+		]);
+		expect(meta.exclude).toEqual(["https://example.com/pages/admin/*"]);
 	});
 
 	it("normalises keys to lowercase", () => {
@@ -215,12 +236,12 @@ describe("getMatchingScripts", () => {
 		expect(result).toHaveLength(0);
 	});
 
-	it("excludes scripts with no match patterns", () => {
+	it("includes scripts with no match or include patterns (defaulting to match all)", () => {
 		const result = getMatchingScripts(
 			[noMatchesScript],
 			"https://example.com/page",
 		);
-		expect(result).toHaveLength(0);
+		expect(result.map((s) => s.id)).toEqual(["d"]);
 	});
 
 	it("returns multiple matches when several scripts apply", () => {
@@ -233,5 +254,34 @@ describe("getMatchingScripts", () => {
 			"https://example.com/",
 		);
 		expect(result.map((s) => s.id)).toEqual(["a", "e"]);
+	});
+
+	it("evaluates @include and @exclude directives from script metadata", () => {
+		const includeExcludeScript = makeScript({
+			id: "inc-exc",
+			source: FIXTURE_WITH_INCLUDE_EXCLUDE,
+			meta: parseMetadata(FIXTURE_WITH_INCLUDE_EXCLUDE),
+		});
+
+		expect(
+			getMatchingScripts(
+				[includeExcludeScript],
+				"https://example.com/pages/dashboard",
+			).map((s) => s.id),
+		).toEqual(["inc-exc"]);
+
+		expect(
+			getMatchingScripts(
+				[includeExcludeScript],
+				"https://sub.example.org/home",
+			).map((s) => s.id),
+		).toEqual(["inc-exc"]);
+
+		expect(
+			getMatchingScripts(
+				[includeExcludeScript],
+				"https://example.com/pages/admin/settings",
+			),
+		).toHaveLength(0);
 	});
 });

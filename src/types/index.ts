@@ -3,7 +3,9 @@ export interface ScriptMeta {
 	namespace?: string;
 	version?: string;
 	description?: string;
-	matches: string[];
+	matches?: string[];
+	include?: string[];
+	exclude?: string[];
 	"run-at"?: string;
 	grant?: string;
 	updateURL?: string;
