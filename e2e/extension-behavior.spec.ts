@@ -583,4 +583,65 @@ console.log('downgraded');
 		targetPage.off("framenavigated", onNavigate);
 		await targetPage.close();
 	});
+
+	test("should evaluate @include and @exclude rules when matching pages", async ({
+		page,
+		extensionId,
+		context,
+	}) => {
+		await page.goto(`chrome-extension://${extensionId}/index.html`);
+
+		const scriptPath = path.join(
+			import.meta.dirname,
+			"fixtures/include_exclude_script.js",
+		);
+		await page.locator("input[type='file']").setInputFiles([scriptPath]);
+		await expect(page.locator(".script-name")).toHaveText(
+			"Site Notification Banner",
+		);
+
+		const targetPage = await context.newPage();
+
+		// 1. Wildcard @include match (https://example.com/site-a/page) -> Active
+		await targetPage.goto("https://example.com/site-a/page");
+		await targetPage.bringToFront();
+		await page.reload();
+		await expect(page.locator("#active-list .script-name")).toHaveText(
+			"Site Notification Banner",
+		);
+
+		// 2. Wildcard @exclude override (https://example.com/site-a/admin) -> Inactive
+		await targetPage.goto("https://example.com/site-a/admin");
+		await targetPage.bringToFront();
+		await page.reload();
+		await expect(page.locator("#other-list .script-name")).toHaveText(
+			"Site Notification Banner",
+		);
+
+		// 3. Regex @include match (https://example.com/regex-site/foo) -> Active
+		await targetPage.goto("https://example.com/regex-site/foo");
+		await targetPage.bringToFront();
+		await page.reload();
+		await expect(page.locator("#active-list .script-name")).toHaveText(
+			"Site Notification Banner",
+		);
+
+		// 4. Regex @exclude override (https://example.com/regex-site/secret) -> Inactive
+		await targetPage.goto("https://example.com/regex-site/secret");
+		await targetPage.bringToFront();
+		await page.reload();
+		await expect(page.locator("#other-list .script-name")).toHaveText(
+			"Site Notification Banner",
+		);
+
+		// 5. Non-matching URL (https://example.com/site-b/page) -> Inactive
+		await targetPage.goto("https://example.com/site-b/page");
+		await targetPage.bringToFront();
+		await page.reload();
+		await expect(page.locator("#other-list .script-name")).toHaveText(
+			"Site Notification Banner",
+		);
+
+		await targetPage.close();
+	});
 });
