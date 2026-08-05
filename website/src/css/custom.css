@@ -1,0 +1,49 @@
+/**
+ * Scriptmonkey documentation website global styles.
+ */
+
+:root {
+	--ifm-color-primary: #00b4d8;
+	--ifm-color-primary-dark: #0096c7;
+	--ifm-color-primary-darker: #0077b6;
+	--ifm-color-primary-darkest: #03045e;
+	--ifm-color-primary-light: #48cae4;
+	--ifm-color-primary-lighter: #90e0ef;
+	--ifm-color-primary-lightest: #ade8f4;
+	--ifm-code-font-size: 95%;
+	--docusaurus-highlighted-code-line-bg: rgba(0, 210, 255, 0.1);
+	--ifm-font-family-base: "Inter", system-ui, -apple-system, sans-serif;
+	--ifm-heading-font-family: "Outfit", "Inter", system-ui, sans-serif;
+
+	--sm-bg: #101114;
+	--sm-surface: #1a1c20;
+	--sm-surface-hover: #22242a;
+	--sm-border: #292c33;
+	--sm-border-glow: rgba(0, 210, 255, 0.3);
+	--sm-text: #abb2bf;
+	--sm-text-bright: #f3f4f6;
+	--sm-muted: #6f7682;
+	--sm-accent: #00d2ff;
+	--sm-terracotta: #ff9e64;
+	--sm-terracotta-light: #ffb888;
+	--sm-terracotta-dark: #3e2a20;
+	--sm-badge-orange: #f97316;
+	--sm-green: #73daca;
+}
+
+[data-theme="dark"] {
+	--ifm-color-primary: #00d2ff;
+	--ifm-color-primary-dark: #00b8e0;
+	--ifm-color-primary-darker: #00a0c4;
+	--ifm-color-primary-darkest: #007894;
+	--ifm-color-primary-light: #33dcff;
+	--ifm-color-primary-lighter: #66e4ff;
+	--ifm-color-primary-lightest: #99ebff;
+	--ifm-background-color: #101114;
+	--ifm-background-surface-color: #1a1c20;
+	--docusaurus-highlighted-code-line-bg: rgba(0, 210, 255, 0.15);
+}
+
+body {
+	background-color: var(--sm-bg);
+}
