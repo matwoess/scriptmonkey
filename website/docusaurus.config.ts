@@ -42,7 +42,7 @@ const config: Config = {
 			title: "Scriptmonkey",
 			logo: {
 				alt: "Scriptmonkey Logo",
-				src: "icon.svg",
+				src: "img/logo.svg",
 			},
 			items: [
 				{
