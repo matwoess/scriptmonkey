@@ -76,6 +76,14 @@ const config: Config = {
 							label: "Development",
 							to: "/docs/development",
 						},
+						{
+							label: "Planned Features",
+							to: "/docs/planned-features",
+						},
+						{
+							label: "Privacy Policy",
+							to: "/docs/privacy-policy",
+						},
 					],
 				},
 			],
