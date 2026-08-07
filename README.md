@@ -6,9 +6,9 @@ Lightweight Manifest V3 Chrome extension for managing user scripts locally in yo
 
 ## Overview
 
-Scriptmonkey is a minimal, local Tampermonkey alternative built specifically for Google Chrome's Manifest V3 `userScripts` API. It features a management dashboard with a code editor, metadata inspection, and a quick-action toolbar popup.
+Scriptmonkey is a minimal, free, open-source and local Tampermonkey alternative built specifically for Google Chrome's Manifest V3 `userScripts` API. It features a management dashboard with a code editor, metadata inspection, and a quick-action toolbar popup.
 
-📖 **Full Documentation**: Visit our [Documentation Site](https://matwoess.github.io/scriptmonkey/) or read the [Docs](website/docs/intro.md).
+📖 **Full Documentation**: Visit the [Website](https://matwoess.github.io/scriptmonkey/) or read the [Docs](https://matwoess.github.io/scriptmonkey/docs/intro).
 
 ## Quick Start
 
@@ -35,19 +35,14 @@ Scriptmonkey is a minimal, local Tampermonkey alternative built specifically for
 - **Background Cron Updates**: Automatic scheduled background update checks are not performed; update checks are manual.
 - **Cross-Device Sync**: Scripts do not sync via Chrome Sync or cloud services.
 
-For full details, see the [Features & Metadata Support Guide](website/docs/metadata-support.md).
+### Supported Metadata Keys
 
-## Supported Metadata Keys
+Scriptmonkey parses standard `==UserScript==` header blocks.
 
-Scriptmonkey parses standard `==UserScript==` header blocks:
-
-- **Fully Supported**: `@name`, `@namespace`, `@version`, `@description`, `@match`, `@include`, `@exclude`, `@run-at`, `@updateURL`, `@downloadURL`.
-- **Parsed & Displayed (Not Enforced)**: `@grant`, `@author`, `@icon`, `@license`, and custom `@key` metadata cards.
-
-For an exhaustive guide on metadata behavior, see [Metadata Support](website/docs/metadata-support.md).
+For details on supported metadata keys and how they are handled, see [Metadata Support](https://matwoess.github.io/scriptmonkey/docs/metadata-support).
 
 ## Documentation Links
 
-- 📚 [Documentation Overview](website/docs/intro.md)
-- ⚙️ [Features & Metadata Support](website/docs/metadata-support.md)
-- 🛠️ [Development & Building Guide](website/docs/development.md)
+- 📚 [Documentation Overview](https://matwoess.github.io/scriptmonkey/docs/intro)
+- ⚙️ [Features & Metadata Support](https://matwoess.github.io/scriptmonkey/docs/metadata-support)
+- 🛠️ [Development & Building Guide](https://matwoess.github.io/scriptmonkey/docs/development)
