@@ -1,78 +1,53 @@
 # Scriptmonkey
 
-Lightweight Manifest V3 Chrome extension for managing user scripts.
+Lightweight Manifest V3 Chrome extension for managing user scripts locally in your browser.
 
-## Installation
+![Scriptmonkey Dashboard](public/images/dashboard.png)
 
-Install Scriptmonkey directly from the [Chrome Web Store](https://chromewebstore.google.com/detail/scriptmonkey-beta/afmgkdanppbobipehgpfcmhpgeoejcpn).
+## Overview
 
-After installing, make sure to enable **Allow User Scripts** for the extension in `chrome://extensions`.
+Scriptmonkey is a minimal, local Tampermonkey alternative built specifically for Google Chrome's Manifest V3 `userScripts` API. It features a management dashboard with a code editor, metadata inspection, and a quick-action toolbar popup.
 
-## Usage
+📖 **Full Documentation**: Visit our [Documentation Site](https://matwoess.github.io/scriptmonkey/) or read the [Docs](website/docs/intro.md).
 
-Scriptmonkey provides two main interfaces:
-1. **Extension Popup**: Click the toolbar icon to quickly toggle, update, delete, or view details of scripts.
-2. **Dashboard**: A full-featured management panel to create, import, search, and edit scripts with an integrated code editor.
+## Quick Start
 
-### Popup Features
+1. Install Scriptmonkey from the [Chrome Web Store](https://chromewebstore.google.com/detail/scriptmonkey-beta/afmgkdanppbobipehgpfcmhpgeoejcpn).
+2. Open `chrome://extensions` in Chrome and enable **Allow User Scripts** for Scriptmonkey.
+3. Open the Popup or Dashboard to create, import, or manage your user scripts.
 
-Click the Scriptmonkey icon in the toolbar to see:
-- Scripts active on the current page
-- All other installed scripts
-- Toggle scripts on/off, check for updates, or delete them
-- Click any script to open its details or edit it in the Dashboard
-- The popup shows a badge with the number of active scripts on the current page
 
-Click the **Manage** button to open the dashboard tab.
+## What Scriptmonkey Does & Does Not Do (Yet)
 
-### Dashboard Features
+### What It Does
 
-- **CodeMirror Editor**: Full-featured code editor with syntax highlighting and real-time syntax error validation.
-- **Save Shortcut & Safety**: Save your code using `Ctrl+S`. Displays a warning before closing or navigating away with unsaved changes.
-- **Collapsible Metadata Panel**: View parsed metadata categorized into cards (General, Match Rules, Execution, Updates, and Advanced properties).
-- **Searchable Sidebar**: Search and filter scripts in a resizable, draggable sidebar.
+- **Manifest V3 Native Execution**: Uses Chrome's `chrome.userScripts` API to register and run scripts securely in the page's `MAIN` world context.
+- **Local Dashboard & Code Editor**: Integrated CodeMirror 6 JavaScript editor with syntax highlighting, live error validation, and `Ctrl+S` quick save.
+- **Toolbar Controls & Badge**: View active scripts per tab, toggle script states, check active count badge, and delete scripts from the extension popup.
+- **URL Pattern Matching**: Supports `@match`, `@include` (wildcards, regex, `.tld` replacement), and `@exclude` rules.
+- **Version Update Checks**: Fetches remote `@updateURL` / `@downloadURL` endpoints and compares versions to provide per-script or batch updates.
+- **Complete Privacy**: All scripts and settings are saved locally in `chrome.storage.local`.
 
-### Adding scripts
+### What It Does Not Do Yet
 
-Scripts use the standard `==UserScript==` metadata format (same as Tampermonkey):
+- **`GM_*` Privileged APIs**: `GM_setValue`, `GM_getValue`, `GM_xmlhttpRequest`, `GM_addStyle`, etc., are **not** implemented. Scripts run directly in the `MAIN` page context without special background privileges.
+- **External Dependencies**: `@require` (external script libraries) and `@resource` (external asset injection) are currently unsupported.
+- **Background Cron Updates**: Automatic scheduled background update checks are not performed; update checks are manual.
+- **Cross-Device Sync**: Scripts do not sync via Chrome Sync or cloud services.
 
-```js
-// ==UserScript==
-// @name         My Script
-// @match        https://example.com/*
-// @description  Does something useful
-// @version      1.0
-// ==/UserScript==
+For full details, see the [Features & Metadata Support Guide](website/docs/metadata-support.md).
 
-(function () {
-  'use strict';
-  // ...
-})();
-```
+## Supported Metadata Keys
 
-Add scripts via the popup or the dashboard:
-- **Import Zone**: Click the "Add / Import Script" zone in the dashboard sidebar to select a `.js` or `.user.js` file.
-- **Drag & Drop**: Drag and drop script files directly onto the popup or the dashboard page.
+Scriptmonkey parses standard `==UserScript==` header blocks:
 
-If a script includes `@updateURL` or `@downloadURL`, Scriptmonkey checks for newer versions and shows:
-- Per-script update info
-- An `Update` button/status for that script
-- An `Update all` option when updates are available
+- **Fully Supported**: `@name`, `@namespace`, `@version`, `@description`, `@match`, `@include`, `@exclude`, `@run-at`, `@updateURL`, `@downloadURL`.
+- **Parsed & Displayed (Not Enforced)**: `@grant`, `@author`, `@icon`, `@license`, and custom `@key` metadata cards.
 
-Update checks are manual. Click `Check for updates` in the popup or dashboard.
+For an exhaustive guide on metadata behavior, see [Metadata Support](website/docs/metadata-support.md).
 
-Each script must include at least one `@match` rule. Scriptmonkey only loads scripts that match the current page URL. GreaseMonkey-style `@include` and `@exclude` tags are also parsed and displayed.
+## Documentation Links
 
-## Implementation Details
-
-- The UI consists of two **React** applications: the popup (`src/popup/`) and the full-screen dashboard (`src/dashboard/`), with styling variables centralized in `src/theme.css`.
-- The background service worker is built with strict **TypeScript** and handles Chrome APIs in `src/background/`.
-- Scripts are stored in `chrome.storage.local` with their parsed metadata.
-- Matching scripts are registered through Chrome's `userScripts` API.
-- The popup and dashboard warn when `Allow User Scripts` is disabled.
-- Script updates are fetched from `@downloadURL` or `@updateURL` and compared via `@version`.
-- After adding, removing, or toggling an active script, the extension reloads the current tab so the page picks up the new state. Inactive or non-matching scripts are updated/deleted without forcing unnecessary page reloads.
-
-## Development
-
-For building from source or setting up a local development environment, see [DEVELOPMENT.md](DEVELOPMENT.md).
+- 📚 [Documentation Overview](website/docs/intro.md)
+- ⚙️ [Features & Metadata Support](website/docs/metadata-support.md)
+- 🛠️ [Development & Building Guide](website/docs/development.md)

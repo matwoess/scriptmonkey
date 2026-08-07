@@ -68,6 +68,14 @@ const config: Config = {
 							label: "Intro",
 							to: "/docs/intro",
 						},
+						{
+							label: "Features & Metadata",
+							to: "/docs/metadata-support",
+						},
+						{
+							label: "Development",
+							to: "/docs/development",
+						},
 					],
 				},
 			],
