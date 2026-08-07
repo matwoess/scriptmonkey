@@ -1,8 +1,12 @@
 # Scriptmonkey
 
-Lightweight Manifest V3 Chrome extension for managing user scripts — like Tampermonkey, but local and minimal.
+Lightweight Manifest V3 Chrome extension for managing user scripts.
 
-Built with **Vite**, **React**, and **TypeScript**.
+## Installation
+
+Install Scriptmonkey directly from the [Chrome Web Store](https://chromewebstore.google.com/detail/scriptmonkey-beta/afmgkdanppbobipehgpfcmhpgeoejcpn).
+
+After installing, make sure to enable **Allow User Scripts** for the extension in `chrome://extensions`.
 
 ## Usage
 
@@ -10,11 +14,14 @@ Scriptmonkey provides two main interfaces:
 1. **Extension Popup**: Click the toolbar icon to quickly toggle, update, delete, or view details of scripts.
 2. **Dashboard**: A full-featured management panel to create, import, search, and edit scripts with an integrated code editor.
 
+### Popup Features
+
 Click the Scriptmonkey icon in the toolbar to see:
 - Scripts active on the current page
 - All other installed scripts
 - Toggle scripts on/off, check for updates, or delete them
 - Click any script to open its details or edit it in the Dashboard
+- The popup shows a badge with the number of active scripts on the current page
 
 Click the **Manage** button to open the dashboard tab.
 
@@ -56,15 +63,7 @@ Update checks are manual. Click `Check for updates` in the popup or dashboard.
 
 Each script must include at least one `@match` rule. Scriptmonkey only loads scripts that match the current page URL. GreaseMonkey-style `@include` and `@exclude` tags are also parsed and displayed.
 
-## Installation
-
-Install Scriptmonkey directly from the [Chrome Web Store](https://chromewebstore.google.com/detail/scriptmonkey-beta/afmgkdanppbobipehgpfcmhpgeoejcpn).
-
-After installing, make sure to enable **Allow User Scripts** for the extension in `chrome://extensions`.
-
-For building from source or setting up a local development environment, see [DEVELOPMENT.md](DEVELOPMENT.md).
-
-## How it works
+## Implementation Details
 
 - The UI consists of two **React** applications: the popup (`src/popup/`) and the full-screen dashboard (`src/dashboard/`), with styling variables centralized in `src/theme.css`.
 - The background service worker is built with strict **TypeScript** and handles Chrome APIs in `src/background/`.
@@ -73,3 +72,7 @@ For building from source or setting up a local development environment, see [DEV
 - The popup and dashboard warn when `Allow User Scripts` is disabled.
 - Script updates are fetched from `@downloadURL` or `@updateURL` and compared via `@version`.
 - After adding, removing, or toggling an active script, the extension reloads the current tab so the page picks up the new state. Inactive or non-matching scripts are updated/deleted without forcing unnecessary page reloads.
+
+## Development
+
+For building from source or setting up a local development environment, see [DEVELOPMENT.md](DEVELOPMENT.md).
