@@ -2,6 +2,8 @@
 
 List of future features and improvements for Scriptmonkey:
 
+- **Script template and new button**:
+  - Create new user scripts in the dashboard using a pre-defined minimal tempalte.
 - **GreaseMonkey APIs**:
   - Implement `@grant` support to provide standard GreaseMonkey functions (e.g. `GM_addStyle`, `GM_xmlhttpRequest`, `GM_setValue`, `GM_getValue`).
 - **Icon Support**:
