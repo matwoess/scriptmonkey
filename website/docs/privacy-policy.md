@@ -1,8 +1,8 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 ---
 
-# Privacy Policy for Scriptmonkey
+# Privacy Policy
 
 Last updated: June 23, 2026
 
