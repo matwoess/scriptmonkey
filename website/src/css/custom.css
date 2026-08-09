@@ -15,20 +15,24 @@
 	--ifm-font-family-base: "Inter", system-ui, -apple-system, sans-serif;
 	--ifm-heading-font-family: "Outfit", "Inter", system-ui, sans-serif;
 
-	--sm-bg: #101114;
-	--sm-surface: #1a1c20;
-	--sm-surface-hover: #22242a;
-	--sm-border: #292c33;
-	--sm-border-glow: rgba(0, 210, 255, 0.3);
-	--sm-text: #abb2bf;
-	--sm-text-bright: #f3f4f6;
-	--sm-muted: #6f7682;
-	--sm-accent: #00d2ff;
-	--sm-terracotta: #ff9e64;
-	--sm-terracotta-light: #ffb888;
-	--sm-terracotta-dark: #3e2a20;
-	--sm-badge-orange: #f97316;
-	--sm-green: #73daca;
+	--sm-bg: #ffffff;
+	--sm-surface: #f6f8fa;
+	--sm-surface-hover: #eaeef2;
+	--sm-border: #d0d7de;
+	--sm-border-glow: rgba(0, 180, 216, 0.25);
+	--sm-text: #57606a;
+	--sm-text-bright: #1f2328;
+	--sm-muted: #6e7781;
+	--sm-accent: #0077b6;
+	--sm-btn-bg: #0096c7;
+	--sm-btn-text: #ffffff;
+	--sm-btn-shadow: rgba(0, 150, 199, 0.35);
+	--sm-btn-shadow-hover: rgba(0, 150, 199, 0.5);
+	--sm-terracotta: #d96b27;
+	--sm-terracotta-light: #e68a4a;
+	--sm-terracotta-dark: #fff3eb;
+	--sm-badge-orange: #ea580c;
+	--sm-green: #0f766e;
 }
 
 [data-theme="dark"] {
@@ -42,8 +46,23 @@
 	--ifm-background-color: #101114;
 	--ifm-background-surface-color: #1a1c20;
 	--docusaurus-highlighted-code-line-bg: rgba(0, 210, 255, 0.15);
-}
 
-body {
-	background-color: var(--sm-bg);
+	--sm-bg: #101114;
+	--sm-surface: #1a1c20;
+	--sm-surface-hover: #22242a;
+	--sm-border: #292c33;
+	--sm-border-glow: rgba(0, 210, 255, 0.3);
+	--sm-text: #abb2bf;
+	--sm-text-bright: #f3f4f6;
+	--sm-muted: #6f7682;
+	--sm-accent: #00d2ff;
+	--sm-btn-bg: #00d2ff;
+	--sm-btn-text: #0b0f19;
+	--sm-btn-shadow: rgba(0, 210, 255, 0.35);
+	--sm-btn-shadow-hover: rgba(0, 210, 255, 0.5);
+	--sm-terracotta: #ff9e64;
+	--sm-terracotta-light: #ffb888;
+	--sm-terracotta-dark: #3e2a20;
+	--sm-badge-orange: #f97316;
+	--sm-green: #73daca;
 }

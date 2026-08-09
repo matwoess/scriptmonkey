@@ -77,19 +77,19 @@
 	gap: 0.6rem;
 	padding: 0.85rem 1.75rem;
 	border-radius: 10px;
-	background: var(--sm-accent);
-	color: #0b0f19;
+	background: var(--sm-btn-bg);
+	color: var(--sm-btn-text);
 	font-weight: 700;
 	font-size: 1rem;
 	text-decoration: none;
 	transition: all 0.2s ease;
-	box-shadow: 0 4px 20px rgba(0, 210, 255, 0.35);
+	box-shadow: 0 4px 20px var(--sm-btn-shadow);
 }
 
 .primaryBtn:hover {
 	transform: translateY(-2px);
-	box-shadow: 0 6px 25px rgba(0, 210, 255, 0.5);
-	color: #0b0f19;
+	box-shadow: 0 6px 25px var(--sm-btn-shadow-hover);
+	color: var(--sm-btn-text);
 }
 
 .secondaryBtn {
@@ -98,7 +98,7 @@
 	gap: 0.6rem;
 	padding: 0.85rem 1.5rem;
 	border-radius: 10px;
-	background: rgba(255, 255, 255, 0.05);
+	background: var(--sm-surface);
 	border: 1px solid var(--sm-border);
 	color: var(--sm-text-bright);
 	font-weight: 600;
@@ -108,7 +108,7 @@
 }
 
 .secondaryBtn:hover {
-	background: rgba(255, 255, 255, 0.08);
+	background: var(--sm-surface-hover);
 	border-color: var(--sm-accent);
 	color: var(--sm-accent);
 	transform: translateY(-2px);
@@ -118,13 +118,13 @@
 .mockupContainer {
 	max-width: 960px;
 	margin: 0 auto;
-	background: #14161b;
+	background: var(--sm-surface);
 	border: 1px solid var(--sm-border);
 	border-radius: 12px;
 	overflow: hidden;
 	box-shadow:
-		0 20px 40px rgba(0, 0, 0, 0.6),
-		0 0 30px rgba(0, 210, 255, 0.08);
+		0 20px 40px rgba(0, 0, 0, 0.15),
+		0 0 30px var(--sm-border-glow);
 	text-align: left;
 }
 
@@ -133,7 +133,7 @@
 	align-items: center;
 	justify-content: space-between;
 	padding: 0.75rem 1.25rem;
-	background: #1a1c22;
+	background: var(--sm-bg);
 	border-bottom: 1px solid var(--sm-border);
 }
 
@@ -187,7 +187,7 @@
 }
 
 .mockupSidebar {
-	background: #101115;
+	background: var(--sm-bg);
 	border-right: 1px solid var(--sm-border);
 	padding: 1rem;
 }
@@ -229,7 +229,7 @@
 
 .mockupContent {
 	padding: 1.25rem;
-	background: #14161b;
+	background: var(--sm-surface);
 	overflow-x: auto;
 }
 
@@ -253,7 +253,7 @@
 	font-family: var(--ifm-font-family-monospace);
 	font-size: 0.875rem;
 	line-height: 1.6;
-	color: #abb2bf;
+	color: var(--sm-text);
 	margin: 0;
 	background: transparent;
 	padding: 0;
@@ -261,19 +261,35 @@
 }
 
 .kw {
-	color: #c678dd;
+	color: #a626a4;
 }
 .cm {
-	color: #5c6370;
+	color: #a0a1a7;
 	font-style: italic;
 }
 .str {
-	color: #98c379;
+	color: #50a14f;
 }
 .fn {
-	color: #61afef;
+	color: #4078f2;
 }
 .tag {
+	color: #c18401;
+}
+
+:global([data-theme="dark"]) .kw {
+	color: #c678dd;
+}
+:global([data-theme="dark"]) .cm {
+	color: #5c6370;
+}
+:global([data-theme="dark"]) .str {
+	color: #98c379;
+}
+:global([data-theme="dark"]) .fn {
+	color: #61afef;
+}
+:global([data-theme="dark"]) .tag {
 	color: #e5c07b;
 }
 
@@ -322,7 +338,7 @@
 }
 
 .featureCard {
-	background: #181a20;
+	background: var(--sm-surface);
 	border: 1px solid var(--sm-border);
 	border-radius: 12px;
 	padding: 2rem;
@@ -333,10 +349,10 @@
 
 .featureCard:hover {
 	transform: translateY(-4px);
-	border-color: rgba(0, 210, 255, 0.4);
+	border-color: var(--sm-border-glow);
 	box-shadow:
-		0 12px 30px rgba(0, 0, 0, 0.4),
-		0 0 20px rgba(0, 210, 255, 0.08);
+		0 12px 30px rgba(0, 0, 0, 0.12),
+		0 0 20px var(--sm-border-glow);
 }
 
 .featureIcon {
@@ -369,11 +385,11 @@
 
 /* Showcase Section */
 .showcaseBox {
-	background: #14161b;
+	background: var(--sm-surface);
 	border: 1px solid var(--sm-border);
 	border-radius: 14px;
 	padding: 2rem;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
 .tabList {
@@ -399,7 +415,7 @@
 
 .tabBtn:hover {
 	color: var(--sm-text-bright);
-	background: rgba(255, 255, 255, 0.04);
+	background: var(--sm-surface-hover);
 }
 
 .tabBtnActive {
@@ -416,7 +432,7 @@
 }
 
 .stepCard {
-	background: #181a20;
+	background: var(--sm-surface);
 	border: 1px solid var(--sm-border);
 	border-radius: 12px;
 	padding: 2rem;
@@ -462,7 +478,7 @@
 	margin: 2rem auto 5rem;
 	max-width: 1000px;
 	box-shadow:
-		0 15px 40px rgba(0, 0, 0, 0.5),
+		0 15px 40px rgba(0, 0, 0, 0.12),
 		0 0 30px rgba(193, 144, 104, 0.1);
 }
 
@@ -504,7 +520,7 @@
 
 .metadataContainer {
 	font-size: 0.875rem;
-	color: #abb2bf;
+	color: var(--sm-text);
 }
 
 .showcaseHeader {
@@ -522,7 +538,8 @@
 
 .copyBtn {
 	border: 1px solid var(--sm-border);
-	background: rgba(255, 255, 255, 0.05);
+	background: var(--sm-surface);
+	color: var(--sm-text-bright);
 }
 
 .bottomSection {
