@@ -47,6 +47,22 @@ function getRelativeTime(timestamp?: number): string {
 const MIN_EDITOR_WIDTH = 480;
 const MIN_SIDEBAR_WIDTH = 240;
 
+export const DEFAULT_SCRIPT_TEMPLATE = `// ==UserScript==
+// @name         New Script
+// @namespace    http://scriptmonkey.local/
+// @version      1.0.0
+// @description  Describe your script here
+// @author       You
+// @match        https://*/*
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // Your code here...
+})();
+`;
+
 function getConstrainedSidebarWidth(
 	width: number,
 	windowWidth: number,
@@ -427,6 +443,47 @@ export default function App() {
 		}
 	};
 
+	const handleNewScript = async () => {
+		if (saveStatus === "unsaved") {
+			const proceed = window.confirm(
+				"You have unsaved changes in the current script. Discard them?",
+			);
+			if (!proceed) return;
+		}
+
+		let name = "New Script";
+		let counter = 1;
+		const existingNames = new Set(
+			scripts.map((s) => s.meta.name ?? s.filename),
+		);
+		while (existingNames.has(name)) {
+			counter += 1;
+			name = `New Script ${counter}`;
+		}
+
+		const source = DEFAULT_SCRIPT_TEMPLATE.replace(
+			"// @name         New Script",
+			`// @name         ${name}`,
+		);
+		const filename = `${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.user.js`;
+
+		try {
+			const updatedScripts = await send<Script[]>({
+				type: "addScripts",
+				scripts: [{ filename, source }],
+			});
+			setScripts(updatedScripts);
+			const created = [...updatedScripts]
+				.reverse()
+				.find((s) => s.meta.name === name || s.filename === filename);
+			if (created) {
+				handleEdit(created);
+			}
+		} catch (error) {
+			alert(error instanceof Error ? error.message : String(error));
+		}
+	};
+
 	const handleDrop = (e: React.DragEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
@@ -487,6 +544,32 @@ export default function App() {
 								alt="logo"
 							/>
 							<h1>Scriptmonkey</h1>
+						</div>
+
+						<div className="sidebar-actions-row">
+							<button
+								type="button"
+								className="btn btn-primary btn-new-script"
+								id="btn-new-script"
+								onClick={() => void handleNewScript()}
+							>
+								<svg
+									aria-hidden="true"
+									viewBox="0 0 24 24"
+									width="16"
+									height="16"
+									fill="none"
+									stroke="currentColor"
+									strokeWidth="2.5"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									className="svg-icon"
+								>
+									<line x1="12" y1="5" x2="12" y2="19" />
+									<line x1="5" y1="12" x2="19" y2="12" />
+								</svg>
+								<span>New Script</span>
+							</button>
 						</div>
 
 						{/* Add / Import Script Zone */}

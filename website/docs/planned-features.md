@@ -6,8 +6,6 @@ sidebar_position: 6
 
 This document outlines upcoming features, enhancements, and roadmap items planned for **Scriptmonkey**.
 
-- **Script Templates & New Script Button**:
-  - Create new user scripts directly in the dashboard using a pre-defined minimal template block.
 - **Icon Support**:
   - Parse and support the `@icon` metadata tag to load and display custom script icons in popups and dashboard lists.
 - **Editor Enhancements**:

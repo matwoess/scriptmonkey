@@ -214,6 +214,21 @@
 	color: var(--sm-text-bright);
 }
 
+.mockupNewScriptBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.4rem;
+	padding: 0.45rem;
+	background: #3b82f6;
+	color: #ffffff;
+	border-radius: 6px;
+	font-size: 0.78rem;
+	font-weight: 600;
+	cursor: pointer;
+	box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
 .mockupImportZone {
 	display: flex;
 	align-items: center;

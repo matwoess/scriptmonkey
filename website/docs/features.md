@@ -17,6 +17,7 @@ This page details the technical features and capabilities supported by **Scriptm
 - **Editor Interface**: Full-screen management dashboard built with CodeMirror 6, including line numbers, bracket matching, and JavaScript syntax highlighting.
 - **Syntax Validation**: Provides real-time syntax checking and inline error indicators as you type.
 - **Metadata Inspector**: Automatically parses `==UserScript==` header blocks into collapsible inspection cards for General info, Match rules, Execution timing, and Custom keys.
+- **Script Creation & Templates**: Create new user scripts directly in the dashboard using a pre-defined minimal template block via the "+ New Script" button.
 - **File Import**: Supports importing local `.js` and `.user.js` files via file picker or drag-and-drop onto the editor.
 - **Unsaved Changes Guard**: Prompts for confirmation before closing or navigating away with unsaved editor modifications (`Ctrl+S` shortcut supported).
 

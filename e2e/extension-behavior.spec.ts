@@ -644,4 +644,23 @@ console.log('downgraded');
 
 		await targetPage.close();
 	});
+
+	test("should create a new script using the New Script button", async ({
+		page,
+		extensionId,
+	}) => {
+		await page.goto(`chrome-extension://${extensionId}/dashboard.html`);
+		await page.locator("#btn-new-script").click();
+
+		// Should show New Script card in sidebar
+		await expect(
+			page.locator(".card-name", { hasText: "New Script" }),
+		).toBeVisible();
+
+		// Click New Script button again to create a second script with incremented name
+		await page.locator("#btn-new-script").click();
+		await expect(
+			page.locator(".card-name", { hasText: "New Script 2" }),
+		).toBeVisible();
+	});
 });
