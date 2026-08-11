@@ -1,12 +1,10 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 ---
 
 # Technical Architecture
 
-**Scriptmonkey** is designed as a lightweight, secure, and privacy-preserving Manifest V3 Chrome extension. It relies on native browser APIs to execute user scripts locally without external server dependencies.
-
----
+**Scriptmonkey** relies on native browser APIs to execute user scripts locally without external server dependencies.
 
 ## Architecture Overview
 
@@ -39,13 +37,11 @@ graph TD
     UserScriptsAPI -->|Injects & Runs| MainWorld
 ```
 
----
-
 ## Core Components
 
 ### 1. Frontend User Interfaces
 
-- **Popup UI (`src/popup/`)**: A fast React and TypeScript interface accessible from the browser toolbar. Provides quick script toggles, domain-matched script counts, update checks, and dashboard navigation.
+- **Popup UI (`src/popup/`)**: A React and TypeScript interface accessible from the browser toolbar. Provides quick script toggles, domain-matched script counts, update checks, and dashboard navigation.
 - **Dashboard Studio (`src/dashboard/`)**: A full-screen IDE for managing and authoring scripts. Includes a CodeMirror 6 editor with JavaScript syntax validation, metadata sidebar previews, drag-and-drop file imports, and unsaved change guards.
 - **Shared Styling**: Shared design tokens and CSS variables in `src/theme.css` ensure visual consistency across all extension surfaces.
 
@@ -59,8 +55,6 @@ graph TD
 
 - Leverages Chrome's native `chrome.userScripts` API to register and run scripts.
 - Executes user scripts directly in the document's `MAIN` execution world.
-
----
 
 ## Data Flow & Storage
 

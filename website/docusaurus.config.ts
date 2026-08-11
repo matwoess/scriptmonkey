@@ -74,7 +74,11 @@ const config: Config = {
 							to: "/docs/overview",
 						},
 						{
-							label: "Features & Metadata",
+							label: "Features",
+							to: "/docs/features",
+						},
+						{
+							label: "Metadata Support",
 							to: "/docs/metadata-support",
 						},
 						{

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 # Development Guide
@@ -10,8 +10,8 @@ This document provides instructions for setting up, developing, testing, formatt
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/matwoess/Scriptmonkey.git
-   cd Scriptmonkey
+   git clone https://github.com/matwoess/scriptmonkey.git
+   cd scriptmonkey
    ```
 2. Install dependencies:
    ```bash

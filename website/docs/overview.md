@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Overview
 
-Welcome to the official documentation for **Scriptmonkey**, a lightweight, minimal Manifest V3 Chrome extension for managing user scripts locally in your browser.
+Welcome to the official documentation for **Scriptmonkey**, a minimalistic Manifest V3 Chrome extension for managing user scripts.
 
 ## Getting Started
 
@@ -38,8 +38,6 @@ Additional script options and confirmation dialogs open in an overlay context wi
 
 ![Scriptmonkey Popup Overlay](/popup-overlay.png)
 
----
-
 ### Dashboard Interface
 
 The Dashboard is a full-featured management studio for editing, organizing, and inspecting your scripts.
@@ -51,8 +49,6 @@ The Dashboard is a full-featured management studio for editing, organizing, and 
 - **Collapsible Metadata Cards**: Automatically parses script header metadata into clear categories (General, Match Rules, Execution, Updates, and Advanced properties).
 - **Searchable Sidebar**: Quickly search and filter through your installed script library.
 - **Drag & Drop Import**: Drag and drop `.js` or `.user.js` files directly into the import drop zone or onto the editor.
-
----
 
 ## Adding and Updating Scripts
 
