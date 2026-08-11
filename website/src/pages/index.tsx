@@ -10,13 +10,7 @@ function HeroHeader() {
 		<header className={styles.heroBanner}>
 			<div className={styles.heroContent}>
 				<div className={styles.heroLogoContainer}>
-					<img
-						src="icon.svg"
-						width="72"
-						height="72"
-						alt="Scriptmonkey Logo"
-						className={styles.heroLogo}
-					/>
+					<img src="icon.svg" width="72" height="72" alt="Scriptmonkey Logo" />
 				</div>
 
 				<div className={styles.badgePill}>
@@ -409,6 +403,27 @@ function FeatureGrid() {
 					strokeLinejoin="round"
 					aria-hidden="true"
 				>
+					<rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+					<line x1="3" y1="9" x2="21" y2="9" />
+					<line x1="9" y1="21" x2="9" y2="9" />
+				</svg>
+			),
+			title: "Standard UserScript Support",
+			desc: "Uses scripts with metadata headers (@name, @match, @include, @exclude, @version, ...) used by other script managers such as Tampermonkey, Greasemonkey, and Violentmonkey.",
+		},
+		{
+			icon: (
+				<svg
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					aria-hidden="true"
+				>
 					<rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
 					<line x1="8" y1="21" x2="16" y2="21" />
 					<line x1="12" y1="17" x2="12" y2="21" />
@@ -470,27 +485,6 @@ function FeatureGrid() {
 					strokeLinejoin="round"
 					aria-hidden="true"
 				>
-					<rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-					<line x1="3" y1="9" x2="21" y2="9" />
-					<line x1="9" y1="21" x2="9" y2="9" />
-				</svg>
-			),
-			title: "Parsed Metadata Cards",
-			desc: "Automatically parses @name, @match, @include, @exclude, @version and other metadata into structured collapsible cards.",
-		},
-		{
-			icon: (
-				<svg
-					width="24"
-					height="24"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					strokeWidth="2"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-					aria-hidden="true"
-				>
 					<polyline points="16 18 22 12 16 6" />
 					<polyline points="8 6 2 12 8 18" />
 				</svg>
@@ -526,59 +520,116 @@ function FeatureGrid() {
 	);
 }
 
-function DirectiveShowcase() {
-	const directives = [
+function UseCasesShowcase() {
+	const useCases = [
 		{
-			tag: "@name",
-			desc: "Defines the user script title shown in popup menus and dashboard lists.",
-			example: "// @name Dark Theme Enforcer",
+			icon: (
+				<svg
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					aria-hidden="true"
+				>
+					<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+				</svg>
+			),
+			title: "Custom Themes & Styling",
+			desc: "Inject custom CSS or dark modes onto any web page to tailor site aesthetics to your liking.",
+			example: "Dark mode enforcers, custom typography, layout tweaks",
 		},
 		{
-			tag: "@version",
-			desc: "Semantic version string used during automated update checks.",
-			example: "// @version 1.2.0",
+			icon: (
+				<svg
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					aria-hidden="true"
+				>
+					<circle cx="12" cy="12" r="10" />
+					<line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
+				</svg>
+			),
+			title: "Distraction-Free Browsing",
+			desc: "Clean up news feeds, hide annoying sidebars, or remove sticky popups across your favorite platforms.",
+			example: "Clean feed layouts, auto-expand content, ad cleanup",
 		},
 		{
-			tag: "@match",
-			desc: "Chrome match pattern string targeting specific URLs for script injection.",
-			example: "// @match https://*.example.com/*",
+			icon: (
+				<svg
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					aria-hidden="true"
+				>
+					<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+				</svg>
+			),
+			title: "Workflow & Shortcuts",
+			desc: "Automate repetitive clicks, add keyboard navigation shortcuts, or pre-fill web forms automatically.",
+			example: "Keyboard shortcuts, auto-focus search, form automation",
 		},
 		{
-			tag: "@include / @exclude",
-			desc: "Wildcard patterns or regex patterns to include or exclude specific pages.",
-			example: "// @exclude https://*.example.com/login",
-		},
-		{
-			tag: "@run-at",
-			desc: "Controls injection timing: document-start or document-idle.",
-			example: "// @run-at document-idle",
-		},
-		{
-			tag: "@updateURL / @downloadURL",
-			desc: "Remote HTTP endpoints checked when inspecting or applying updates.",
-			example: "// @updateURL https://example.com/script.meta.js",
+			icon: (
+				<svg
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					aria-hidden="true"
+				>
+					<rect x="3" y="3" width="18" height="18" rx="2" />
+					<path d="M12 8v8M8 12h8" />
+				</svg>
+			),
+			title: "Custom Buttons & UI Widgets",
+			desc: "Inject custom buttons, action toolbars, or interactive DOM elements directly into web page layouts.",
+			example: "Download buttons, quick action toolbars, custom UI widgets",
 		},
 	];
 
 	return (
 		<section className={styles.section}>
 			<div className={styles.sectionHeader}>
-				<span className={styles.sectionTag}>Directives</span>
+				<span className={styles.sectionTag}>Use Cases</span>
 				<Heading as="h2" className={styles.sectionTitle}>
-					Supported UserScript Directives
+					Real-World Web Customization
 				</Heading>
 				<p className={styles.sectionSubtitle}>
-					Scriptmonkey parses standard metadata headers to configure matching
-					and execution rules.
+					Enhance your daily web browsing experience with lightweight user
+					scripts tailored for your needs.
 				</p>
 			</div>
 
-			<div className={styles.directiveGrid}>
-				{directives.map((item) => (
-					<div key={item.tag} className={styles.directiveCard}>
-						<code className={styles.directiveTag}>{item.tag}</code>
-						<p className={styles.directiveDesc}>{item.desc}</p>
-						<code className={styles.directiveExample}>{item.example}</code>
+			<div className={styles.useCaseGrid}>
+				{useCases.map((item) => (
+					<div key={item.title} className={styles.useCaseCard}>
+						<div className={styles.useCaseHeader}>
+							<div className={styles.useCaseIcon}>{item.icon}</div>
+							<h3 className={styles.useCaseTitle}>{item.title}</h3>
+						</div>
+						<p className={styles.useCaseDesc}>{item.desc}</p>
+						<div className={styles.useCaseExample}>
+							<strong>Examples:</strong> {item.example}
+						</div>
 					</div>
 				))}
 			</div>
@@ -617,8 +668,10 @@ function HowItWorks() {
 			<div className={styles.stepGrid}>
 				{steps.map((step) => (
 					<div key={step.num} className={styles.stepCard}>
-						<div className={styles.stepNumber}>{step.num}</div>
-						<h3 className={styles.stepTitle}>{step.title}</h3>
+						<div className={styles.stepHeader}>
+							<div className={styles.stepNumber}>{step.num}</div>
+							<h3 className={styles.stepTitle}>{step.title}</h3>
+						</div>
 						<p className={styles.stepDesc}>{step.desc}</p>
 					</div>
 				))}
@@ -665,7 +718,7 @@ export default function Home(): ReactNode {
 			<HeroHeader />
 			<main>
 				<FeatureGrid />
-				<DirectiveShowcase />
+				<UseCasesShowcase />
 				<HowItWorks />
 				<BottomCTA />
 			</main>

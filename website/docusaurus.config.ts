@@ -45,10 +45,6 @@ const config: Config = {
 	themeConfig: {
 		navbar: {
 			title: "Scriptmonkey",
-			logo: {
-				alt: "Scriptmonkey Logo",
-				src: "img/logo.svg",
-			},
 			items: [
 				{
 					type: "docSidebar",

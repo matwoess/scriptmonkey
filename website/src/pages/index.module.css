@@ -220,7 +220,7 @@
 	border: 1.5px dashed var(--sm-border);
 	border-radius: 8px;
 	background: var(--sm-surface);
-	color: var(--sm-accent);
+	color: var(--sm-terracotta);
 }
 
 .importTextGroup {
@@ -585,53 +585,76 @@
 	margin: 0;
 }
 
-/* Directive Showcase Section */
-.directiveGrid {
+/* Use Cases Section */
+.useCaseGrid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-	gap: 1.25rem;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 1.5rem;
 }
 
-.directiveCard {
+.useCaseCard {
 	background: var(--sm-surface);
 	border: 1px solid var(--sm-border);
-	border-radius: 10px;
-	padding: 1.25rem 1.5rem;
+	border-radius: 12px;
+	padding: 1.5rem;
 	display: flex;
 	flex-direction: column;
-	gap: 0.5rem;
-	transition: border-color 0.2s ease;
+	transition: all 0.2s ease;
 }
 
-.directiveCard:hover {
+.useCaseCard:hover {
 	border-color: var(--sm-accent);
+	transform: translateY(-3px);
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
-.directiveTag {
-	color: var(--sm-accent);
-	font-weight: 700;
-	font-size: 0.95rem;
+.useCaseHeader {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin-bottom: 0.75rem;
+}
+
+.useCaseIcon {
+	width: 38px;
+	height: 38px;
+	border-radius: 8px;
 	background: rgba(0, 210, 255, 0.1);
-	padding: 0.2rem 0.5rem;
-	border-radius: 4px;
-	align-self: flex-start;
+	border: 1px solid rgba(0, 210, 255, 0.2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--sm-accent);
+	flex-shrink: 0;
 }
 
-.directiveDesc {
-	font-size: 0.88rem;
-	color: var(--sm-text);
-	line-height: 1.5;
+.useCaseTitle {
+	font-size: 1.1rem;
+	font-weight: 700;
+	color: var(--sm-text-bright);
 	margin: 0;
 }
 
-.directiveExample {
+.useCaseDesc {
+	font-size: 0.9rem;
+	color: var(--sm-text);
+	line-height: 1.55;
+	margin: 0 0 1rem;
+	flex: 1;
+}
+
+.useCaseExample {
 	font-size: 0.78rem;
 	color: var(--sm-muted);
 	background: var(--sm-bg);
-	padding: 0.35rem 0.5rem;
+	padding: 0.4rem 0.65rem;
 	border-radius: 6px;
 	border: 1px solid var(--sm-border);
 	margin-top: auto;
+}
+
+.useCaseExample strong {
+	color: var(--sm-terracotta);
 }
 
 .tabList {
@@ -666,43 +689,58 @@
 .stepGrid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-	gap: 2rem;
+	gap: 1.5rem;
 }
 
 .stepCard {
 	background: var(--sm-surface);
 	border: 1px solid var(--sm-border);
 	border-radius: 12px;
-	padding: 2rem;
-	position: relative;
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	transition: all 0.2s ease;
+}
+
+.stepCard:hover {
+	border-color: var(--sm-accent);
+	transform: translateY(-3px);
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.stepHeader {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin-bottom: 0.75rem;
 }
 
 .stepNumber {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	background: var(--sm-terracotta-dark);
-	border: 1px solid rgba(255, 158, 100, 0.25);
-	color: var(--sm-terracotta);
+	width: 38px;
+	height: 38px;
+	border-radius: 8px;
+	background: rgba(0, 210, 255, 0.1);
+	border: 1px solid rgba(0, 210, 255, 0.2);
+	color: var(--sm-accent);
 	font-weight: 800;
-	font-size: 1.1rem;
+	font-size: 1.05rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-bottom: 1.25rem;
+	flex-shrink: 0;
 }
 
 .stepTitle {
-	font-size: 1.2rem;
+	font-size: 1.1rem;
 	font-weight: 700;
 	color: var(--sm-text-bright);
-	margin-bottom: 0.5rem;
+	margin: 0;
 }
 
 .stepDesc {
-	font-size: 0.95rem;
+	font-size: 0.9rem;
 	color: var(--sm-text);
-	line-height: 1.5;
+	line-height: 1.55;
 	margin: 0;
 }
 
@@ -750,10 +788,6 @@
 	margin-bottom: 1.25rem;
 	display: flex;
 	justify-content: center;
-}
-
-.heroLogo {
-	filter: drop-shadow(0 0 18px rgba(193, 144, 104, 0.45));
 }
 
 .bottomSection {
