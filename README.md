@@ -8,7 +8,7 @@ Lightweight Manifest V3 Chrome extension for managing user scripts locally in yo
 
 Scriptmonkey is a minimal, free, open-source and local Tampermonkey alternative built specifically for Google Chrome's Manifest V3 `userScripts` API. It features a management dashboard with a code editor, metadata inspection, and a quick-action toolbar popup.
 
-📖 **Full Documentation**: Visit the [Website](https://matwoess.github.io/scriptmonkey/) or read the [Docs](https://matwoess.github.io/scriptmonkey/docs/intro).
+📖 **Full Documentation**: Visit the [Website](https://matwoess.github.io/scriptmonkey/) or read the [Docs](https://matwoess.github.io/scriptmonkey/docs/overview).
 
 ## Quick Start
 
@@ -43,9 +43,10 @@ For details on supported metadata keys and how they are handled, see [Metadata S
 
 ## Documentation Links
 
-- 📚 [Documentation Overview](https://matwoess.github.io/scriptmonkey/docs/intro)
+- 📚 [Overview](https://matwoess.github.io/scriptmonkey/docs/overview)
 - ⚙️ [Features](https://matwoess.github.io/scriptmonkey/docs/features)
 - 🏷️ [Metadata Support](https://matwoess.github.io/scriptmonkey/docs/metadata-support)
-- 🛠️ [Development & Building Guide](https://matwoess.github.io/scriptmonkey/docs/development)
+- 📐 [Technical Architecture](https://matwoess.github.io/scriptmonkey/docs/architecture)
+- 🛠️ [Development Guide](https://matwoess.github.io/scriptmonkey/docs/development)
 - 📋 [Planned Features](https://matwoess.github.io/scriptmonkey/docs/planned-features)
 - 🔒 [Privacy Policy](https://matwoess.github.io/scriptmonkey/privacy-policy)

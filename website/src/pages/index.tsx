@@ -71,7 +71,7 @@ function HeroHeader() {
 						Add to Chrome
 					</a>
 
-					<Link className={styles.secondaryBtn} to="/docs/intro">
+					<Link className={styles.secondaryBtn} to="/docs/overview">
 						<svg
 							width="18"
 							height="18"
@@ -716,7 +716,7 @@ function BottomCTA() {
 					>
 						Install Extension
 					</a>
-					<Link className={styles.secondaryBtn} to="/docs/intro">
+					<Link className={styles.secondaryBtn} to="/docs/overview">
 						Read Documentation
 					</Link>
 				</div>
