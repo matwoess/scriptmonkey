@@ -48,4 +48,4 @@ For details on supported metadata keys and how they are handled, see [Metadata S
 - 🏷️ [Metadata Support](https://matwoess.github.io/scriptmonkey/docs/metadata-support)
 - 🛠️ [Development & Building Guide](https://matwoess.github.io/scriptmonkey/docs/development)
 - 📋 [Planned Features](https://matwoess.github.io/scriptmonkey/docs/planned-features)
-- 🔒 [Privacy Policy](https://matwoess.github.io/scriptmonkey/docs/privacy-policy)
+- 🔒 [Privacy Policy](https://matwoess.github.io/scriptmonkey/privacy-policy)

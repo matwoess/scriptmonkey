@@ -57,6 +57,11 @@ const config: Config = {
 					label: "Docs",
 				},
 				{
+					to: "/privacy-policy",
+					label: "Privacy Policy",
+					position: "left",
+				},
+				{
 					href: "https://github.com/matwoess/scriptmonkey",
 					label: "GitHub",
 					position: "right",
@@ -89,9 +94,18 @@ const config: Config = {
 							label: "Planned Features",
 							to: "/docs/planned-features",
 						},
+					],
+				},
+				{
+					title: "Legal",
+					items: [
 						{
 							label: "Privacy Policy",
-							to: "/docs/privacy-policy",
+							to: "/privacy-policy",
+						},
+						{
+							label: "License (Apache-2.0)",
+							href: "https://github.com/matwoess/scriptmonkey/blob/main/LICENSE",
 						},
 					],
 				},
