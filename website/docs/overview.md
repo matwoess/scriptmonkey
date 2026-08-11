@@ -40,7 +40,7 @@ Additional script options and confirmation dialogs open in an overlay context wi
 
 ### Dashboard Interface
 
-The Dashboard is a full-featured management studio for editing, organizing, and inspecting your scripts.
+The Dashboard is an editor interface for editing, organizing, and inspecting your scripts.
 
 ![Scriptmonkey Dashboard Editor](/dashboard.png)
 
@@ -61,7 +61,7 @@ Scriptmonkey parses standard `==UserScript==` block headers:
 // @name         Example Enhancement
 // @namespace    http://example.com/
 // @version      1.0.0
-// @description  Adds awesome features to example.com
+// @description  Adds dark mode styling to example.com
 // @match        https://example.com/*
 // @grant        none
 // ==/UserScript==

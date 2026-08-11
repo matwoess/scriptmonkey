@@ -115,6 +115,7 @@
 }
 
 /* Mockup Frame */
+/* Extension Dashboard Mockup Frame */
 .mockupContainer {
 	max-width: 960px;
 	margin: 0 auto;
@@ -123,7 +124,7 @@
 	border-radius: 12px;
 	overflow: hidden;
 	box-shadow:
-		0 20px 40px rgba(0, 0, 0, 0.15),
+		0 20px 40px rgba(0, 0, 0, 0.2),
 		0 0 30px var(--sm-border-glow);
 	text-align: left;
 }
@@ -132,52 +133,49 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 0.75rem 1.25rem;
+	padding: 0.6rem 1.25rem;
 	background: var(--sm-bg);
 	border-bottom: 1px solid var(--sm-border);
 }
 
-.windowControls {
+.mockupHeaderLeft {
 	display: flex;
-	gap: 0.45rem;
+	align-items: center;
+	gap: 0.5rem;
 }
 
-.controlDot {
-	width: 11px;
-	height: 11px;
-	border-radius: 50%;
+.mockupBrandLogo {
+	width: 18px;
+	height: 18px;
 }
 
-.dotRed {
-	background: #ff5f56;
-}
-.dotYellow {
-	background: #ffbd2e;
-}
-.dotGreen {
-	background: #27c93f;
+.mockupHeaderTitle {
+	font-family: var(--ifm-font-family-base);
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: var(--sm-text-bright);
 }
 
-.mockupTitle {
-	font-family: var(--ifm-font-family-monospace);
-	font-size: 0.8rem;
-	color: var(--sm-muted);
+.mockupHeaderRight {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
 }
 
-.mockupBadge {
-	font-size: 0.75rem;
+.mockupSavedBadge {
+	font-size: 0.72rem;
 	font-weight: 600;
 	color: var(--sm-green);
 	background: rgba(115, 218, 202, 0.12);
-	padding: 0.2rem 0.6rem;
-	border-radius: 6px;
+	padding: 0.15rem 0.5rem;
+	border-radius: 4px;
 	border: 1px solid rgba(115, 218, 202, 0.25);
 }
 
 .mockupBody {
 	display: grid;
-	grid-template-columns: 240px 1fr;
-	min-height: 280px;
+	grid-template-columns: 280px 1fr;
+	min-height: 360px;
 }
 
 @media (max-width: 768px) {
@@ -186,78 +184,226 @@
 	}
 }
 
+/* Sidebar Mock */
 .mockupSidebar {
 	background: var(--sm-bg);
 	border-right: 1px solid var(--sm-border);
-	padding: 1rem;
+	padding: 0.9rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
 }
 
-.sidebarHeading {
+.mockupBrandRow {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.2rem 0.2rem 0.4rem;
+}
+
+.brandIconSmall {
+	width: 16px;
+	height: 16px;
+}
+
+.sidebarBrandTitle {
+	font-size: 0.9rem;
+	font-weight: 700;
+	color: var(--sm-text-bright);
+}
+
+.mockupImportZone {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	padding: 0.6rem 0.75rem;
+	border: 1.5px dashed var(--sm-border);
+	border-radius: 8px;
+	background: var(--sm-surface);
+	color: var(--sm-accent);
+}
+
+.importTextGroup {
+	display: flex;
+	flex-direction: column;
+}
+
+.importTextGroup strong {
 	font-size: 0.75rem;
+	color: var(--sm-text-bright);
+}
+
+.importTextGroup span {
+	font-size: 0.68rem;
+	color: var(--sm-muted);
+}
+
+.mockupSearchBox {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.4rem 0.6rem;
+	border: 1px solid var(--sm-border);
+	border-radius: 6px;
+	background: var(--sm-surface);
+	color: var(--sm-muted);
+	font-size: 0.75rem;
+}
+
+.sidebarSectionTitle {
+	font-size: 0.7rem;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
 	color: var(--sm-muted);
 	font-weight: 700;
-	margin-bottom: 0.75rem;
+	margin-top: 0.2rem;
 }
 
-.scriptItem {
+.scriptListMock {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.scriptCard {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	padding: 0.5rem 0.75rem;
-	border-radius: 6px;
-	margin-bottom: 0.4rem;
-	font-size: 0.85rem;
-	color: var(--sm-text);
-	background: transparent;
-	transition: background 0.15s;
-}
-
-.scriptItemActive {
-	background: rgba(0, 210, 255, 0.12);
-	color: var(--sm-text-bright);
-	border-left: 3px solid var(--sm-accent);
-}
-
-.statusIndicator {
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background: var(--sm-green);
-}
-
-.mockupContent {
-	padding: 1.25rem;
+	gap: 0.65rem;
+	padding: 0.55rem 0.65rem;
+	border: 1px solid var(--sm-border);
+	border-radius: 8px;
 	background: var(--sm-surface);
+	transition: all 0.15s ease;
+}
+
+.scriptCardActive {
+	border-color: var(--sm-accent);
+	background: var(--sm-surface-hover);
+	box-shadow: 0 0 10px rgba(0, 210, 255, 0.15);
+}
+
+.scriptAvatar {
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	background: rgba(0, 210, 255, 0.12);
+	color: var(--sm-accent);
+	font-weight: 700;
+	font-size: 0.8rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+.scriptCardContent {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.scriptCardName {
+	font-size: 0.78rem;
+	font-weight: 600;
+	color: var(--sm-text-bright);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.scriptCardBadges {
+	display: flex;
+	margin-top: 0.15rem;
+}
+
+.matchBadge {
+	font-size: 0.65rem;
+	color: var(--sm-terracotta);
+	background: var(--sm-terracotta-dark);
+	border: 1px solid rgba(255, 158, 100, 0.25);
+	padding: 0.05rem 0.35rem;
+	border-radius: 4px;
+	font-family: var(--ifm-font-family-monospace);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* Editor & Main Content Pane */
+.mockupContent {
+	padding: 1rem;
+	background: var(--sm-surface);
+	display: flex;
+	flex-direction: column;
 	overflow-x: auto;
 }
 
-.metadataCard {
-	margin-bottom: 0.75rem;
-	padding: 0.6rem;
-	background: var(--sm-surface);
-	border-radius: 6px;
+.editorToolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid var(--sm-border);
+	padding-bottom: 0.6rem;
+	margin-bottom: 0.85rem;
+	flex-wrap: wrap;
+	gap: 0.5rem;
 }
 
-.metadataCard:last-child {
-	margin-bottom: 0;
+.editorTitleMeta {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
 }
 
-.metadataKey {
-	color: var(--sm-accent);
+.editorScriptName {
+	font-size: 0.9rem;
+	font-weight: 700;
+	color: var(--sm-text-bright);
+}
+
+.editorVersionTag {
+	font-size: 0.72rem;
 	font-weight: 600;
+	color: var(--sm-terracotta);
+	background: var(--sm-terracotta-dark);
+	padding: 0.1rem 0.4rem;
+	border-radius: 4px;
+	border: 1px solid rgba(255, 158, 100, 0.25);
+}
+
+.editorPane {
+	display: flex;
+	background: var(--sm-bg);
+	border: 1px solid var(--sm-border);
+	border-radius: 8px;
+	padding: 0.75rem 0.5rem;
+	font-family: var(--ifm-font-family-monospace);
+	font-size: 0.8rem;
+	overflow-x: auto;
+}
+
+.lineNumbers {
+	display: flex;
+	flex-direction: column;
+	padding-right: 0.75rem;
+	margin-right: 0.75rem;
+	border-right: 1px solid var(--sm-border);
+	color: var(--sm-muted);
+	text-align: right;
+	user-select: none;
+	line-height: 1.6;
 }
 
 .codeSnippet {
 	font-family: var(--ifm-font-family-monospace);
-	font-size: 0.875rem;
+	font-size: 0.8rem;
 	line-height: 1.6;
 	color: var(--sm-text);
 	margin: 0;
 	background: transparent;
 	padding: 0;
 	border: none;
+	flex: 1;
 }
 
 .kw {
@@ -293,9 +439,65 @@
 	color: #e5c07b;
 }
 
+/* Metadata Inspection Pane */
+.metadataContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	font-size: 0.82rem;
+}
+
+.metadataCard {
+	background: var(--sm-bg);
+	border: 1px solid var(--sm-border);
+	border-radius: 8px;
+	padding: 0.75rem;
+}
+
+.metadataCardTitle {
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--sm-accent);
+	margin-bottom: 0.5rem;
+}
+
+.metadataRow {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.25rem 0;
+	border-bottom: 1px dashed var(--sm-border);
+}
+
+.metadataRow:last-child {
+	border-bottom: none;
+}
+
+.metadataKey {
+	color: var(--sm-muted);
+	font-weight: 600;
+}
+
+.metadataVal {
+	color: var(--sm-text-bright);
+	font-family: var(--ifm-font-family-monospace);
+}
+
+.metadataBadgeVal {
+	color: var(--sm-terracotta);
+	background: var(--sm-terracotta-dark);
+	border: 1px solid rgba(255, 158, 100, 0.25);
+	padding: 0.1rem 0.4rem;
+	border-radius: 4px;
+	font-family: var(--ifm-font-family-monospace);
+	font-size: 0.75rem;
+}
+
 /* Sections */
 .section {
-	padding: 5rem 1.5rem;
+	padding: 4.5rem 1.5rem;
 	max-width: 1200px;
 	margin: 0 auto;
 }
@@ -303,7 +505,7 @@
 .sectionHeader {
 	text-align: center;
 	max-width: 700px;
-	margin: 0 auto 3.5rem;
+	margin: 0 auto 3rem;
 }
 
 .sectionTag {
@@ -320,12 +522,12 @@
 	font-size: 2.25rem;
 	font-weight: 800;
 	color: var(--sm-text-bright);
-	margin-bottom: 1rem;
+	margin-bottom: 0.85rem;
 	letter-spacing: -0.01em;
 }
 
 .sectionSubtitle {
-	font-size: 1.1rem;
+	font-size: 1.05rem;
 	color: var(--sm-text);
 	line-height: 1.6;
 }
@@ -341,14 +543,14 @@
 	background: var(--sm-surface);
 	border: 1px solid var(--sm-border);
 	border-radius: 12px;
-	padding: 2rem;
+	padding: 1.75rem;
 	transition: all 0.25s ease;
 	position: relative;
 	overflow: hidden;
 }
 
 .featureCard:hover {
-	transform: translateY(-4px);
+	transform: translateY(-3px);
 	border-color: var(--sm-border-glow);
 	box-shadow:
 		0 12px 30px rgba(0, 0, 0, 0.12),
@@ -356,8 +558,8 @@
 }
 
 .featureIcon {
-	width: 48px;
-	height: 48px;
+	width: 44px;
+	height: 44px;
 	border-radius: 10px;
 	background: rgba(0, 210, 255, 0.1);
 	border: 1px solid rgba(0, 210, 255, 0.2);
@@ -365,49 +567,85 @@
 	align-items: center;
 	justify-content: center;
 	color: var(--sm-accent);
-	font-size: 1.5rem;
-	margin-bottom: 1.25rem;
+	font-size: 1.4rem;
+	margin-bottom: 1.1rem;
 }
 
 .featureTitle {
-	font-size: 1.25rem;
+	font-size: 1.2rem;
 	font-weight: 700;
 	color: var(--sm-text-bright);
-	margin-bottom: 0.75rem;
+	margin-bottom: 0.6rem;
 }
 
 .featureDesc {
-	font-size: 0.95rem;
+	font-size: 0.92rem;
 	line-height: 1.6;
 	color: var(--sm-text);
 	margin: 0;
 }
 
-/* Showcase Section */
-.showcaseBox {
+/* Directive Showcase Section */
+.directiveGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 1.25rem;
+}
+
+.directiveCard {
 	background: var(--sm-surface);
 	border: 1px solid var(--sm-border);
-	border-radius: 14px;
-	padding: 2rem;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+	border-radius: 10px;
+	padding: 1.25rem 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	transition: border-color 0.2s ease;
+}
+
+.directiveCard:hover {
+	border-color: var(--sm-accent);
+}
+
+.directiveTag {
+	color: var(--sm-accent);
+	font-weight: 700;
+	font-size: 0.95rem;
+	background: rgba(0, 210, 255, 0.1);
+	padding: 0.2rem 0.5rem;
+	border-radius: 4px;
+	align-self: flex-start;
+}
+
+.directiveDesc {
+	font-size: 0.88rem;
+	color: var(--sm-text);
+	line-height: 1.5;
+	margin: 0;
+}
+
+.directiveExample {
+	font-size: 0.78rem;
+	color: var(--sm-muted);
+	background: var(--sm-bg);
+	padding: 0.35rem 0.5rem;
+	border-radius: 6px;
+	border: 1px solid var(--sm-border);
+	margin-top: auto;
 }
 
 .tabList {
 	display: flex;
-	gap: 0.5rem;
-	border-bottom: 1px solid var(--sm-border);
-	padding-bottom: 0.75rem;
-	margin-bottom: 1rem;
-	overflow-x: auto;
+	gap: 0.4rem;
 }
 
 .tabBtn {
 	background: transparent;
 	border: 1px solid transparent;
 	color: var(--sm-text);
-	padding: 0.5rem 1rem;
+	padding: 0.35rem 0.75rem;
 	border-radius: 6px;
-	font-size: 0.9rem;
+	font-size: 0.82rem;
 	font-weight: 600;
 	cursor: pointer;
 	transition: all 0.2s;
@@ -473,9 +711,9 @@
 	background: var(--sm-surface);
 	border: 1px solid rgba(193, 144, 104, 0.3);
 	border-radius: 16px;
-	padding: 4rem 2rem;
+	padding: 3.5rem 2rem;
 	text-align: center;
-	margin: 2rem auto 5rem;
+	margin: 2rem auto 4rem;
 	max-width: 1000px;
 	box-shadow:
 		0 15px 40px rgba(0, 0, 0, 0.12),
@@ -483,17 +721,17 @@
 }
 
 .bottomCtaTitle {
-	font-size: 2.5rem;
+	font-size: 2.2rem;
 	font-weight: 800;
 	color: var(--sm-text-bright);
-	margin-bottom: 1rem;
+	margin-bottom: 0.85rem;
 }
 
 .bottomCtaDesc {
-	font-size: 1.15rem;
+	font-size: 1.05rem;
 	color: var(--sm-text);
 	max-width: 600px;
-	margin: 0 auto 2rem;
+	margin: 0 auto 1.75rem;
 }
 
 @media (max-width: 768px) {
@@ -516,30 +754,6 @@
 
 .heroLogo {
 	filter: drop-shadow(0 0 18px rgba(193, 144, 104, 0.45));
-}
-
-.metadataContainer {
-	font-size: 0.875rem;
-	color: var(--sm-text);
-}
-
-.showcaseHeader {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 1rem;
-}
-
-.showcaseFilename {
-	color: var(--sm-accent);
-	font-weight: 600;
-	font-size: 0.9rem;
-}
-
-.copyBtn {
-	border: 1px solid var(--sm-border);
-	background: var(--sm-surface);
-	color: var(--sm-text-bright);
 }
 
 .bottomSection {

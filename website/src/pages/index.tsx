@@ -110,118 +110,262 @@ function InteractiveMockup() {
 	return (
 		<div className={styles.mockupContainer}>
 			<div className={styles.mockupHeader}>
-				<div className={styles.windowControls}>
-					<span className={`${styles.controlDot} ${styles.dotRed}`} />
-					<span className={`${styles.controlDot} ${styles.dotYellow}`} />
-					<span className={`${styles.controlDot} ${styles.dotGreen}`} />
+				<div className={styles.mockupHeaderLeft}>
+					<span className={styles.mockupHeaderTitle}>
+						Scriptmonkey Dashboard
+					</span>
 				</div>
-				<div className={styles.mockupTitle}>
-					Scriptmonkey Dashboard - dark-theme.user.js
+				<div className={styles.mockupHeaderRight}>
+					<span className={styles.mockupSavedBadge}>Saved</span>
 				</div>
-				<div className={styles.mockupBadge}>Active</div>
 			</div>
 
 			<div className={styles.mockupBody}>
 				<div className={styles.mockupSidebar}>
-					<div className={styles.sidebarHeading}>Installed Scripts</div>
-					<div className={`${styles.scriptItem} ${styles.scriptItemActive}`}>
-						<span>Dark Theme Enforcer</span>
-						<span className={styles.statusIndicator} />
+					<div className={styles.mockupBrandRow}>
+						<img
+							src="icon.svg"
+							width="16"
+							height="16"
+							alt="Scriptmonkey"
+							className={styles.brandIconSmall}
+						/>
+						<span className={styles.sidebarBrandTitle}>Scriptmonkey</span>
 					</div>
-					<div className={styles.scriptItem}>
-						<span>GitHub Clean Feed</span>
-						<span className={styles.statusIndicator} />
+
+					<div className={styles.mockupImportZone}>
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							aria-hidden="true"
+						>
+							<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+							<polyline points="17 8 12 3 7 8" />
+							<line x1="12" y1="3" x2="12" y2="15" />
+						</svg>
+						<div className={styles.importTextGroup}>
+							<strong>Add / Import Script</strong>
+							<span>Drag & drop a file here</span>
+						</div>
 					</div>
-					<div className={styles.scriptItem}>
-						<span>YouTube Auto HD</span>
-						<span className={styles.statusIndicator} />
+
+					<div className={styles.mockupSearchBox}>
+						<svg
+							width="12"
+							height="12"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth="2.5"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							aria-hidden="true"
+						>
+							<circle cx="11" cy="11" r="8" />
+							<line x1="21" y1="21" x2="16.65" y2="16.65" />
+						</svg>
+						<span>Search scripts...</span>
 					</div>
-					<div className={styles.scriptItem}>
-						<span>No-Ads Bypass</span>
-						<span className={styles.statusIndicator} />
+
+					<div className={styles.sidebarSectionTitle}>All Scripts (3)</div>
+
+					<div className={styles.scriptListMock}>
+						<div className={`${styles.scriptCard} ${styles.scriptCardActive}`}>
+							<div className={styles.scriptAvatar}>D</div>
+							<div className={styles.scriptCardContent}>
+								<div className={styles.scriptCardName}>Dark Theme Enforcer</div>
+								<div className={styles.scriptCardBadges}>
+									<span className={styles.matchBadge}>
+										https://*.example.com/*
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div className={styles.scriptCard}>
+							<div className={styles.scriptAvatar}>G</div>
+							<div className={styles.scriptCardContent}>
+								<div className={styles.scriptCardName}>GitHub Clean Feed</div>
+								<div className={styles.scriptCardBadges}>
+									<span className={styles.matchBadge}>
+										https://github.com/*
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div className={styles.scriptCard}>
+							<div className={styles.scriptAvatar}>Y</div>
+							<div className={styles.scriptCardContent}>
+								<div className={styles.scriptCardName}>YouTube Auto HD</div>
+								<div className={styles.scriptCardBadges}>
+									<span className={styles.matchBadge}>
+										https://youtube.com/*
+									</span>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 
 				<div className={styles.mockupContent}>
-					<div className={styles.tabList}>
-						<button
-							type="button"
-							className={`${styles.tabBtn} ${activeTab === "editor" ? styles.tabBtnActive : ""}`}
-							onClick={() => setActiveTab("editor")}
-						>
-							Code Editor
-						</button>
-						<button
-							type="button"
-							className={`${styles.tabBtn} ${activeTab === "metadata" ? styles.tabBtnActive : ""}`}
-							onClick={() => setActiveTab("metadata")}
-						>
-							Metadata Rules
-						</button>
+					<div className={styles.editorToolbar}>
+						<div className={styles.editorTitleMeta}>
+							<span className={styles.editorScriptName}>
+								Dark Theme Enforcer
+							</span>
+							<span className={styles.editorVersionTag}>v1.2.0</span>
+						</div>
+
+						<div className={styles.tabList}>
+							<button
+								type="button"
+								className={`${styles.tabBtn} ${activeTab === "editor" ? styles.tabBtnActive : ""}`}
+								onClick={() => setActiveTab("editor")}
+							>
+								Code Editor
+							</button>
+							<button
+								type="button"
+								className={`${styles.tabBtn} ${activeTab === "metadata" ? styles.tabBtnActive : ""}`}
+								onClick={() => setActiveTab("metadata")}
+							>
+								Parsed Metadata
+							</button>
+						</div>
 					</div>
 
 					{activeTab === "editor" ? (
-						<pre className={styles.codeSnippet}>
-							<code>
-								<span className={styles.cm}>{"// ==UserScript=="}</span>
-								{"\n"}
-								<span className={styles.cm}>
-									{"// @name Dark Theme Enforcer"}
-								</span>
-								{"\n"}
-								<span className={styles.cm}>{"// @version 1.2.0"}</span>
-								{"\n"}
-								<span className={styles.cm}>
-									{"// @match https://*.example.com/*"}
-								</span>
-								{"\n"}
-								<span className={styles.cm}>{"// @grant none"}</span>
-								{"\n"}
-								<span className={styles.cm}>{"// ==/UserScript=="}</span>
-								{"\n"}
-								{"\n"}(<span className={styles.kw}>function</span> () {"{"}
-								{"\n"}
-								{"  "}
-								<span className={styles.str}>'use strict'</span>;{"\n"}
-								{"  "}
-								<span className={styles.kw}>const</span> darkCss ={" "}
-								<span className={styles.str}>
-									`body &#123; background: #121212 !important; color: #e0e0e0
-									!important; &#125;`
-								</span>
-								;{"\n"}
-								{"  "}
-								<span className={styles.kw}>const</span> style = document.
-								<span className={styles.fn}>createElement</span>(
-								<span className={styles.str}>'style'</span>);{"\n"}
-								{"  "}style.textContent = darkCss;{"\n"}
-								{"  "}document.head.
-								<span className={styles.fn}>appendChild</span>(style);{"\n"}
-								{"  "}console.<span className={styles.fn}>log</span>(
-								<span className={styles.str}>
-									'[Scriptmonkey] Custom dark theme applied!'
-								</span>
-								);{"\n"}
-								{"}"})();
-							</code>
-						</pre>
+						<div className={styles.editorPane}>
+							<div className={styles.lineNumbers}>
+								<span>1</span>
+								<span>2</span>
+								<span>3</span>
+								<span>4</span>
+								<span>5</span>
+								<span>6</span>
+								<span>7</span>
+								<span>8</span>
+								<span>9</span>
+								<span>10</span>
+								<span>11</span>
+								<span>12</span>
+								<span>13</span>
+								<span>14</span>
+								<span>15</span>
+								<span>16</span>
+							</div>
+							<pre className={styles.codeSnippet}>
+								<code>
+									<span className={styles.cm}>{"// ==UserScript=="}</span>
+									{"\n"}
+									<span className={styles.cm}>
+										{"// @name         Dark Theme Enforcer"}
+									</span>
+									{"\n"}
+									<span className={styles.cm}>{"// @version      1.2.0"}</span>
+									{"\n"}
+									<span className={styles.cm}>
+										{
+											"// @description  Applies dark mode styling to example.com"
+										}
+									</span>
+									{"\n"}
+									<span className={styles.cm}>
+										{"// @match        https://*.example.com/*"}
+									</span>
+									{"\n"}
+									<span className={styles.cm}>
+										{"// @run-at       document-idle"}
+									</span>
+									{"\n"}
+									<span className={styles.cm}>{"// @grant        none"}</span>
+									{"\n"}
+									<span className={styles.cm}>{"// ==/UserScript=="}</span>
+									{"\n"}
+									{"\n"}(<span className={styles.kw}>function</span> () {"{"}
+									{"\n"}
+									{"  "}
+									<span className={styles.str}>'use strict'</span>;{"\n"}
+									{"  "}
+									<span className={styles.kw}>const</span> darkCss ={" "}
+									<span className={styles.str}>
+										`body &#123; background: #101114 !important; color: #e0e0e0
+										!important; &#125;`
+									</span>
+									;{"\n"}
+									{"  "}
+									<span className={styles.kw}>const</span> style = document.
+									<span className={styles.fn}>createElement</span>(
+									<span className={styles.str}>'style'</span>);{"\n"}
+									{"  "}style.textContent = darkCss;{"\n"}
+									{"  "}document.head.
+									<span className={styles.fn}>appendChild</span>(style);{"\n"}
+									{"  "}console.<span className={styles.fn}>log</span>(
+									<span className={styles.str}>
+										'[Scriptmonkey] Custom dark theme applied!'
+									</span>
+									);{"\n"}
+									{"}"})();
+								</code>
+							</pre>
+						</div>
 					) : (
 						<div className={styles.metadataContainer}>
 							<div className={styles.metadataCard}>
-								<span className={styles.metadataKey}>@name:</span>{" "}
-								<span className={styles.str}>"Dark Theme Enforcer"</span>
+								<div className={styles.metadataCardTitle}>
+									General Information
+								</div>
+								<div className={styles.metadataRow}>
+									<span className={styles.metadataKey}>@name</span>
+									<span className={styles.metadataVal}>
+										"Dark Theme Enforcer"
+									</span>
+								</div>
+								<div className={styles.metadataRow}>
+									<span className={styles.metadataKey}>@version</span>
+									<span className={styles.metadataVal}>"1.2.0"</span>
+								</div>
+								<div className={styles.metadataRow}>
+									<span className={styles.metadataKey}>@description</span>
+									<span className={styles.metadataVal}>
+										"Applies dark mode styling to example.com"
+									</span>
+								</div>
 							</div>
+
 							<div className={styles.metadataCard}>
-								<span className={styles.metadataKey}>@match:</span>{" "}
-								<span className={styles.str}>"https://*.example.com/*"</span>
+								<div className={styles.metadataCardTitle}>Match Rules</div>
+								<div className={styles.metadataRow}>
+									<span className={styles.metadataKey}>@match</span>
+									<span className={styles.metadataBadgeVal}>
+										https://*.example.com/*
+									</span>
+								</div>
 							</div>
+
 							<div className={styles.metadataCard}>
-								<span className={styles.metadataKey}>@version:</span>{" "}
-								<span className={styles.kw}>1.2.0</span>
-							</div>
-							<div className={styles.metadataCard}>
-								<span className={styles.metadataKey}>Execution Target:</span>{" "}
-								<span className={styles.str}>"Chrome MV3 userScripts API"</span>
+								<div className={styles.metadataCardTitle}>Execution Target</div>
+								<div className={styles.metadataRow}>
+									<span className={styles.metadataKey}>Target API</span>
+									<span className={styles.metadataVal}>
+										Chrome MV3 userScripts
+									</span>
+								</div>
+								<div className={styles.metadataRow}>
+									<span className={styles.metadataKey}>Execution World</span>
+									<span className={styles.metadataVal}>MAIN</span>
+								</div>
+								<div className={styles.metadataRow}>
+									<span className={styles.metadataKey}>Injection Timing</span>
+									<span className={styles.metadataVal}>document-idle</span>
+								</div>
 							</div>
 						</div>
 					)}
@@ -265,54 +409,13 @@ function FeatureGrid() {
 					strokeLinejoin="round"
 					aria-hidden="true"
 				>
-					<polyline points="16 18 22 12 16 6" />
-					<polyline points="8 6 2 12 8 18" />
-				</svg>
-			),
-			title: "CodeMirror 6 Editor",
-			desc: "Full-featured code editor with syntax highlighting, line numbers, error diagnostics, and Ctrl+S quick save.",
-		},
-		{
-			icon: (
-				<svg
-					width="24"
-					height="24"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					strokeWidth="2"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-					aria-hidden="true"
-				>
-					<rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-					<line x1="3" y1="9" x2="21" y2="9" />
-					<line x1="9" y1="21" x2="9" y2="9" />
-				</svg>
-			),
-			title: "Parsed Metadata Cards",
-			desc: "View automatically parsed @name, @match, @include, @exclude, and @version rules organized into clean collapsible cards.",
-		},
-		{
-			icon: (
-				<svg
-					width="24"
-					height="24"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					strokeWidth="2"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-					aria-hidden="true"
-				>
 					<rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
 					<line x1="8" y1="21" x2="16" y2="21" />
 					<line x1="12" y1="17" x2="12" y2="21" />
 				</svg>
 			),
 			title: "Popup & Dashboard UIs",
-			desc: "Instant popup menu to toggle scripts on active pages + full-screen dashboard for searching and editing your library.",
+			desc: "Toolbar popup to toggle active scripts on current pages and a full dashboard to manage your script library.",
 		},
 		{
 			icon: (
@@ -331,7 +434,7 @@ function FeatureGrid() {
 				</svg>
 			),
 			title: "Automatic Script Updates",
-			desc: "Compares script version tags against remote @updateURL or @downloadURL feeds with manual or bulk update actions.",
+			desc: "Compares script version tags against remote @updateURL or @downloadURL endpoints for manual or batch updates.",
 		},
 		{
 			icon: (
@@ -352,7 +455,48 @@ function FeatureGrid() {
 				</svg>
 			),
 			title: "Drag & Drop Import",
-			desc: "Import existing .user.js or .js files instantly by dragging them into the dashboard or extension popup.",
+			desc: "Import local .user.js or .js files by dragging them into the dashboard or selecting them from your disk.",
+		},
+		{
+			icon: (
+				<svg
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					aria-hidden="true"
+				>
+					<rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+					<line x1="3" y1="9" x2="21" y2="9" />
+					<line x1="9" y1="21" x2="9" y2="9" />
+				</svg>
+			),
+			title: "Parsed Metadata Cards",
+			desc: "Automatically parses @name, @match, @include, @exclude, @version and other metadata into structured collapsible cards.",
+		},
+		{
+			icon: (
+				<svg
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="2"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					aria-hidden="true"
+				>
+					<polyline points="16 18 22 12 16 6" />
+					<polyline points="8 6 2 12 8 18" />
+				</svg>
+			),
+			title: "Embedded Code Editor",
+			desc: "Built-in CodeMirror 6 editor with syntax highlighting, line numbers, error diagnostics, and Ctrl+S quick save.",
 		},
 	];
 
@@ -361,11 +505,11 @@ function FeatureGrid() {
 			<div className={styles.sectionHeader}>
 				<span className={styles.sectionTag}>Features</span>
 				<Heading as="h2" className={styles.sectionTitle}>
-					Everything You Need, Nothing You Don't
+					Simple, Focused Capabilities
 				</Heading>
 				<p className={styles.sectionSubtitle}>
-					Designed for users and developers who want a modern, performant, and
-					privacy-respecting script manager.
+					A lightweight user script manager focused on standard UserScript
+					compatibility and local execution.
 				</p>
 			</div>
 
@@ -382,84 +526,61 @@ function FeatureGrid() {
 	);
 }
 
-function CodeShowcase() {
-	const [copied, setCopied] = useState(false);
-
-	const sampleScript = (
-		<>
-			<span className={styles.cm}>{"// ==UserScript=="}</span>
-			{"\n"}
-			<span className={styles.cm}>{"// @name GitHub Enhancer"}</span>
-			{"\n"}
-			<span className={styles.cm}>{"// @match https://github.com/*"}</span>
-			{"\n"}
-			<span className={styles.cm}>
-				{
-					"// @description Adds quick navigation shortcuts and custom dark styling"
-				}
-			</span>
-			{"\n"}
-			<span className={styles.cm}>{"// @version 1.0.0"}</span>
-			{"\n"}
-			<span className={styles.cm}>{"// ==/UserScript=="}</span>
-			{"\n\n"}(<span className={styles.kw}>function</span> () {"{\n"}
-			{"  "}
-			<span className={styles.str}>'use strict'</span>;{"\n"}
-			{"  "}console.<span className={styles.fn}>log</span>(
-			<span className={styles.str}>
-				'[Scriptmonkey] GitHub script running on'
-			</span>
-			, window.location.href);{"\n"}
-			{"}"})();
-		</>
-	);
-
-	const rawScript = `// ==UserScript==
-// @name         GitHub Enhancer
-// @match        https://github.com/*
-// @description  Adds quick navigation shortcuts and custom dark styling
-// @version      1.0.0
-// ==/UserScript==
-
-(function () {
-  'use strict';
-  console.log('[Scriptmonkey] GitHub script running on', window.location.href);
-})();`;
-
-	const copyCode = () => {
-		navigator.clipboard.writeText(rawScript);
-		setCopied(true);
-		setTimeout(() => setCopied(false), 2000);
-	};
+function DirectiveShowcase() {
+	const directives = [
+		{
+			tag: "@name",
+			desc: "Defines the user script title shown in popup menus and dashboard lists.",
+			example: "// @name Dark Theme Enforcer",
+		},
+		{
+			tag: "@version",
+			desc: "Semantic version string used during automated update checks.",
+			example: "// @version 1.2.0",
+		},
+		{
+			tag: "@match",
+			desc: "Chrome match pattern string targeting specific URLs for script injection.",
+			example: "// @match https://*.example.com/*",
+		},
+		{
+			tag: "@include / @exclude",
+			desc: "Wildcard patterns or regex patterns to include or exclude specific pages.",
+			example: "// @exclude https://*.example.com/login",
+		},
+		{
+			tag: "@run-at",
+			desc: "Controls injection timing: document-start or document-idle.",
+			example: "// @run-at document-idle",
+		},
+		{
+			tag: "@updateURL / @downloadURL",
+			desc: "Remote HTTP endpoints checked when inspecting or applying updates.",
+			example: "// @updateURL https://example.com/script.meta.js",
+		},
+	];
 
 	return (
 		<section className={styles.section}>
 			<div className={styles.sectionHeader}>
-				<span className={styles.sectionTag}>Compatibility</span>
+				<span className={styles.sectionTag}>Directives</span>
 				<Heading as="h2" className={styles.sectionTitle}>
-					Standard UserScript Format
+					Supported UserScript Directives
 				</Heading>
 				<p className={styles.sectionSubtitle}>
-					Works seamlessly with your existing scripts. Full support for standard
-					metadata headers and rule matching.
+					Scriptmonkey parses standard metadata headers to configure matching
+					and execution rules.
 				</p>
 			</div>
 
-			<div className={styles.showcaseBox}>
-				<div className={styles.showcaseHeader}>
-					<span className={styles.showcaseFilename}>sample-script.user.js</span>
-					<button
-						type="button"
-						className={`${styles.tabBtn} ${styles.copyBtn}`}
-						onClick={copyCode}
-					>
-						{copied ? "Copied!" : "Copy Code"}
-					</button>
-				</div>
-
-				<pre className={styles.codeSnippet}>
-					<code>{sampleScript}</code>
-				</pre>
+			<div className={styles.directiveGrid}>
+				{directives.map((item) => (
+					<div key={item.tag} className={styles.directiveCard}>
+						<code className={styles.directiveTag}>{item.tag}</code>
+						<p className={styles.directiveDesc}>{item.desc}</p>
+						<code className={styles.directiveExample}>{item.example}</code>
+					</div>
+				))}
 			</div>
 		</section>
 	);
@@ -475,12 +596,12 @@ function HowItWorks() {
 		{
 			num: "2",
 			title: "Create or Import",
-			desc: 'Click "Add Script" in the dashboard or drop your .user.js files directly into the window.',
+			desc: 'Click "Add / Import Script" in the dashboard or drag .user.js files directly into the window.',
 		},
 		{
 			num: "3",
-			title: "Automate & Enjoy",
-			desc: "Scripts run automatically on matching web pages with instant reload and zero overhead.",
+			title: "Automate",
+			desc: "Scripts execute automatically on matching web pages when enabled.",
 		},
 	];
 
@@ -511,11 +632,11 @@ function BottomCTA() {
 		<section className={styles.bottomSection}>
 			<div className={styles.bottomCta}>
 				<Heading as="h2" className={styles.bottomCtaTitle}>
-					Ready to take control of your web scripts?
+					Ready to manage your user scripts?
 				</Heading>
 				<p className={styles.bottomCtaDesc}>
-					Install Scriptmonkey today and experience a clean, modern user script
-					manager for Chrome.
+					Install Scriptmonkey today for a minimal, lightweight user script
+					manager in Chrome.
 				</p>
 				<div className={styles.bottomCtaButtons}>
 					<a
@@ -544,7 +665,7 @@ export default function Home(): ReactNode {
 			<HeroHeader />
 			<main>
 				<FeatureGrid />
-				<CodeShowcase />
+				<DirectiveShowcase />
 				<HowItWorks />
 				<BottomCTA />
 			</main>
