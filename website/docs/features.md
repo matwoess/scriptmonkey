@@ -41,4 +41,5 @@ This page details the technical features and capabilities supported by **Scriptm
 ## Local Data Storage & Privacy
 
 - **Local Storage API**: Stores all user script code, parsed metadata, and application state in `chrome.storage.local`.
-- **No External Sync**: Runs entirely local to the browser with no background telemetry, analytics tracking, or external cloud synchronization.
+- **Ad-Free & Tracking-Free**: Contains zero advertisements, sponsored links, analytics tracking, or background telemetry.
+- **No External Sync**: Runs entirely local to the browser with no external cloud synchronization.

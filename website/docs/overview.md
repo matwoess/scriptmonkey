@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Overview
 
-Welcome to the official documentation for **Scriptmonkey**, a minimalistic Manifest V3 Chrome extension for managing user scripts.
+Welcome to the official documentation for **Scriptmonkey**, a minimalistic, ad-free Manifest V3 Chrome extension for managing user scripts.
 
 ## Getting Started
 
