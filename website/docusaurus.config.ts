@@ -70,8 +70,8 @@ const config: Config = {
 					title: "Docs",
 					items: [
 						{
-							label: "Intro",
-							to: "/docs/intro",
+							label: "Overview",
+							to: "/docs/overview",
 						},
 						{
 							label: "Features & Metadata",
