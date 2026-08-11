@@ -83,7 +83,11 @@ const config: Config = {
 							to: "/docs/metadata-support",
 						},
 						{
-							label: "Development",
+							label: "Technical Architecture",
+							to: "/docs/architecture",
+						},
+						{
+							label: "Development Guide",
 							to: "/docs/development",
 						},
 						{
