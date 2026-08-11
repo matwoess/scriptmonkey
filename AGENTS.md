@@ -1,43 +1,42 @@
 # AGENTS.md
 
-Welcome! This file provides context for AI agents working on the Scriptmonkey project.
-
 ## Project Overview
-Scriptmonkey is a lightweight Manifest V3 Chrome extension for managing user scripts (similar to Tampermonkey, but local and minimal). 
-It is built with **Vite**, **React**, and **TypeScript**.
+Scriptmonkey is a lightweight Manifest V3 Chrome extension for managing user scripts.
+Built with **Vite**, **React**, and **TypeScript**.
 
 ## Key Commands
-- **Install dependencies:** `npm install` (this also installs git hooks via Lefthook)
-- **Start dev server:** `npm run dev`
+- **Install dependencies:** `npm install` (installs git hooks via Lefthook)
+- **Start extension dev server:** `npm run dev`
 - **Build for production:** `npm run build`
+- **Start website dev server:** `npm --prefix website run start`
 
 ## Code Style & Linting
-This project uses **Biome** for formatting and linting.
+Uses **Biome** for formatting and linting.
 - **Check formatting:** `npm run format:check`
 - **Fix formatting:** `npm run format`
 - **Run linter:** `npm run lint`
 
 ## Testing
-This project uses **Vitest** for unit testing and **Playwright** for E2E testing.
+Uses **Vitest** for unit tests and **Playwright** for E2E tests.
 
 ### Unit Tests (Vitest)
 - **Run tests:** `npm run test`
-- **Run tests in watch mode:** `npm run test:watch`
+- **Run watch mode:** `npm run test:watch`
 
-Tests live in `tests/`, mirroring the `src/` structure. Pure utility functions are extracted from Chrome-API-dependent modules so they can be tested without mocks.
+Tests live in `tests/`, mirroring `src/`. Extract pure utility functions from Chrome-API-dependent modules for mock-free testing.
 
 ### E2E Tests (Playwright)
-- **Run tests:** `npm run test:e2e`
-- **Run tests with UI:** `npm run test:e2e:ui`
+- **Run E2E tests:** `npm run test:e2e`
+- **Run E2E tests with UI:** `npm run test:e2e:ui`
+- Playwright uses `open: "never"` for its HTML reporter to avoid launching a blocking local server on failure.
+- Build the extension (`npm run build`) before running E2E tests against `dist/`.
 
-**⚠️ E2E TEST INFORMATION FOR AGENTS:**
-- Playwright is configured with `open: "never"` for its HTML reporter to prevent automatically launching a blocking local report web server on failure.
-- Ensure the extension is built (`npm run build`) before running E2E tests, as they test the compiled `dist/` folder.
+## Documentation & Website
+- Update docs in `website/docs/` whenever adding or modifying features.
+- Keep the interactive UI mockup in `website/src/pages/index.tsx` updated when UI elements or script metadata behavior change.
 
 ## Guidelines
 - Write smart, concise tests with high signal and low boilerplate.
 - Keep code diffs minimal.
-- Use the latest supported syntax and best practices.
 - Use early return to reduce nesting.
 - Ask for details if scope or information is missing.
-- Always update the docs or tests if needed.
