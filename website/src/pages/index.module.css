@@ -20,21 +20,20 @@
 	gap: 0.5rem;
 	padding: 0.4rem 1rem;
 	border-radius: 9999px;
-	background: rgba(193, 144, 104, 0.12);
-	border: 1px solid rgba(230, 182, 139, 0.35);
+	background: rgba(255, 158, 100, 0.08);
+	border: 1px solid rgba(255, 158, 100, 0.25);
 	color: var(--sm-terracotta);
-	font-size: 0.875rem;
+	font-size: 0.85rem;
 	font-weight: 600;
+	letter-spacing: 0.02em;
 	margin-bottom: 1.5rem;
-	box-shadow: 0 0 15px rgba(193, 144, 104, 0.2);
+	transition: all 0.2s ease;
+	backdrop-filter: blur(8px);
 }
 
-.badgeDot {
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background: var(--sm-terracotta);
-	box-shadow: 0 0 8px var(--sm-terracotta);
+.badgePill:hover {
+	background: rgba(255, 158, 100, 0.14);
+	border-color: rgba(255, 158, 100, 0.45);
 }
 
 .heroTitle {
@@ -77,19 +76,22 @@
 	gap: 0.6rem;
 	padding: 0.85rem 1.75rem;
 	border-radius: 10px;
-	background: var(--sm-btn-bg);
-	color: var(--sm-btn-text);
+	background: rgba(0, 210, 255, 0.2);
+	border: 1px solid rgba(0, 210, 255, 0.45);
+	color: var(--sm-accent);
 	font-weight: 700;
 	font-size: 1rem;
 	text-decoration: none;
 	transition: all 0.2s ease;
-	box-shadow: 0 4px 20px var(--sm-btn-shadow);
+	box-shadow: 0 2px 14px rgba(0, 210, 255, 0.2);
 }
 
 .primaryBtn:hover {
+	background: rgba(0, 210, 255, 0.3);
+	border-color: rgba(0, 210, 255, 0.65);
+	color: var(--sm-accent);
 	transform: translateY(-2px);
-	box-shadow: 0 6px 25px var(--sm-btn-shadow-hover);
-	color: var(--sm-btn-text);
+	box-shadow: 0 4px 22px rgba(0, 210, 255, 0.35);
 }
 
 .secondaryBtn {
@@ -747,15 +749,15 @@
 /* Bottom Call to Action Banner */
 .bottomCta {
 	background: var(--sm-surface);
-	border: 1px solid rgba(193, 144, 104, 0.3);
+	border: 1px solid var(--sm-border);
 	border-radius: 16px;
 	padding: 3.5rem 2rem;
 	text-align: center;
 	margin: 2rem auto 4rem;
 	max-width: 1000px;
 	box-shadow:
-		0 15px 40px rgba(0, 0, 0, 0.12),
-		0 0 30px rgba(193, 144, 104, 0.1);
+		0 20px 40px rgba(0, 0, 0, 0.2),
+		0 0 30px var(--sm-border-glow);
 }
 
 .bottomCtaTitle {
