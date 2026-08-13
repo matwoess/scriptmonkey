@@ -20,8 +20,9 @@
 	font-size: 0.85rem;
 	letter-spacing: 0.02em;
 	margin-bottom: 1.5rem;
-	transition: all 0.2s ease;
-	backdrop-filter: blur(8px);
+	transition:
+		background var(--duration-fast) var(--ease-standard),
+		border-color var(--duration-fast) var(--ease-standard);
 }
 
 .badgePill:hover {

@@ -66,8 +66,15 @@ header h1::before {
 	padding-right: 48px;
 	border: 1px solid var(--border);
 	border-radius: var(--radius);
-	transition: all var(--transition-speed) ease;
+	transition:
+		background var(--duration-fast) var(--ease-standard),
+		border-color var(--duration-fast) var(--ease-standard),
+		transform var(--duration-fast) var(--ease-standard);
 	position: relative;
+}
+
+.script-item:active {
+	transform: scale(0.99);
 }
 
 #active-list .script-item {
@@ -180,7 +187,9 @@ header h1::before {
 	background: var(--border);
 	border: 1px solid transparent;
 	border-radius: 20px;
-	transition: all 0.2s ease;
+	transition:
+		background-color var(--duration-fast) var(--ease-standard),
+		border-color var(--duration-fast) var(--ease-standard);
 }
 
 .toggle .slider::before {
@@ -193,8 +202,8 @@ header h1::before {
 	background: var(--muted);
 	border-radius: 50%;
 	transition:
-		transform 0.2s ease,
-		background 0.2s;
+		transform var(--duration-fast) var(--ease-standard),
+		background var(--duration-fast) var(--ease-standard);
 }
 
 .toggle input:checked + .slider {

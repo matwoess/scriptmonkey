@@ -278,12 +278,13 @@ html {
 	padding: 0 32px 0 30px;
 	color: var(--text-bold);
 	font-size: 12.5px;
-	outline: none;
-	transition: border-color var(--transition-speed);
+	transition:
+		border-color var(--duration-fast) var(--ease-standard),
+		background var(--duration-fast) var(--ease-standard);
 }
 
 .search-box input:focus {
-	border-color: var(--border-hover);
+	border-color: var(--accent);
 }
 
 .search-clear-btn {
@@ -342,7 +343,11 @@ html {
 	display: flex;
 	gap: 14px;
 	cursor: pointer;
-	transition: all var(--transition-speed);
+	transition:
+		background var(--duration-fast) var(--ease-standard),
+		border-color var(--duration-fast) var(--ease-standard),
+		box-shadow var(--duration-fast) var(--ease-standard),
+		transform var(--duration-fast) var(--ease-standard);
 	outline: none;
 }
 
@@ -351,11 +356,13 @@ html {
 	border-color: var(--border-hover);
 }
 
+.script-card:active {
+	transform: scale(0.99);
+}
+
 .script-card.active {
 	border-color: var(--accent);
-	box-shadow:
-		0 0 12px rgba(0, 210, 255, 0.18),
-		inset 0 0 0 0.5px rgba(0, 210, 255, 0.2);
+	box-shadow: 0 0 12px rgba(0, 210, 255, 0.18);
 }
 
 .card-left {
@@ -976,20 +983,22 @@ input:checked + .toggle-slider:before {
 	width: 100vw;
 	height: 100vh;
 	background: var(--backdrop-bg);
-	backdrop-filter: blur(4px);
 	z-index: 2000;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	transition: opacity var(--duration-normal) var(--ease-standard);
 }
 
 .dashboard-modal {
-	background: var(--surface);
+	background: var(--surface-elevated);
 	border: 1px solid var(--border);
 	border-radius: var(--radius);
 	padding: 24px;
 	max-width: 420px;
 	width: 100%;
+	transform: scale(0.97);
+	transition: transform var(--duration-normal) var(--ease-out);
 }
 
 .dashboard-modal h3 {
