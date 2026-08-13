@@ -6,6 +6,9 @@ sidebar_position: 6
 
 This document outlines upcoming features, enhancements, and roadmap items planned for **Scriptmonkey**.
 
+- **Import File validation**
+  - Validate file extension for drag and drop
+  - Validate file content for the metadata block before importing
 - **Icon Support**:
   - Parse and support the `@icon` metadata tag to load and display custom script icons in popups and dashboard lists.
 - **Editor Enhancements**:
