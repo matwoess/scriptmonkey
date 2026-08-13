@@ -853,7 +853,7 @@ export default function App() {
 														.map((m) => (
 															<span
 																key={m}
-																className="card-match-badge"
+																className="badge badge-match card-match-badge"
 																title={m}
 															>
 																{m}
@@ -862,7 +862,7 @@ export default function App() {
 													{(script.meta.matches?.length ?? 0) +
 														(script.meta.include?.length ?? 0) >
 														2 && (
-														<span className="card-match-badge text-muted">
+														<span className="badge badge-muted card-match-badge">
 															+
 															{(script.meta.matches?.length ?? 0) +
 																(script.meta.include?.length ?? 0) -
@@ -951,7 +951,7 @@ export default function App() {
 											</span>
 											{hasSyntaxError && (
 												<span
-													className="tab-error-badge"
+													className="badge badge-danger tab-error-badge"
 													style={{ marginLeft: "8px" }}
 												>
 													✕ 1 error

@@ -53,9 +53,9 @@ header h1::before {
 .banner {
 	margin: 12px 16px 0;
 	padding: 10px 14px;
-	border: 1px solid rgba(249, 115, 22, 0.25);
-	background: rgba(249, 115, 22, 0.07);
-	color: var(--yellow);
+	border: 1px solid var(--warning-border);
+	background: var(--warning-bg);
+	color: var(--warning);
 	border-radius: var(--radius);
 	line-height: 1.5;
 	font-size: 11px;
@@ -75,12 +75,12 @@ header h1::before {
 }
 
 #active-list .script-item {
-	border-left: 3px solid var(--green);
+	border-left: 3px solid var(--success);
 	background: var(--surface-card-active);
 }
 
 #active-list .script-item:hover {
-	border-color: var(--green);
+	border-color: var(--success);
 	background: var(--surface-hover);
 }
 
@@ -141,22 +141,15 @@ header h1::before {
 }
 
 .script-match {
-	color: var(--badge-text);
-	font-size: 9.5px;
-	font-family: var(--font-mono);
-	background: var(--badge-bg);
-	padding: 2px 6px;
-	border-radius: 4px;
 	display: block;
 	max-width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	white-space: nowrap;
-	line-height: 1.2;
+	font-size: 9.5px;
 }
 
 .script-update {
-	color: var(--badge-text);
+	color: var(--match-text);
 	font-size: 9.5px;
 	margin-top: 4px;
 	font-weight: 600;
@@ -310,15 +303,8 @@ header h1::before {
 }
 
 .section-count {
-	background: var(--border);
-	color: var(--text-bold);
-	font-size: 10px;
-	font-weight: 700;
-	padding: 1px 6px;
 	border-radius: 10px;
 	min-width: 18px;
-	text-align: center;
-	display: inline-block;
 }
 
 .modal-content h3 {
@@ -386,19 +372,12 @@ header h1::before {
 }
 
 .matches-list code {
-	background: var(--badge-bg);
-	border: none;
-	color: var(--badge-text);
-	padding: 3px 8px;
-	border-radius: 6px;
-	font-family: var(--font-mono);
-	font-size: 10px;
-	line-height: 1.2;
 	display: block;
 	width: 100%;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	white-space: nowrap;
+	padding: 3px 8px;
+	border-radius: 6px;
 }
 
 /* Welcome empty state for first-time use */
@@ -458,9 +437,9 @@ header h1::before {
 .step-number {
 	width: 16px;
 	height: 16px;
-	background: var(--badge-bg);
-	border: 1px solid var(--badge-border);
-	color: var(--badge-text);
+	background: var(--match-bg);
+	border: 1px solid var(--match-border);
+	color: var(--match-text);
 	font-size: 9px;
 	font-weight: 700;
 	border-radius: 50%;

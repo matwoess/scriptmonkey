@@ -13,7 +13,7 @@ function HeroHeader() {
 					<img src="icon.svg" width="72" height="72" alt="Scriptmonkey Logo" />
 				</div>
 
-				<div className={styles.badgePill}>
+				<div className={`badge badge-match badge-pill ${styles.badgePill}`}>
 					<svg
 						width="15"
 						height="15"
@@ -129,7 +129,9 @@ function InteractiveMockup() {
 					</span>
 				</div>
 				<div className={styles.mockupHeaderRight}>
-					<span className={styles.mockupSavedBadge}>Saved</span>
+					<span className={`badge badge-success ${styles.mockupSavedBadge}`}>
+						Saved
+					</span>
 				</div>
 			</div>
 
@@ -214,7 +216,7 @@ function InteractiveMockup() {
 							<div className={styles.scriptCardContent}>
 								<div className={styles.scriptCardName}>Dark Theme Enforcer</div>
 								<div className={styles.scriptCardBadges}>
-									<span className={styles.matchBadge}>
+									<span className={`badge badge-match ${styles.matchBadge}`}>
 										https://*.example.com/*
 									</span>
 								</div>
@@ -226,7 +228,7 @@ function InteractiveMockup() {
 							<div className={styles.scriptCardContent}>
 								<div className={styles.scriptCardName}>GitHub Clean Feed</div>
 								<div className={styles.scriptCardBadges}>
-									<span className={styles.matchBadge}>
+									<span className={`badge badge-match ${styles.matchBadge}`}>
 										https://github.com/*
 									</span>
 								</div>
@@ -238,7 +240,7 @@ function InteractiveMockup() {
 							<div className={styles.scriptCardContent}>
 								<div className={styles.scriptCardName}>YouTube Auto HD</div>
 								<div className={styles.scriptCardBadges}>
-									<span className={styles.matchBadge}>
+									<span className={`badge badge-match ${styles.matchBadge}`}>
 										https://youtube.com/*
 									</span>
 								</div>
@@ -377,7 +379,9 @@ function InteractiveMockup() {
 								<div className={styles.metadataCardTitle}>Match Rules</div>
 								<div className={styles.metadataRow}>
 									<span className={styles.metadataKey}>@match</span>
-									<span className={styles.metadataBadgeVal}>
+									<span
+										className={`badge badge-match ${styles.metadataBadgeVal}`}
+									>
 										https://*.example.com/*
 									</span>
 								</div>

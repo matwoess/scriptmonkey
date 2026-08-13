@@ -393,7 +393,9 @@ export default function App() {
 				<>
 					<div id="active-section">
 						<div className="section-label">
-							<span className="section-count">{activeScripts.length}</span>{" "}
+							<span className="badge badge-muted section-count">
+								{activeScripts.length}
+							</span>{" "}
 							Active on this page
 						</div>
 						<div id="active-list">
@@ -423,7 +425,9 @@ export default function App() {
 					{otherScripts.length > 0 && (
 						<div id="other-section">
 							<div className="section-label">
-								<span className="section-count">{otherScripts.length}</span>{" "}
+								<span className="badge badge-muted section-count">
+									{otherScripts.length}
+								</span>{" "}
 								Other scripts
 							</div>
 							<div id="other-list">
@@ -533,7 +537,9 @@ export default function App() {
 										...(selectedScript.meta.matches ?? []),
 										...(selectedScript.meta.include ?? []),
 									].map((m) => (
-										<code key={m}>{m}</code>
+										<code key={m} className="badge badge-match">
+											{m}
+										</code>
 									))}
 								</div>
 							</div>
@@ -653,7 +659,7 @@ function ScriptItem({
 				<div className="script-matches">
 					{[...(script.meta.matches ?? []), ...(script.meta.include ?? [])].map(
 						(m) => (
-							<div key={m} className="script-match">
+							<div key={m} className="badge badge-match script-match">
 								{m}
 							</div>
 						),

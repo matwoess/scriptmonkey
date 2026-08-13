@@ -155,7 +155,7 @@ html {
 
 .import-icon {
 	font-size: 28px;
-	color: var(--badge-text);
+	color: var(--match-text);
 }
 
 .import-text h3 {
@@ -181,7 +181,7 @@ html {
 .update-link-btn {
 	background: none;
 	border: none;
-	color: var(--badge-text);
+	color: var(--match-text);
 	font-size: 12.5px;
 	font-weight: 600;
 	cursor: pointer;
@@ -419,21 +419,15 @@ html {
 }
 
 .card-match-badge {
-	background: var(--badge-bg);
-	color: var(--badge-text);
-	padding: 1px 6px;
-	border-radius: 4px;
-	font-size: 10.5px;
-	font-family: var(--font-mono);
-	white-space: nowrap;
+	max-width: 220px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	max-width: 220px;
+	font-size: 10.5px;
 }
 
 .card-update-status {
 	font-size: 11px;
-	color: var(--badge-text);
+	color: var(--match-text);
 	font-weight: 600;
 	margin-bottom: 6px;
 	letter-spacing: 0.02em;
@@ -482,7 +476,7 @@ html {
 .update-indicator-btn {
 	background: none;
 	border: none;
-	color: var(--badge-text);
+	color: var(--match-text);
 	font-weight: 600;
 	cursor: pointer;
 	font-size: 11px;
@@ -638,7 +632,7 @@ input:checked + .toggle-slider:before {
 }
 
 .unsaved-header-label {
-	color: var(--badge-text);
+	color: var(--warning);
 	font-size: 12.5px;
 	font-weight: 600;
 	margin-right: 8px;
@@ -651,7 +645,7 @@ input:checked + .toggle-slider:before {
 	width: 6px;
 	height: 6px;
 	border-radius: 50%;
-	background-color: var(--badge-text);
+	background-color: var(--warning);
 }
 
 /* Container Queries for responsive editor header elements */
@@ -691,13 +685,8 @@ input:checked + .toggle-slider:before {
 }
 
 .tab-error-badge {
-	color: var(--danger);
 	font-size: 12px;
-	font-weight: 600;
-	background: var(--danger-bg);
-	border: 1px solid var(--danger-border);
 	padding: 2px 8px;
-	border-radius: 4px;
 }
 
 /* Collapsible bottom metadata panel */

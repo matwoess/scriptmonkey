@@ -16,14 +16,18 @@
 	--text-on-accent: #101114; /* high-contrast dark text on accent colors */
 	--backdrop-bg: rgba(16, 17, 20, 0.85); /* modal backdrop background */
 	--overlay-bg: rgba(16, 17, 20, 0.95); /* drag overlay background */
-	--yellow: #f97316;
-	--badge-bg: #3e2a20; /* terracotta badge background */
-	--badge-text: #ff9e64; /* badge orange text */
-	--badge-border: rgba(255, 158, 100, 0.25); /* terracotta badge border */
+	--warning: #f97316;
+	--warning-bg: rgba(249, 115, 22, 0.08);
+	--warning-border: rgba(249, 115, 22, 0.25);
+	--match-bg: #3e2a20; /* match pattern badge background */
+	--match-text: #ff9e64; /* match pattern badge text */
+	--match-border: rgba(255, 158, 100, 0.25); /* match pattern badge border */
 	--danger: #f7768e;
 	--danger-bg: rgba(247, 118, 142, 0.1);
 	--danger-border: rgba(247, 118, 142, 0.25);
-	--green: #73daca;
+	--success: #73daca;
+	--success-bg: rgba(115, 218, 202, 0.12);
+	--success-border: rgba(115, 218, 202, 0.25);
 	--radius: 8px;
 	--transition-speed: 0.15s;
 	--font: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
@@ -164,6 +168,71 @@
 .btn-glow:hover:not(:disabled) {
 	transform: translateY(-2px);
 	box-shadow: 0 4px 22px rgba(0, 210, 255, 0.35);
+}
+
+/* Unified Badge & Chip System */
+.badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	padding: 1px 6px;
+	border-radius: 4px;
+	font-size: 10px;
+	font-weight: 600;
+	line-height: 1.2;
+	white-space: nowrap;
+	border: 1px solid transparent;
+	font-family: var(--font);
+}
+
+.badge-mono {
+	font-family: var(--font-mono);
+}
+
+.badge-pill {
+	border-radius: 9999px;
+	padding: 2px 8px;
+}
+
+.badge-match {
+	background: var(--match-bg);
+	border-color: var(--match-border);
+	color: var(--match-text);
+	font-family: var(--font-mono);
+}
+
+.badge-accent,
+.badge-info {
+	background: rgba(0, 210, 255, 0.12);
+	border-color: rgba(0, 210, 255, 0.25);
+	color: var(--accent);
+}
+
+.badge-success,
+.badge-active {
+	background: var(--success-bg);
+	border-color: var(--success-border);
+	color: var(--success);
+}
+
+.badge-warning {
+	background: var(--warning-bg);
+	border-color: var(--warning-border);
+	color: var(--warning);
+}
+
+.badge-danger,
+.badge-error {
+	background: var(--danger-bg);
+	border-color: var(--danger-border);
+	color: var(--danger);
+}
+
+.badge-muted {
+	background: var(--border);
+	border-color: transparent;
+	color: var(--text-bold);
 }
 
 /* Common Modal */

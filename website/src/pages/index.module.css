@@ -15,16 +15,9 @@
 }
 
 .badgePill {
-	display: inline-flex;
-	align-items: center;
 	gap: 0.5rem;
 	padding: 0.4rem 1rem;
-	border-radius: 9999px;
-	background: rgba(255, 158, 100, 0.08);
-	border: 1px solid rgba(255, 158, 100, 0.25);
-	color: var(--sm-terracotta);
 	font-size: 0.85rem;
-	font-weight: 600;
 	letter-spacing: 0.02em;
 	margin-bottom: 1.5rem;
 	transition: all 0.2s ease;
@@ -49,8 +42,8 @@
 	color: var(--sm-accent);
 }
 
-.terracottaText {
-	color: var(--sm-terracotta);
+.matchText {
+	color: var(--sm-match);
 }
 
 .heroSubtitle {
@@ -132,12 +125,7 @@
 
 .mockupSavedBadge {
 	font-size: 0.72rem;
-	font-weight: 600;
-	color: var(--sm-green);
-	background: rgba(115, 218, 202, 0.12);
 	padding: 0.15rem 0.5rem;
-	border-radius: 4px;
-	border: 1px solid rgba(115, 218, 202, 0.25);
 }
 
 .mockupBody {
@@ -195,7 +183,7 @@
 	border: 1.5px dashed var(--sm-border);
 	border-radius: 8px;
 	background: var(--sm-surface);
-	color: var(--sm-terracotta);
+	color: var(--sm-match);
 }
 
 .importTextGroup {
@@ -293,13 +281,8 @@
 
 .matchBadge {
 	font-size: 0.65rem;
-	color: var(--sm-terracotta);
-	background: var(--sm-terracotta-dark);
-	border: 1px solid rgba(255, 158, 100, 0.25);
 	padding: 0.05rem 0.35rem;
-	border-radius: 4px;
-	font-family: var(--ifm-font-family-monospace);
-	white-space: nowrap;
+	max-width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
@@ -339,11 +322,11 @@
 .editorVersionTag {
 	font-size: 0.72rem;
 	font-weight: 600;
-	color: var(--sm-terracotta);
-	background: var(--sm-terracotta-dark);
+	color: var(--sm-match);
+	background: var(--sm-match-bg);
 	padding: 0.1rem 0.4rem;
 	border-radius: 4px;
-	border: 1px solid rgba(255, 158, 100, 0.25);
+	border: 1px solid var(--match-border);
 }
 
 .editorPane {
@@ -461,12 +444,7 @@
 }
 
 .metadataBadgeVal {
-	color: var(--sm-terracotta);
-	background: var(--sm-terracotta-dark);
-	border: 1px solid rgba(255, 158, 100, 0.25);
 	padding: 0.1rem 0.4rem;
-	border-radius: 4px;
-	font-family: var(--ifm-font-family-monospace);
 	font-size: 0.75rem;
 }
 
@@ -486,7 +464,7 @@
 .sectionTag {
 	font-size: 0.875rem;
 	font-weight: 700;
-	color: var(--sm-terracotta);
+	color: var(--sm-match);
 	text-transform: uppercase;
 	letter-spacing: 0.08em;
 	margin-bottom: 0.5rem;
@@ -629,7 +607,7 @@
 }
 
 .useCaseExample strong {
-	color: var(--sm-terracotta);
+	color: var(--sm-match);
 }
 
 .tabList {
