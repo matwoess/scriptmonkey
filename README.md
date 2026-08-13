@@ -16,10 +16,7 @@ Scriptmonkey is a minimal, free, open-source and local Tampermonkey alternative 
 2. Open `chrome://extensions` in Chrome and enable **Allow User Scripts** for Scriptmonkey.
 3. Open the Popup or Dashboard to create, import, or manage your user scripts.
 
-
-## What Scriptmonkey Does & Does Not Do (Yet)
-
-### What It Does
+## Features
 
 - **Manifest V3 Native Execution**: Uses Chrome's `chrome.userScripts` API to register and run scripts securely in the page's `MAIN` world context.
 - **Local Dashboard & Code Editor**: Integrated CodeMirror 6 JavaScript editor with syntax highlighting, live error validation, and `Ctrl+S` quick save.
@@ -28,14 +25,7 @@ Scriptmonkey is a minimal, free, open-source and local Tampermonkey alternative 
 - **Version Update Checks**: Fetches remote `@updateURL` / `@downloadURL` endpoints and compares versions to provide per-script or batch updates.
 - **Complete Privacy**: All scripts and settings are saved locally in `chrome.storage.local`.
 
-### What It Does Not Do Yet
-
-- **`GM_*` Privileged APIs**: `GM_setValue`, `GM_getValue`, `GM_xmlhttpRequest`, `GM_addStyle`, etc., are **not** implemented. Scripts run directly in the `MAIN` page context without special background privileges.
-- **External Dependencies**: `@require` (external script libraries) and `@resource` (external asset injection) are currently unsupported.
-- **Background Cron Updates**: Automatic scheduled background update checks are not performed; update checks are manual.
-- **Cross-Device Sync**: Scripts do not sync via Chrome Sync or cloud services.
-
-### Supported Metadata Keys
+## Supported Metadata Keys
 
 Scriptmonkey parses standard `==UserScript==` header blocks.
 
