@@ -1,5 +1,5 @@
 import type React from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { ExtensionMessage, Script, UpdateInfo } from "../types";
 import { scriptMatchesUrl } from "../utils/matching";
 
@@ -48,8 +48,6 @@ export default function App() {
 	} | null>(null);
 	const [selectedScript, setSelectedScript] = useState<Script | null>(null);
 	const [isDragging, setIsDragging] = useState<boolean>(false);
-
-	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const openDashboard = async (editScriptId?: string) => {
 		const url = chrome.runtime.getURL(
@@ -352,41 +350,46 @@ export default function App() {
 					<img
 						src={chrome.runtime.getURL("images/icon.svg")}
 						className="welcome-logo-img"
-						alt="logo"
+						alt="Scriptmonkey logo"
 					/>
-					<h2>Get Started with Scriptmonkey</h2>
+					<h2>Welcome to Scriptmonkey</h2>
 					<p className="welcome-desc">
-						You haven't added any user scripts yet. User scripts allow you to
-						customize and automate your favorite websites.
+						Customize and automate web pages with lightweight user scripts.
 					</p>
-					<div className="welcome-steps">
-						<div className="step-item">
-							<span className="step-number">1</span>
-							<p>
-								Click the <strong>Manage</strong> button to open the dashboard.
-							</p>
-						</div>
-						<div className="step-item">
-							<span className="step-number">2</span>
-							<p>
-								Or <strong>drag and drop</strong> multiple script files directly
-								here.
-							</p>
-						</div>
-						<div className="step-item">
-							<span className="step-number">3</span>
-							<p>
-								Scripts with Tampermonkey syntax (with <code>@updateURL</code>)
-								can be updated automatically.
-							</p>
-						</div>
+
+					<div className="welcome-drop-zone">
+						<span className="welcome-drop-icon">
+							<svg
+								aria-hidden="true"
+								viewBox="0 0 24 24"
+								width="22"
+								height="22"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="2"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+							>
+								<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+								<polyline points="17 8 12 3 7 8" />
+								<line x1="12" y1="3" x2="12" y2="15" />
+							</svg>
+						</span>
+						<span className="welcome-drop-title">
+							Drag &amp; drop script files here
+						</span>
+						<span className="welcome-drop-sub">
+							Supports Tampermonkey &amp; Greasemonkey user scripts (.user.js)
+							and their metadata blocks.
+						</span>
 					</div>
+
 					<button
 						type="button"
 						className="btn btn-primary btn-welcome"
 						onClick={() => void openDashboard()}
 					>
-						Manage scripts
+						Open Dashboard
 					</button>
 				</div>
 			) : (
@@ -459,7 +462,6 @@ export default function App() {
 				accept=".js,.user.js"
 				multiple
 				hidden
-				ref={fileInputRef}
 				onChange={handleAddFiles}
 			/>
 

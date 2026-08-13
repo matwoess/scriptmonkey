@@ -388,7 +388,7 @@ header h1::before {
 /* Welcome empty state for first-time use */
 .empty-state-welcome {
 	margin: 20px 16px;
-	padding: 24px 20px;
+	padding: 24px 20px 20px;
 	background: var(--surface);
 	border: 1px solid var(--border);
 	border-radius: var(--radius);
@@ -400,75 +400,71 @@ header h1::before {
 }
 
 .welcome-logo-img {
-	width: 48px;
-	height: 48px;
+	width: 44px;
+	height: 44px;
 	object-fit: contain;
 	margin-bottom: 12px;
 }
 
 .empty-state-welcome h2 {
 	font-size: var(--text-md);
-	margin-bottom: 8px;
+	font-weight: var(--font-weight-bold);
+	color: var(--text-bold);
+	margin-bottom: 6px;
 }
 
 .welcome-desc {
-	font-size: 11px;
-	color: var(--text);
-	line-height: 1.5;
+	font-size: var(--text-xs);
+	color: var(--muted);
+	line-height: var(--leading-normal);
 	margin-bottom: 16px;
+	max-width: 290px;
 }
 
-.welcome-steps {
+.welcome-drop-zone {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
-	margin-bottom: 20px;
-	text-align: left;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	padding: 16px 14px;
 	background: var(--surface-sidebar);
-	padding: 12px 14px;
-	border-radius: 6px;
-	border: 1px solid var(--border);
+	border: 1.5px dashed var(--border);
+	border-radius: var(--radius);
+	margin-bottom: 16px;
+	transition:
+		border-color var(--duration-fast) var(--ease-standard),
+		background var(--duration-fast) var(--ease-standard);
 }
 
-.step-item {
-	display: flex;
-	align-items: flex-start;
-	gap: 10px;
+.welcome-drop-zone:hover {
+	border-color: var(--match-border);
+	background: var(--surface-hover);
 }
 
-.step-number {
-	width: 16px;
-	height: 16px;
-	background: var(--match-bg);
-	border: 1px solid var(--match-border);
+.welcome-drop-icon {
 	color: var(--match-text);
-	font-size: 9px;
-	font-weight: 700;
-	border-radius: 50%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	flex-shrink: 0;
-	margin-top: 1px;
+	margin-bottom: 2px;
 }
 
-.step-item p {
+.welcome-drop-title {
+	font-size: 12px;
+	font-weight: var(--font-weight-semibold);
+	color: var(--text-bold);
+}
+
+.welcome-drop-sub {
 	font-size: 10.5px;
-	color: var(--text);
-	line-height: 1.4;
-}
-
-.step-item p code {
-	font-family: var(--font-mono);
-	background: rgba(255, 255, 255, 0.05);
-	padding: 1px 4px;
-	border-radius: 3px;
-	font-size: 9.5px;
+	color: var(--muted);
 }
 
 .btn-welcome {
 	width: 100%;
-	height: 32px;
+	height: 34px;
 	font-size: 12px;
+	font-weight: var(--font-weight-semibold);
 }
