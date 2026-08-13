@@ -65,13 +65,15 @@
 }
 
 .primaryBtn {
-	padding: 0.85rem 1.75rem;
+	height: 48px;
+	padding: 0 1.75rem;
 	border-radius: 10px;
 	font-size: 1rem;
 }
 
 .secondaryBtn {
-	padding: 0.85rem 1.5rem;
+	height: 48px;
+	padding: 0 1.5rem;
 	border-radius: 10px;
 	font-size: 1rem;
 }
@@ -171,9 +173,10 @@
 
 .mockupNewScriptBtn {
 	width: 100%;
-	padding: 0.45rem;
+	height: 32px;
+	padding: 0 0.75rem;
 	border-radius: 6px;
-	font-size: 0.78rem;
+	font-size: 0.8rem;
 }
 
 .mockupImportZone {
