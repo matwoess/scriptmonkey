@@ -30,3 +30,210 @@
 	--font-mono:
 		"Fira Code", "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
+
+/* Global resets & scrollbars */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+[hidden] {
+	display: none;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--border);
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--muted);
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+.font-mono {
+	font-family: var(--font-mono);
+}
+
+/* Base button palette */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	font-family: var(--font);
+	font-weight: 600;
+	border-radius: var(--radius);
+	cursor: pointer;
+	transition: all var(--transition-speed);
+	text-decoration: none;
+	outline: none;
+	border: 1px solid var(--border);
+	background: var(--surface);
+	color: var(--text-bold);
+}
+
+.btn:hover:not(:disabled) {
+	background: var(--surface-hover);
+	border-color: var(--border-hover);
+}
+
+.btn:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.btn-primary,
+.btn-accent {
+	background: rgba(0, 210, 255, 0.2);
+	border: 1px solid rgba(0, 210, 255, 0.45);
+	color: var(--accent);
+	font-weight: 700;
+	transition: all 0.2s ease;
+}
+
+.btn-primary:hover:not(:disabled),
+.btn-accent:hover:not(:disabled) {
+	background: rgba(0, 210, 255, 0.3);
+	border-color: rgba(0, 210, 255, 0.65);
+	color: var(--accent);
+}
+
+.btn-secondary {
+	background: transparent;
+	border-color: var(--border);
+	color: var(--text);
+}
+
+.btn-secondary:hover:not(:disabled) {
+	background: var(--surface-hover);
+	border-color: var(--border-hover);
+	color: var(--text-bold);
+}
+
+.btn-danger {
+	background: var(--danger-bg);
+	color: var(--danger);
+	border: 1px solid var(--danger-border);
+}
+
+.btn-danger:hover:not(:disabled) {
+	background: var(--danger);
+	color: var(--text-on-accent);
+	font-weight: 700;
+	border-color: var(--danger);
+}
+
+.btn-danger-outline {
+	background: transparent;
+	border: 1px solid var(--danger);
+	color: var(--danger);
+	font-weight: 600;
+}
+
+.btn-danger-outline:hover:not(:disabled) {
+	background: var(--danger-bg);
+}
+
+/* Glow & Lift button modifier (used on website / highlights) */
+.btn-glow {
+	box-shadow: 0 2px 14px rgba(0, 210, 255, 0.2);
+}
+
+.btn-glow:hover:not(:disabled) {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 22px rgba(0, 210, 255, 0.35);
+}
+
+/* Common Modal */
+.modal {
+	position: fixed;
+	inset: 0;
+	background: var(--backdrop-bg);
+	backdrop-filter: blur(4px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 100;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.2s ease;
+}
+
+.modal.show {
+	opacity: 1;
+	visibility: visible;
+}
+
+.modal-content {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 20px;
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+	transform: scale(0.95);
+	transition: transform 0.2s ease;
+}
+
+.modal.show .modal-content {
+	transform: scale(1);
+}
+
+.modal-actions {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
+	margin-top: 20px;
+}
+
+/* Common Drag & Drop Overlay */
+.drag-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--overlay-bg);
+	backdrop-filter: blur(8px);
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+}
+
+.drag-overlay-message {
+	text-align: center;
+	padding: 30px;
+	border: 2px dashed var(--accent);
+	border-radius: var(--radius);
+	background: var(--surface);
+	max-width: 500px;
+}
+
+.overlay-emoji {
+	font-size: 48px;
+	display: block;
+	margin-bottom: 12px;
+}

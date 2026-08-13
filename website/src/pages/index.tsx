@@ -46,7 +46,7 @@ function HeroHeader() {
 
 				<div className={styles.ctaButtons}>
 					<a
-						className={styles.primaryBtn}
+						className={`btn btn-primary btn-glow ${styles.primaryBtn}`}
 						href="https://chromewebstore.google.com/detail/scriptmonkey-beta/afmgkdanppbobipehgpfcmhpgeoejcpn"
 						target="_blank"
 						rel="noopener noreferrer"
@@ -71,7 +71,10 @@ function HeroHeader() {
 						Add to Chrome
 					</a>
 
-					<Link className={styles.secondaryBtn} to="/docs/overview">
+					<Link
+						className={`btn btn-secondary btn-glow ${styles.secondaryBtn}`}
+						to="/docs/overview"
+					>
 						<svg
 							width="18"
 							height="18"
@@ -90,7 +93,7 @@ function HeroHeader() {
 					</Link>
 
 					<a
-						className={styles.secondaryBtn}
+						className={`btn btn-secondary btn-glow ${styles.secondaryBtn}`}
 						href="https://github.com/matwoess/scriptmonkey"
 						target="_blank"
 						rel="noopener noreferrer"
@@ -143,7 +146,9 @@ function InteractiveMockup() {
 						<span className={styles.sidebarBrandTitle}>Scriptmonkey</span>
 					</div>
 
-					<div className={styles.mockupNewScriptBtn}>
+					<div
+						className={`btn btn-primary btn-glow ${styles.mockupNewScriptBtn}`}
+					>
 						<svg
 							width="14"
 							height="14"
@@ -727,14 +732,17 @@ function BottomCTA() {
 				</p>
 				<div className={styles.bottomCtaButtons}>
 					<a
-						className={styles.primaryBtn}
+						className={`btn btn-primary btn-glow ${styles.primaryBtn}`}
 						href="https://chromewebstore.google.com/detail/scriptmonkey-beta/afmgkdanppbobipehgpfcmhpgeoejcpn"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
 						Install Extension
 					</a>
-					<Link className={styles.secondaryBtn} to="/docs/overview">
+					<Link
+						className={`btn btn-secondary btn-glow ${styles.secondaryBtn}`}
+						to="/docs/overview"
+					>
 						Read Documentation
 					</Link>
 				</div>

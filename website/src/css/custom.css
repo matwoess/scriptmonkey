@@ -1,3 +1,5 @@
+@import "../../../src/theme.css";
+
 /**
  * Scriptmonkey documentation website global styles.
  */
@@ -36,33 +38,33 @@
 }
 
 [data-theme="dark"] {
-	--ifm-color-primary: #00d2ff;
+	--ifm-color-primary: var(--accent);
 	--ifm-color-primary-dark: #00b8e0;
 	--ifm-color-primary-darker: #00a0c4;
 	--ifm-color-primary-darkest: #007894;
 	--ifm-color-primary-light: #33dcff;
 	--ifm-color-primary-lighter: #66e4ff;
 	--ifm-color-primary-lightest: #99ebff;
-	--ifm-background-color: #101114;
-	--ifm-background-surface-color: #1a1c20;
+	--ifm-background-color: var(--bg);
+	--ifm-background-surface-color: var(--surface);
 	--docusaurus-highlighted-code-line-bg: rgba(0, 210, 255, 0.15);
 
-	--sm-bg: #101114;
-	--sm-surface: #1a1c20;
-	--sm-surface-hover: #22242a;
-	--sm-border: #292c33;
+	--sm-bg: var(--bg);
+	--sm-surface: var(--surface);
+	--sm-surface-hover: var(--surface-hover);
+	--sm-border: var(--border);
 	--sm-border-glow: rgba(0, 210, 255, 0.3);
-	--sm-text: #abb2bf;
-	--sm-text-bright: #f3f4f6;
-	--sm-muted: #6f7682;
-	--sm-accent: #00d2ff;
-	--sm-btn-bg: #00d2ff;
-	--sm-btn-text: #0b0f19;
+	--sm-text: var(--text);
+	--sm-text-bright: var(--text-bold);
+	--sm-muted: var(--muted);
+	--sm-accent: var(--accent);
+	--sm-btn-bg: var(--accent);
+	--sm-btn-text: var(--text-on-accent);
 	--sm-btn-shadow: rgba(0, 210, 255, 0.35);
 	--sm-btn-shadow-hover: rgba(0, 210, 255, 0.5);
-	--sm-terracotta: #ff9e64;
+	--sm-terracotta: var(--badge-text);
 	--sm-terracotta-light: #ffb888;
-	--sm-terracotta-dark: #3e2a20;
-	--sm-badge-orange: #f97316;
-	--sm-green: #73daca;
+	--sm-terracotta-dark: var(--badge-bg);
+	--sm-badge-orange: var(--yellow);
+	--sm-green: var(--green);
 }
