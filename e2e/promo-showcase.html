@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scriptmonkey Store Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #06090e;
+      color: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    .slide {
+      width: 1280px;
+      height: 800px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      background: linear-gradient(135deg, #0284c7 0%, #0d9488 45%, #059669 100%);
+    }
+
+    /* Ambient background lighting and dot-grid texture */
+    .slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.2) 0%, transparent 35%),
+        radial-gradient(circle at 88% 82%, rgba(0, 0, 0, 0.3) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(0, 210, 255, 0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+      background-size: 24px 24px;
+      pointer-events: none;
+      opacity: 0.65;
+    }
+
+    /* Pill badge */
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 14px;
+      background: rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      margin-bottom: 12px;
+    }
+
+    .badge-pill svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    /* Slide 1: Dashboard Top-Down Layout */
+    .slide-dashboard-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 48px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .dashboard-header {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .dashboard-title {
+      font-size: 35px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      color: #ffffff;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .dashboard-subtitle {
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.92);
+      margin-top: 6px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    }
+
+    .dashboard-window {
+      width: 1184px;
+      height: 645px;
+      border-radius: 14px 14px 0 0;
+      background: #0d1117;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-bottom: none;
+      box-shadow: 0 24px 60px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .window-titlebar {
+      height: 34px;
+      background: #161b22;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .traffic-lights {
+      display: flex;
+      gap: 7px;
+    }
+
+    .traffic-lights .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot.red { background: #ff5f56; }
+    .dot.yellow { background: #ffbd2e; }
+    .dot.green { background: #27c93f; }
+
+    .window-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.02em;
+    }
+
+    .dashboard-window-content {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .dashboard-window-content img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Slide 2 & 3: Two-Column Split Layout */
+    .slide-split-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 80px;
+      position: relative;
+      z-index: 1;
+      gap: 60px;
+    }
+
+    .split-text-col {
+      flex: 1;
+      max-width: 540px;
+    }
+
+    .split-title {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      color: #ffffff;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .split-subtitle {
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.45;
+      margin-bottom: 28px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.24);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    }
+
+    .feature-icon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #ffffff;
+    }
+
+    .feature-icon-box svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .feature-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .feature-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .feature-desc {
+      font-size: 12.5px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.35;
+    }
+
+    .split-image-col {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .popup-card-frame {
+      width: 400px;
+      height: 550px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.2);
+      background: #0d1117;
+      position: relative;
+    }
+
+    .popup-card-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Slide 1: Dashboard -->
+  <div id="slide-1" class="slide">
+    <div class="slide-dashboard-container">
+      <div class="dashboard-header">
+        <div class="badge-pill">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Manifest V3 User Script Manager</span>
+        </div>
+        <h1 class="dashboard-title">Full Dashboard & Code Editor</h1>
+        <p class="dashboard-subtitle">Manage, author, validate syntax, and inspect script metadata in one integrated interface</p>
+      </div>
+      <div class="dashboard-window">
+        <div class="window-titlebar">
+          <div class="traffic-lights">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="window-title">Scriptmonkey — Dashboard</span>
+        </div>
+        <div class="dashboard-window-content">
+          <img id="img-dashboard" src="../public/images/dashboard.png" alt="Scriptmonkey Dashboard">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 2: Popup Controls -->
+  <div id="slide-2" class="slide">
+    <div class="slide-split-container">
+      <div class="split-text-col">
+        <div class="badge-pill">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span>Quick Toolbar Controls</span>
+        </div>
+        <h1 class="split-title">Instant Domain Status & Quick Toggles</h1>
+        <p class="split-subtitle">Access controls, check updates, and toggle scripts right from your browser toolbar.</p>
+        
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon-box">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="feature-text">
+              <span class="feature-title">Active vs. Other Scripts</span>
+              <span class="feature-desc">See which scripts match the current website at a single glance.</span>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-box">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="5" width="22" height="14" rx="7" ry="7"/><circle cx="16" cy="12" r="3"/></svg>
+            </div>
+            <div class="feature-text">
+              <span class="feature-title">One-Click Toggle</span>
+              <span class="feature-desc">Enable or disable user scripts per domain with instant badge sync.</span>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-box">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </div>
+            <div class="feature-text">
+              <span class="feature-title">Version Update Checks</span>
+              <span class="feature-desc">Fetch remote update endpoints to keep your scripts up to date.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="split-image-col">
+        <div class="popup-card-frame">
+          <img id="img-popup" src="../public/images/popup.png" alt="Scriptmonkey Popup">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 3: Script Details & Metadata -->
+  <div id="slide-3" class="slide">
+    <div class="slide-split-container">
+      <div class="split-text-col">
+        <div class="badge-pill">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          <span>Metadata Inspection</span>
+        </div>
+        <h1 class="split-title">Inspect Metadata & Edit Scripts</h1>
+        <p class="split-subtitle">View detailed metadata properties and jump straight to editing in the dashboard.</p>
+        
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon-box">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="feature-text">
+              <span class="feature-title">Parsed Header Properties</span>
+              <span class="feature-desc">Inspect version, namespace, run-at, and grant rules effortlessly.</span>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-box">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div class="feature-text">
+              <span class="feature-title">Match & Include Rules</span>
+              <span class="feature-desc">Clear URL pattern tags showing exactly where scripts will run.</span>
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-icon-box">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </div>
+            <div class="feature-text">
+              <span class="feature-title">Quick Action Triggers</span>
+              <span class="feature-desc">Open the script in the full editor or remove scripts safely.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="split-image-col">
+        <div class="popup-card-frame">
+          <img id="img-popup-overlay" src="../public/images/popup-overlay.png" alt="Script Details Overlay">
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -159,6 +159,14 @@ test.describe("Generate Documentation Screenshots", () => {
 		await expect(popupPage.locator("#active-list .script-item")).toHaveCount(3);
 		await expect(popupPage.locator("#other-list .script-item")).toHaveCount(2);
 
+		// Hide scrollbars on popup page for clean screenshot
+		await popupPage.addStyleTag({
+			content: `
+				::-webkit-scrollbar { display: none !important; }
+				html, body { overflow: hidden !important; }
+			`,
+		});
+
 		// Set popup viewport to actual Chrome extension popup dimensions (400 x 550)
 		const POPUP_WIDTH = 400;
 		const POPUP_HEIGHT = 550;
@@ -187,6 +195,32 @@ test.describe("Generate Documentation Screenshots", () => {
 			path: path.join(imagesDir, "popup-overlay.png"),
 		});
 
+		// 6. Generate Promotional Showcase Screenshots
+		const promoDir = path.join(imagesDir, "promo");
+		fs.mkdirSync(promoDir, { recursive: true });
+
+		const showcasePage = await context.newPage();
+		await showcasePage.setViewportSize({ width: 1280, height: 800 });
+		const showcasePath = path.join(import.meta.dirname, "promo-showcase.html");
+		await showcasePage.goto(`file://${showcasePath}`);
+		await showcasePage.waitForTimeout(600);
+
+		// Slide 1: Dashboard
+		await showcasePage.locator("#slide-1").screenshot({
+			path: path.join(promoDir, "1-dashboard.png"),
+		});
+
+		// Slide 2: Popup Controls
+		await showcasePage.locator("#slide-2").screenshot({
+			path: path.join(promoDir, "2-popup.png"),
+		});
+
+		// Slide 3: Script Details
+		await showcasePage.locator("#slide-3").screenshot({
+			path: path.join(promoDir, "3-popup-details.png"),
+		});
+
+		await showcasePage.close();
 		await targetPage.close();
 		await popupPage.close();
 	});
