@@ -220,13 +220,23 @@
 	justify-content: center;
 	gap: 0.4rem;
 	padding: 0.45rem;
-	background: #3b82f6;
-	color: #ffffff;
+	background: rgba(0, 210, 255, 0.2);
+	border: 1px solid rgba(0, 210, 255, 0.45);
+	color: var(--sm-accent);
 	border-radius: 6px;
 	font-size: 0.78rem;
-	font-weight: 600;
+	font-weight: 700;
 	cursor: pointer;
-	box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+	transition: all 0.2s ease;
+	box-shadow: 0 2px 14px rgba(0, 210, 255, 0.2);
+}
+
+.mockupNewScriptBtn:hover {
+	background: rgba(0, 210, 255, 0.3);
+	border-color: rgba(0, 210, 255, 0.65);
+	color: var(--sm-accent);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 22px rgba(0, 210, 255, 0.35);
 }
 
 .mockupImportZone {

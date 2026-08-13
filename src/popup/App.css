@@ -347,32 +347,20 @@ header h1::before {
 	color: var(--text-bold);
 }
 
-.btn-primary {
-	background: var(--accent);
-	color: var(--text-on-accent);
-	font-weight: 700;
-	border: none;
-}
-
-.btn-primary:hover:not(:disabled) {
-	filter: brightness(1.1);
-	color: var(--text-on-accent);
-}
-
-.btn-primary:active:not(:disabled) {
-	filter: brightness(0.95);
-}
-
+.btn-primary,
 .btn-accent {
-	background: var(--accent);
-	color: var(--text-on-accent);
+	background: rgba(0, 210, 255, 0.2);
+	border: 1px solid rgba(0, 210, 255, 0.45);
+	color: var(--accent);
 	font-weight: 700;
-	border: none;
+	transition: all 0.2s ease;
 }
 
+.btn-primary:hover:not(:disabled),
 .btn-accent:hover:not(:disabled) {
-	filter: brightness(1.1);
-	color: var(--text-on-accent);
+	background: rgba(0, 210, 255, 0.3);
+	border-color: rgba(0, 210, 255, 0.65);
+	color: var(--accent);
 }
 
 .btn:disabled {
