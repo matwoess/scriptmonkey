@@ -22,15 +22,7 @@ header {
 header h1 {
 	font-size: var(--text-md);
 	letter-spacing: -0.02em;
-	display: flex;
-	align-items: center;
-	gap: 6px;
 	color: var(--accent);
-}
-
-header h1::before {
-	content: "🐵";
-	font-size: 16px;
 }
 
 .header-actions {
@@ -78,17 +70,15 @@ header h1::before {
 }
 
 #active-list .script-item {
-	border-left: 3px solid var(--success);
 	background: var(--surface-card-active);
 }
 
 #active-list .script-item:hover {
-	border-color: var(--success);
+	border-color: var(--border-hover);
 	background: var(--surface-hover);
 }
 
 #other-list .script-item {
-	border-left: 1px solid var(--border);
 	background: var(--surface-card-inactive);
 }
 
@@ -260,25 +250,24 @@ header h1::before {
 }
 
 .empty {
-	padding: 32px 16px;
+	padding: 24px 16px;
 	text-align: center;
 	color: var(--muted);
-	font-size: 11px;
-	background: rgba(36, 40, 59, 0.2);
-	margin: 10px 16px;
+	font-size: var(--text-xs);
+	background: var(--surface-sidebar);
+	margin: 8px 16px 12px;
 	border-radius: var(--radius);
 	border: 1px dashed var(--border);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 8px;
+	gap: 6px;
 }
 
-.empty::before {
-	content: "📭";
-	font-size: 20px;
-	opacity: 0.6;
+.empty-icon {
+	color: var(--muted);
+	opacity: 0.8;
 }
 
 .btn-update {
@@ -304,12 +293,33 @@ header h1::before {
 	color: var(--text-bold);
 	display: flex;
 	align-items: center;
-	gap: 8px;
+	gap: 6px;
 }
 
 .section-count {
-	border-radius: 10px;
+	font-size: 10px;
+	font-weight: 600;
+	font-family: var(--font-mono);
+	height: 18px;
 	min-width: 18px;
+	padding: 0 6px;
+	border-radius: 9999px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+}
+
+.section-count.badge-active {
+	background: rgba(0, 210, 255, 0.12);
+	color: var(--accent);
+	border: 1px solid rgba(0, 210, 255, 0.25);
+}
+
+.section-count.badge-muted {
+	background: var(--surface-sidebar);
+	color: var(--muted);
+	border: 1px solid var(--border);
 }
 
 .modal-content h3 {

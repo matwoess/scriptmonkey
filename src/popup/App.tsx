@@ -396,10 +396,14 @@ export default function App() {
 				<>
 					<div id="active-section">
 						<div className="section-label">
-							<span className="badge badge-muted section-count">
+							<span>Active on this page</span>
+							<span
+								className={`badge section-count ${
+									activeScripts.length > 0 ? "badge-active" : "badge-muted"
+								}`}
+							>
 								{activeScripts.length}
-							</span>{" "}
-							Active on this page
+							</span>
 						</div>
 						<div id="active-list">
 							{activeScripts.length > 0 ? (
@@ -420,7 +424,26 @@ export default function App() {
 									/>
 								))
 							) : (
-								<div className="empty">No scripts for this page</div>
+								<div className="empty">
+									<svg
+										aria-hidden="true"
+										viewBox="0 0 24 24"
+										width="20"
+										height="20"
+										fill="none"
+										stroke="currentColor"
+										strokeWidth="1.75"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										className="empty-icon"
+									>
+										<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+										<polyline points="14 2 14 8 20 8" />
+										<path d="m10 13-2 2 2 2" />
+										<path d="m14 17 2-2-2-2" />
+									</svg>
+									<span>No scripts for this page</span>
+								</div>
 							)}
 						</div>
 					</div>
@@ -428,10 +451,10 @@ export default function App() {
 					{otherScripts.length > 0 && (
 						<div id="other-section">
 							<div className="section-label">
+								<span>Other scripts</span>
 								<span className="badge badge-muted section-count">
 									{otherScripts.length}
-								</span>{" "}
-								Other scripts
+								</span>
 							</div>
 							<div id="other-list">
 								{otherScripts.map((script) => (
