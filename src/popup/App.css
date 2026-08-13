@@ -3,11 +3,8 @@
 body {
 	width: 400px;
 	min-height: 440px;
-	font-family: var(--font);
-	font-size: 12px;
+	font-size: var(--text-sm);
 	background: var(--bg-gradient);
-	color: var(--text);
-	-webkit-font-smoothing: antialiased;
 }
 
 header {
@@ -23,8 +20,7 @@ header {
 }
 
 header h1 {
-	font-size: 15px;
-	font-weight: 700;
+	font-size: var(--text-md);
 	letter-spacing: -0.02em;
 	display: flex;
 	align-items: center;
@@ -402,9 +398,7 @@ header h1::before {
 }
 
 .empty-state-welcome h2 {
-	font-size: 14px;
-	font-weight: 700;
-	color: var(--text-bold);
+	font-size: var(--text-md);
 	margin-bottom: 8px;
 }
 

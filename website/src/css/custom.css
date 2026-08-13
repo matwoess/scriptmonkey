@@ -14,8 +14,9 @@
 	--ifm-color-primary-lightest: #ade8f4;
 	--ifm-code-font-size: 95%;
 	--docusaurus-highlighted-code-line-bg: rgba(0, 210, 255, 0.1);
-	--ifm-font-family-base: "Inter", system-ui, -apple-system, sans-serif;
-	--ifm-heading-font-family: "Outfit", "Inter", system-ui, sans-serif;
+	--ifm-font-family-base: var(--font);
+	--ifm-heading-font-family: var(--font-heading);
+	--ifm-font-family-monospace: var(--font-mono);
 
 	--sm-bg: #ffffff;
 	--sm-surface: #f6f8fa;
