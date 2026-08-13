@@ -25,7 +25,7 @@ Click the Scriptmonkey icon in the browser toolbar to access quick actions and d
 
 The main popup layout provides instant status and control for scripts matching the active website:
 
-![Scriptmonkey Popup Details](/popup.png)
+![Scriptmonkey Popup Details](../../assets/docs/popup.png)
 
 - **Toolbar Badge**: Shows the exact number of active user scripts matching the current web page.
 - **Active & Available Scripts**: Easily view which scripts are executing on the current domain versus other installed scripts.
@@ -36,13 +36,13 @@ The main popup layout provides instant status and control for scripts matching t
 
 Additional script options and confirmation dialogs open in an overlay context within the popup:
 
-![Scriptmonkey Popup Overlay](/popup-overlay.png)
+![Scriptmonkey Popup Overlay](../../assets/docs/popup-overlay.png)
 
 ### Dashboard Interface
 
 The Dashboard is an editor interface for editing, organizing, and inspecting your scripts.
 
-![Scriptmonkey Dashboard Editor](/dashboard.png)
+![Scriptmonkey Dashboard Editor](../../assets/docs/dashboard.png)
 
 - **CodeMirror 6 Editor**: Includes syntax highlighting, automatic line numbers, matching brackets, and real-time JavaScript syntax validation.
 - **Save & Navigation Safety**: Save your scripts quickly using `Ctrl+S`. Scriptmonkey prompts for confirmation before navigating away with unsaved changes.

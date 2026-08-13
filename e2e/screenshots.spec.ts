@@ -29,7 +29,10 @@ test.describe("Generate Documentation Screenshots", () => {
 		extensionId,
 		context,
 	}) => {
-		const imagesDir = path.join(import.meta.dirname, "../public/images");
+		const docsDir = path.join(import.meta.dirname, "../assets/docs");
+		const promoDir = path.join(import.meta.dirname, "../assets/promo");
+		fs.mkdirSync(docsDir, { recursive: true });
+		fs.mkdirSync(promoDir, { recursive: true });
 
 		// Override getStatus in pages to simulate enabled User Scripts permission
 		const mockUserScriptsAvailable = async (p: typeof page) => {
@@ -139,7 +142,7 @@ test.describe("Generate Documentation Screenshots", () => {
 		await page.setViewportSize({ width: 1440, height: 900 });
 		await page.waitForTimeout(300);
 		await page.screenshot({
-			path: path.join(imagesDir, "dashboard.png"),
+			path: path.join(docsDir, "dashboard.png"),
 		});
 
 		// 3. Open target website (Vercel docs)
@@ -176,7 +179,7 @@ test.describe("Generate Documentation Screenshots", () => {
 		});
 		await popupPage.waitForTimeout(300);
 		await popupPage.screenshot({
-			path: path.join(imagesDir, "popup.png"),
+			path: path.join(docsDir, "popup.png"),
 		});
 
 		// 5. Open script details overlay for Reading Progress
@@ -192,13 +195,10 @@ test.describe("Generate Documentation Screenshots", () => {
 		// Capture popup overlay screenshot matching actual popup window dimensions
 		await popupPage.waitForTimeout(300);
 		await popupPage.screenshot({
-			path: path.join(imagesDir, "popup-overlay.png"),
+			path: path.join(docsDir, "popup-overlay.png"),
 		});
 
 		// 6. Generate Promotional Showcase Screenshots
-		const promoDir = path.join(imagesDir, "promo");
-		fs.mkdirSync(promoDir, { recursive: true });
-
 		const showcasePage = await context.newPage();
 		await showcasePage.setViewportSize({ width: 1280, height: 800 });
 		const showcasePath = path.join(import.meta.dirname, "promo-showcase.html");

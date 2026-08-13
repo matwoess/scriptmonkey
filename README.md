@@ -2,7 +2,7 @@
 
 Lightweight Manifest V3 Chrome extension for managing user scripts locally in your browser.
 
-![Scriptmonkey Dashboard](public/images/dashboard.png)
+![Scriptmonkey Dashboard](assets/docs/dashboard.png)
 
 ## Overview
 

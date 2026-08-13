@@ -13,7 +13,7 @@ const config: Config = {
 	organizationName: "matwoess",
 	projectName: "scriptmonkey",
 	trailingSlash: false,
-	staticDirectories: ["static", "../public/images"],
+	staticDirectories: ["static", "../assets/docs"],
 
 	onBrokenLinks: "throw",
 
