@@ -8,6 +8,7 @@
 		"test:watch": "vitest",
 		"test:e2e": "playwright test",
 		"test:e2e:ui": "playwright test --ui",
+		"screenshots": "playwright test e2e/screenshots.spec.ts",
 		"dev": "npm run icons && vite",
 		"build": "npm run icons && vite build",
 		"pack": "npm run build && node -e \"const v=require('./manifest.json').version;const {execSync}=require('child_process');execSync('cd dist && zip -r ../scriptmonkey-v'+v+'.zip .',{stdio:'inherit'});console.log('Created scriptmonkey-v'+v+'.zip')\"",
