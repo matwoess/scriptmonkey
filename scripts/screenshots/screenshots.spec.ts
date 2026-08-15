@@ -1,11 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
-import { expect, test } from "./fixtures";
+import { expect, test } from "../../e2e/fixtures";
 
 test.describe("Generate Documentation Screenshots", () => {
 	test.beforeEach(async ({ context }) => {
 		const mockPage = fs.readFileSync(
-			path.join(import.meta.dirname, "mock-page.html"),
+			path.join(import.meta.dirname, "../../e2e/mock-page.html"),
 			"utf-8",
 		);
 		await context.route("https://vercel.com/**", (route) => {
@@ -29,8 +29,8 @@ test.describe("Generate Documentation Screenshots", () => {
 		extensionId,
 		context,
 	}) => {
-		const docsDir = path.join(import.meta.dirname, "../assets/docs");
-		const promoDir = path.join(import.meta.dirname, "../assets/promo");
+		const docsDir = path.join(import.meta.dirname, "../../assets/docs");
+		const promoDir = path.join(import.meta.dirname, "../../assets/promo");
 		fs.mkdirSync(docsDir, { recursive: true });
 		fs.mkdirSync(promoDir, { recursive: true });
 
@@ -60,29 +60,38 @@ test.describe("Generate Documentation Screenshots", () => {
 
 		// 1. Prepare script sources with version offsets for updates
 		const addBtnSource = fs.readFileSync(
-			path.join(import.meta.dirname, "fixtures/add_button.js"),
+			path.join(import.meta.dirname, "../../e2e/fixtures/add_button.js"),
 			"utf-8",
 		);
 		const shiftKSource = fs
 			.readFileSync(
-				path.join(import.meta.dirname, "fixtures/control_palette_overlay.js"),
+				path.join(
+					import.meta.dirname,
+					"../../e2e/fixtures/control_palette_overlay.js",
+				),
 				"utf-8",
 			)
 			.replace("@version      1.2", "@version      1.1");
 		const paraCountSource = fs
 			.readFileSync(
-				path.join(import.meta.dirname, "fixtures/paragraph_counter.js"),
+				path.join(
+					import.meta.dirname,
+					"../../e2e/fixtures/paragraph_counter.js",
+				),
 				"utf-8",
 			)
 			.replace("@version      1.4", "@version      1.0");
 		const readingProgSource = fs
 			.readFileSync(
-				path.join(import.meta.dirname, "fixtures/reading_progress.js"),
+				path.join(
+					import.meta.dirname,
+					"../../e2e/fixtures/reading_progress.js",
+				),
 				"utf-8",
 			)
 			.replace("// @match        https://example.com/*\n", "");
 		const scrollToTopSource = fs.readFileSync(
-			path.join(import.meta.dirname, "fixtures/scroll_to_top.js"),
+			path.join(import.meta.dirname, "../../e2e/fixtures/scroll_to_top.js"),
 			"utf-8",
 		);
 
