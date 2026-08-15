@@ -1,4 +1,5 @@
 import Link from "@docusaurus/Link";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import Heading from "@theme/Heading";
 import Layout from "@theme/Layout";
 import type { ReactNode } from "react";
@@ -10,7 +11,12 @@ function HeroHeader() {
 		<header className={styles.heroBanner}>
 			<div className={styles.heroContent}>
 				<div className={styles.heroLogoContainer}>
-					<img src="icon.svg" width="72" height="72" alt="Scriptmonkey Logo" />
+					<img
+						src={useBaseUrl("/img/logo.svg")}
+						width="72"
+						height="72"
+						alt="Scriptmonkey Logo"
+					/>
 				</div>
 
 				<div className={`badge badge-match badge-pill ${styles.badgePill}`}>
@@ -139,7 +145,7 @@ function InteractiveMockup() {
 				<div className={styles.mockupSidebar}>
 					<div className={styles.mockupBrandRow}>
 						<img
-							src="icon.svg"
+							src={useBaseUrl("/img/logo.svg")}
 							width="16"
 							height="16"
 							alt="Scriptmonkey"
