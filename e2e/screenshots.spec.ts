@@ -220,6 +220,11 @@ test.describe("Generate Documentation Screenshots", () => {
 			path: path.join(promoDir, "3-popup-details.png"),
 		});
 
+		// Small Promo Tile (440x280)
+		await showcasePage.locator("#promo-tile-small").screenshot({
+			path: path.join(promoDir, "small-promo-tile.png"),
+		});
+
 		await showcasePage.close();
 		await targetPage.close();
 		await popupPage.close();
