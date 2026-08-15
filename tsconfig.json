@@ -19,8 +19,14 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true,
-		"types": ["chrome", "vite/client"]
+		"types": ["chrome", "vite/client", "node"]
 	},
-	"include": ["src", "vite.config.ts"],
+	"include": [
+		"src",
+		"vite.config.ts",
+		"playwright.config.ts",
+		"e2e",
+		"scripts"
+	],
 	"exclude": ["node_modules"]
 }
