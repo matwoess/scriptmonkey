@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
 	compareVersions,
 	getMatchingScripts,
@@ -303,6 +303,10 @@ describe("getMatchingScripts", () => {
 // ---------------------------------------------------------------------------
 
 describe("resolveScriptIcon", () => {
+	beforeEach(() => {
+		vi.spyOn(console, "warn").mockImplementation(() => {});
+	});
+
 	afterEach(() => {
 		vi.restoreAllMocks();
 	});
@@ -396,5 +400,9 @@ describe("resolveScriptIcon", () => {
 
 		const result = await resolveScriptIcon("https://example.com/icon.png");
 		expect(result).toBeUndefined();
+		expect(console.warn).toHaveBeenCalledWith(
+			expect.stringContaining("Failed to fetch script icon"),
+			expect.any(Error),
+		);
 	});
 });

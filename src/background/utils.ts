@@ -154,10 +154,14 @@ export async function resolveScriptIcon(
 	if (iconUrl.startsWith("data:")) {
 		const match = iconUrl.match(/^data:([^;,]+)(;base64)?,/i);
 		if (!match) {
+			console.warn("[Scriptmonkey] Malformed icon data URI.");
 			return undefined;
 		}
 		const mime = match[1].toLowerCase();
 		if (!ALLOWED_IMAGE_TYPES.has(mime) || iconUrl.length > 180 * 1024) {
+			console.warn(
+				`[Scriptmonkey] Disallowed icon data URI (mime: "${mime}", length: ${iconUrl.length}).`,
+			);
 			return undefined;
 		}
 		return iconUrl;
@@ -166,6 +170,7 @@ export async function resolveScriptIcon(
 	try {
 		const parsed = new URL(iconUrl);
 		if (parsed.protocol !== "https:" || isPrivateHost(parsed.hostname)) {
+			console.warn(`[Scriptmonkey] Disallowed icon URL: ${iconUrl}`);
 			return undefined;
 		}
 
@@ -175,28 +180,40 @@ export async function resolveScriptIcon(
 		});
 
 		if (!response.ok) {
+			console.warn(
+				`[Scriptmonkey] Failed to fetch script icon (${response.status}): ${iconUrl}`,
+			);
 			return undefined;
 		}
 
 		const rawType = response.headers.get("content-type") ?? "";
 		const mime = rawType.split(";")[0].trim().toLowerCase();
 		if (!ALLOWED_IMAGE_TYPES.has(mime)) {
+			console.warn(
+				`[Scriptmonkey] Unsupported icon content-type "${rawType}": ${iconUrl}`,
+			);
 			return undefined;
 		}
 
 		const contentLength = Number(response.headers.get("content-length"));
 		if (contentLength > MAX_ICON_BYTES) {
+			console.warn(`[Scriptmonkey] Icon exceeds size limit: ${iconUrl}`);
 			return undefined;
 		}
 
 		const buffer = await response.arrayBuffer();
 		if (buffer.byteLength > MAX_ICON_BYTES) {
+			console.warn(`[Scriptmonkey] Icon exceeds size limit: ${iconUrl}`);
 			return undefined;
 		}
 
 		const base64 = arrayBufferToBase64(buffer);
 		return `data:${mime};base64,${base64}`;
-	} catch {
+	} catch (error) {
+		console.warn(
+			`[Scriptmonkey] Failed to fetch script icon: ${iconUrl}`,
+			error,
+		);
 		return undefined;
 	}
 }
