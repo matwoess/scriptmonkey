@@ -3,7 +3,9 @@
 // @namespace    http://scriptmonkey.local/
 // @version      1.0
 // @description  Adds a simple floating button to site-a
+// @icon         https://s2.googleusercontent.com/s2/favicons?domain=google.com&sz=32
 // @match        https://example.com/site-a/*
+// @match        https://www.google.com/*
 // @grant        none
 // @updateURL    http://localhost:8080/add_button.js
 // ==/UserScript==

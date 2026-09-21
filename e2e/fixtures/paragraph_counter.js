@@ -3,8 +3,10 @@
 // @namespace    http://scriptmonkey.local/
 // @version      1.4
 // @description  Shows the number of paragraphs on the page
+// @icon         https://github.com/favicon.ico
 // @match        https://example.com/site-a/*
 // @match        https://example.com/site-b/*
+// @match        https://github.com/*
 // @grant        none
 // @updateURL    http://localhost:8080/paragraph_counter.js
 // ==/UserScript==

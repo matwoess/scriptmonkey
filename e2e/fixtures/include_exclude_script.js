@@ -3,6 +3,7 @@
 // @namespace    http://scriptmonkey.local/
 // @version      1.0
 // @description  Displays a custom site notification banner on targeted pages
+// @icon         https://example.com/nonexistent-icon.png
 // @include      https://example.com/site-a/*
 // @include      /^https?:\/\/example\.com\/regex-site\/.*/
 // @exclude      https://example.com/site-a/admin*

@@ -2,8 +2,9 @@
 // @name         Test Script - Shift+K Overlay
 // @namespace    http://scriptmonkey.local/
 // @version      1.2
-// @description  Creates an overlay when pressing Shift+K on Vercel docs
-// @match        https://vercel.com/docs/*
+// @description  Creates an overlay when pressing Shift+K on Netflix
+// @icon         https://assets.nflxext.com/us/ffe/siteui/common/icons/nficon2016.ico
+// @match        https://www.netflix.com/*
 // @grant        none
 // @updateURL    http://localhost:8080/control_palette_overlay.js
 // ==/UserScript==

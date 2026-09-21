@@ -3,8 +3,8 @@
 // @namespace    http://scriptmonkey.local/
 // @version      1.2
 // @description  Adds a reading progress bar at the top of the page
+// @icon         https://vercel.com/favicon.ico
 // @match        https://vercel.com/docs/*
-// @match        https://example.com/*
 // @grant        none
 // @updateURL    http://localhost:8080/reading_progress.js
 // ==/UserScript==
