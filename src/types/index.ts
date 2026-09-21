@@ -19,6 +19,7 @@ export interface Script {
 	filename: string;
 	source: string;
 	meta: ScriptMeta;
+	icon?: string;
 	enabled: boolean;
 	createdAt: number;
 	updatedAt?: number;

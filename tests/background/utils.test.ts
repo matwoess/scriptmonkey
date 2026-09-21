@@ -1,10 +1,11 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
 	compareVersions,
 	getMatchingScripts,
 	getUpdateUrl,
 	normalizeVersion,
 	parseMetadata,
+	resolveScriptIcon,
 } from "../../src/background/utils";
 import type { Script } from "../../src/types";
 
@@ -294,5 +295,106 @@ describe("getMatchingScripts", () => {
 				"https://example.com/pages/admin/settings",
 			),
 		).toHaveLength(0);
+	});
+});
+
+// ---------------------------------------------------------------------------
+// resolveScriptIcon
+// ---------------------------------------------------------------------------
+
+describe("resolveScriptIcon", () => {
+	afterEach(() => {
+		vi.restoreAllMocks();
+	});
+
+	it("returns undefined when no icon is provided", async () => {
+		expect(await resolveScriptIcon(undefined)).toBeUndefined();
+		expect(await resolveScriptIcon("")).toBeUndefined();
+	});
+
+	it("returns valid data URI directly", async () => {
+		const validDataUri = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUg==";
+		expect(await resolveScriptIcon(validDataUri)).toBe(validDataUri);
+	});
+
+	it("rejects non-image data URI", async () => {
+		expect(
+			await resolveScriptIcon("data:text/javascript;base64,YWxlcnQoMSk="),
+		).toBeUndefined();
+	});
+
+	it("rejects oversized data URI", async () => {
+		const hugeData = `data:image/png;base64,${"A".repeat(190 * 1024)}`;
+		expect(await resolveScriptIcon(hugeData)).toBeUndefined();
+	});
+
+	it("rejects non-https URLs", async () => {
+		expect(
+			await resolveScriptIcon("http://example.com/icon.png"),
+		).toBeUndefined();
+		expect(await resolveScriptIcon("file:///path/to/icon.png")).toBeUndefined();
+	});
+
+	it("rejects loopback and private IP hosts", async () => {
+		expect(
+			await resolveScriptIcon("https://localhost/icon.png"),
+		).toBeUndefined();
+		expect(
+			await resolveScriptIcon("https://127.0.0.1/icon.png"),
+		).toBeUndefined();
+		expect(
+			await resolveScriptIcon("https://192.168.1.1/icon.png"),
+		).toBeUndefined();
+		expect(
+			await resolveScriptIcon("https://10.0.0.5/icon.png"),
+		).toBeUndefined();
+		expect(await resolveScriptIcon("https://[::1]/icon.png")).toBeUndefined();
+		expect(
+			await resolveScriptIcon("https://internal.lan/icon.png"),
+		).toBeUndefined();
+	});
+
+	it("fetches, validates, and base64 encodes https image", async () => {
+		const bytes = new Uint8Array([1, 2, 3, 4]);
+		vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+			new Response(bytes, {
+				headers: { "content-type": "image/png" },
+			}),
+		);
+
+		const result = await resolveScriptIcon("https://example.com/icon.png");
+		expect(result).toBe("data:image/png;base64,AQIDBA==");
+	});
+
+	it("rejects responses with non-image Content-Type", async () => {
+		vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+			new Response("console.log(1)", {
+				headers: { "content-type": "text/html" },
+			}),
+		);
+
+		const result = await resolveScriptIcon("https://example.com/icon.png");
+		expect(result).toBeUndefined();
+	});
+
+	it("rejects responses exceeding max bytes", async () => {
+		const bigBytes = new Uint8Array(130 * 1024);
+		vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+			new Response(bigBytes, {
+				headers: { "content-type": "image/png" },
+			}),
+		);
+
+		const result = await resolveScriptIcon("https://example.com/icon.png");
+		expect(result).toBeUndefined();
+	});
+
+	it("returns undefined on fetch network error", async () => {
+		vi.spyOn(globalThis, "fetch").mockRejectedValueOnce(
+			new Error("Network failure"),
+		);
+
+		const result = await resolveScriptIcon("https://example.com/icon.png");
+		expect(result).toBeUndefined();
 	});
 });

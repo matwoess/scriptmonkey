@@ -689,7 +689,7 @@ function ScriptItem({
 	return (
 		<div className="script-item">
 			<div className="script-type-icon">
-				<ScriptIcon icon={script.meta.icon} fallback={firstLetter} />
+				<ScriptIcon icon={script.icon} fallback={firstLetter} />
 			</div>
 			<button type="button" className="script-info" onClick={onSelect}>
 				<div className="script-name">{name}</div>

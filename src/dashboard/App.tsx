@@ -830,7 +830,7 @@ export default function App() {
 											<div className="card-left">
 												<div className="script-type-icon">
 													<ScriptIcon
-														icon={script.meta.icon}
+														icon={script.icon}
 														fallback={firstLetter}
 													/>
 												</div>

@@ -4,6 +4,7 @@ import {
 	getMatchingScripts,
 	getUpdateUrl,
 	parseMetadata,
+	resolveScriptIcon,
 } from "./utils";
 
 const STORAGE_KEY = "scriptmonkey_scripts";
@@ -224,19 +225,27 @@ async function handleMessage(message: ExtensionMessage): Promise<unknown> {
 					: -1;
 
 				if (existingIndex >= 0) {
+					const existing = scripts[existingIndex];
+					const icon =
+						meta.icon === existing.meta.icon
+							? existing.icon
+							: await resolveScriptIcon(meta.icon);
 					scripts[existingIndex] = {
-						...scripts[existingIndex],
+						...existing,
 						filename: entry.filename,
 						source,
 						meta,
+						icon,
 						updatedAt: Date.now(),
 					};
 				} else {
+					const icon = await resolveScriptIcon(meta.icon);
 					scripts.push({
 						id: crypto.randomUUID(),
 						filename: entry.filename,
 						source,
 						meta,
+						icon,
 						enabled: true,
 						createdAt: Date.now(),
 					});
@@ -298,8 +307,13 @@ async function handleMessage(message: ExtensionMessage): Promise<unknown> {
 				return { updated: false };
 			}
 
+			const icon =
+				result.meta.icon === script.meta.icon
+					? script.icon
+					: await resolveScriptIcon(result.meta.icon);
 			script.source = result.source;
 			script.meta = result.meta;
+			script.icon = icon;
 			script.updatedAt = Date.now();
 			await saveScripts(scripts);
 			await syncRegisteredScripts();
@@ -317,10 +331,16 @@ async function handleMessage(message: ExtensionMessage): Promise<unknown> {
 				throw new Error("Script source is empty.");
 			}
 			const meta = parseMetadata(source);
+			const existing = scripts[index];
+			const icon =
+				meta.icon === existing.meta.icon
+					? existing.icon
+					: await resolveScriptIcon(meta.icon);
 			const updatedScript = {
-				...scripts[index],
+				...existing,
 				source,
 				meta,
+				icon,
 				updatedAt: Date.now(),
 			};
 			scripts[index] = updatedScript;
@@ -345,8 +365,13 @@ async function handleMessage(message: ExtensionMessage): Promise<unknown> {
 				try {
 					const result = await fetchScriptUpdate(script);
 					if (result.hasUpdate && result.source && result.meta) {
+						const icon =
+							result.meta.icon === script.meta.icon
+								? script.icon
+								: await resolveScriptIcon(result.meta.icon);
 						script.source = result.source;
 						script.meta = result.meta;
+						script.icon = icon;
 						script.updatedAt = Date.now();
 						changed = true;
 					}
