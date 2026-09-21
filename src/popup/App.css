@@ -65,6 +65,28 @@ header h1 {
 	position: relative;
 }
 
+.script-type-icon {
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	background: rgba(0, 210, 255, 0.1);
+	color: var(--accent);
+	font-weight: 700;
+	font-size: 13px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	overflow: hidden;
+}
+
+.script-icon-img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	border-radius: 6px;
+}
+
 .script-item:active {
 	transform: scale(0.99);
 }

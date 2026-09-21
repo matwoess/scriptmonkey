@@ -1,5 +1,6 @@
 import type React from "react";
 import { useCallback, useEffect, useState } from "react";
+import { ScriptIcon } from "../components/ScriptIcon";
 import type { ExtensionMessage, Script, UpdateInfo } from "../types";
 import { scriptMatchesUrl } from "../utils/matching";
 
@@ -541,6 +542,14 @@ export default function App() {
 									</span>
 								</div>
 							)}
+							{selectedScript.meta.icon && (
+								<div className="detail-row">
+									<span className="detail-label">Icon</span>
+									<span className="detail-val font-mono">
+										{selectedScript.meta.icon}
+									</span>
+								</div>
+							)}
 							<div className="detail-row">
 								<span className="detail-label">Filename</span>
 								<span className="detail-val font-mono">
@@ -664,6 +673,7 @@ function ScriptItem({
 }) {
 	const name = script.meta.name ?? script.filename;
 	const desc = script.meta.description ?? "";
+	const firstLetter = name.trim().charAt(0).toUpperCase() || "S";
 
 	let updateLabel = "";
 	if (hasCheckedUpdates) {
@@ -678,6 +688,9 @@ function ScriptItem({
 
 	return (
 		<div className="script-item">
+			<div className="script-type-icon">
+				<ScriptIcon icon={script.meta.icon} fallback={firstLetter} />
+			</div>
 			<button type="button" className="script-info" onClick={onSelect}>
 				<div className="script-name">{name}</div>
 				{desc && <div className="script-desc">{desc}</div>}

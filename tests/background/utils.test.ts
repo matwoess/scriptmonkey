@@ -66,6 +66,17 @@ describe("parseMetadata", () => {
 		expect(meta.description).toBe("A test script");
 	});
 
+	it("parses @icon tag", () => {
+		const src = `
+		// ==UserScript==
+		// @name Icon Script
+		// @icon https://example.com/icon.png
+		// ==/UserScript==
+		`;
+		const meta = parseMetadata(src);
+		expect(meta.icon).toBe("https://example.com/icon.png");
+	});
+
 	it("collects multiple @match entries into the matches array", () => {
 		const meta = parseMetadata(MINIMAL_SOURCE);
 		expect(meta.matches).toEqual([

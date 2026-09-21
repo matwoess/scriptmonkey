@@ -3,6 +3,7 @@ export interface ScriptMeta {
 	namespace?: string;
 	version?: string;
 	description?: string;
+	icon?: string;
 	matches?: string[];
 	include?: string[];
 	exclude?: string[];

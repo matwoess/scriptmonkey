@@ -9,8 +9,6 @@ This document outlines upcoming features, enhancements, and roadmap items planne
 - **Import File validation**
   - Validate file extension for drag and drop
   - Validate file content for the metadata block before importing
-- **Icon Support**:
-  - Parse and support the `@icon` metadata tag to load and display custom script icons in popups and dashboard lists.
 - **Editor Enhancements**:
   - Add an auto-save configuration option to CodeMirror.
   - Implement script version history and change log tracking.

@@ -3,6 +3,7 @@ import { ensureSyntaxTree, syntaxTree } from "@codemirror/language";
 import CodeMirror, { type ViewUpdate } from "@uiw/react-codemirror";
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { ScriptIcon } from "../components/ScriptIcon";
 import type { ExtensionMessage, Script, UpdateInfo } from "../types";
 
 async function send<T = unknown>(message: ExtensionMessage): Promise<T> {
@@ -827,7 +828,12 @@ export default function App() {
 											role="button"
 										>
 											<div className="card-left">
-												<div className="script-type-icon">{firstLetter}</div>
+												<div className="script-type-icon">
+													<ScriptIcon
+														icon={script.meta.icon}
+														fallback={firstLetter}
+													/>
+												</div>
 											</div>
 											<div className="card-mid">
 												<div className="card-top-row">
@@ -1211,6 +1217,16 @@ export default function App() {
 																</span>
 																<span className="metadata-field-value">
 																	{selectedScript.meta.author}
+																</span>
+															</div>
+														)}
+														{selectedScript.meta.icon && (
+															<div className="metadata-field">
+																<span className="metadata-field-label">
+																	Icon
+																</span>
+																<span className="metadata-field-value font-mono">
+																	{selectedScript.meta.icon}
 																</span>
 															</div>
 														)}
