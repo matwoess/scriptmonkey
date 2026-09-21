@@ -16,7 +16,7 @@ User scripts specify metadata headers inside a `// ==UserScript== ... // ==/User
 | `@namespace` | Script namespace identifier | **Fully supported**. Combined with `@name` to uniquely identify scripts and resolve updates/overwrites. |
 | `@version` | Script version string | **Fully supported**. Parsed and compared numerically/lexicographical during update checks. |
 | `@description` | Brief summary of the script | **Fully supported**. Displayed in popup lists, script cards, and sidebar metadata. |
-| `@icon` | Script icon URL or data URI | **Fully supported**. Displayed next to scripts in dashboard cards, popup list items, and script detail modals. |
+| `@icon` | Script icon URL or data URI | **Fully supported**. Fetched once and cached locally upon install or metadata update. Falls back to the script name's first letter if missing or invalid. |
 | `@match` | Chrome match pattern target | **Fully supported**. Registered with Chrome `userScripts` API and used for URL matching. |
 | `@include` | Include rule or URL pattern | **Fully supported**. Supports match patterns, wildcards (`*`), regular expressions (`/.../`), and `.tld` aliases. |
 | `@exclude` | Exclude rule or URL pattern | **Fully supported**. Overrides match and include patterns to prevent script execution on matching URLs. |

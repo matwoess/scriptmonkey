@@ -319,6 +319,10 @@ function InteractiveMockup() {
 									</span>
 									{"\n"}
 									<span className={styles.cm}>
+										{"// @icon         https://example.com/icon.png"}
+									</span>
+									{"\n"}
+									<span className={styles.cm}>
 										{"// @match        https://*.example.com/*"}
 									</span>
 									{"\n"}
@@ -377,6 +381,12 @@ function InteractiveMockup() {
 									<span className={styles.metadataKey}>@description</span>
 									<span className={styles.metadataVal}>
 										"Applies dark mode styling to example.com"
+									</span>
+								</div>
+								<div className={styles.metadataRow}>
+									<span className={styles.metadataKey}>@icon</span>
+									<span className={styles.metadataVal}>
+										"https://example.com/icon.png"
 									</span>
 								</div>
 							</div>
