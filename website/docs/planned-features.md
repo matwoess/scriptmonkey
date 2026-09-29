@@ -6,9 +6,6 @@ sidebar_position: 6
 
 This document outlines upcoming features, enhancements, and roadmap items planned for **Scriptmonkey**.
 
-- **Import File validation**
-  - Validate file extension for drag and drop
-  - Validate file content for the metadata block before importing
 - **Editor Enhancements**:
   - Add an auto-save configuration option to CodeMirror.
   - Implement script version history and change log tracking.

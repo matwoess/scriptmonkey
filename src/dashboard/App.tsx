@@ -5,6 +5,10 @@ import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ScriptIcon } from "../components/ScriptIcon";
 import type { ExtensionMessage, Script, UpdateInfo } from "../types";
+import {
+	isValidScriptExtension,
+	validateScriptFile,
+} from "../utils/validation";
 
 async function send<T = unknown>(message: ExtensionMessage): Promise<T> {
 	const response = (await chrome.runtime.sendMessage(message)) as
@@ -431,11 +435,23 @@ export default function App() {
 
 	const processFiles = async (files: File[]) => {
 		try {
+			for (const file of files) {
+				if (!isValidScriptExtension(file.name)) {
+					throw new Error(
+						`Invalid file extension for "${file.name}". Only .js files are supported.`,
+					);
+				}
+			}
+
 			const newScripts = await Promise.all(
-				files.map(async (file) => ({
-					filename: file.name,
-					source: await file.text(),
-				})),
+				files.map(async (file) => {
+					const source = await file.text();
+					validateScriptFile({ filename: file.name, source });
+					return {
+						filename: file.name,
+						source,
+					};
+				}),
 			);
 			await send({ type: "addScripts", scripts: newScripts });
 			await loadData();

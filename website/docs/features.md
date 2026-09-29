@@ -18,7 +18,7 @@ This page details the technical features and capabilities supported by **Scriptm
 - **Syntax Validation**: Provides real-time syntax checking and inline error indicators as you type.
 - **Metadata Inspector**: Automatically parses `==UserScript==` header blocks into collapsible inspection cards for General info, Match rules, Execution timing, and Custom keys.
 - **Script Creation & Templates**: Create new user scripts directly in the dashboard using a pre-defined minimal template block via the "+ New Script" button.
-- **File Import**: Supports importing local `.js` and `.user.js` files via file picker or drag-and-drop onto the editor.
+- **File Import**: Supports importing local `.js` and `.user.js` files via file picker or drag-and-drop onto the editor. Rejects files not ending with `.js` or with missing `==UserScript==` header blocks.
 - **Unsaved Changes Guard**: Prompts for confirmation before closing or navigating away with unsaved editor modifications (`Ctrl+S` shortcut supported).
 
 ## Toolbar Extension Popup

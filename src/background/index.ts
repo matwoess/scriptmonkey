@@ -1,4 +1,5 @@
 import type { ExtensionMessage, Script, UpdateInfo } from "../types";
+import { validateScriptFile } from "../utils/validation";
 import {
 	compareVersions,
 	getMatchingScripts,
@@ -205,6 +206,10 @@ async function handleMessage(message: ExtensionMessage): Promise<unknown> {
 			const entries = message.scripts;
 			if (!entries.length) {
 				return await loadScripts();
+			}
+
+			for (const entry of entries) {
+				validateScriptFile(entry);
 			}
 
 			const scripts = await loadScripts();

@@ -1,12 +1,11 @@
 import type { Script, ScriptMeta } from "../types";
 import { scriptMatchesUrl } from "../utils/matching";
+import { USER_SCRIPT_BLOCK_REGEX } from "../utils/validation";
 
 /** Parses the ==UserScript== metadata block from a script source string. */
 export function parseMetadata(source: string): ScriptMeta {
 	const meta: ScriptMeta = { matches: [] };
-	const block = source.match(
-		/\/\/\s*==UserScript==([\s\S]*?)\/\/\s*==\/UserScript==/,
-	);
+	const block = source.match(USER_SCRIPT_BLOCK_REGEX);
 	if (!block) {
 		return meta;
 	}

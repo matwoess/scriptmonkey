@@ -43,6 +43,26 @@ test.describe("Scriptmonkey Advanced E2E", () => {
 		await expect(page.locator(".script-name")).toHaveCount(2);
 	});
 
+	test("should reject invalid file imports with an error message", async ({
+		page,
+		extensionId,
+	}) => {
+		await page.goto(`chrome-extension://${extensionId}/index.html`);
+		await expect(page.locator("#count")).toHaveText("0 scripts");
+
+		await page.locator("input[type='file']").setInputFiles({
+			name: "text-file.txt",
+			mimeType: "text/plain",
+			buffer: Buffer.from("Hello world"),
+		});
+
+		await expect(page.locator("#add-error")).toBeVisible();
+		await expect(page.locator("#add-error")).toContainText(
+			'Invalid file extension for "text-file.txt"',
+		);
+		await expect(page.locator("#count")).toHaveText("0 scripts");
+	});
+
 	test("should manage scripts, active/inactive lists, and badge", async ({
 		page,
 		extensionId,
