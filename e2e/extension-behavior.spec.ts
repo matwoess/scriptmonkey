@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import type { Frame } from "@playwright/test";
 import { expect, test } from "./fixtures";
 
 test.describe("Scriptmonkey Advanced E2E", () => {
@@ -568,7 +569,7 @@ console.log('downgraded');
 		// Now Paragraph Counter script is inactive (disabled)
 		// Let's delete this inactive script and verify targetPage does NOT reload.
 		let reloaded = false;
-		const onNavigate = (frame) => {
+		const onNavigate = (frame: Frame) => {
 			if (frame === targetPage.mainFrame()) reloaded = true;
 		};
 		targetPage.on("framenavigated", onNavigate);

@@ -28,12 +28,6 @@ async function main() {
 	// Go to extension detail page and enable user scripts
 	await page.goto(`chrome://extensions/?id=${extensionId}`);
 
-	// Toggle user scripts
-	const _toggle = page
-		.locator("extensions-manager")
-		.locator("extensions-detail-view")
-		.locator("#allow-interactive-checkbox"); // wait, let's find the exact ID.
-
 	// Just dump the HTML of the detail view
 	const html = await page
 		.locator("extensions-manager")

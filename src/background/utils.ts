@@ -4,7 +4,8 @@ import { USER_SCRIPT_BLOCK_REGEX } from "../utils/validation";
 
 /** Parses the ==UserScript== metadata block from a script source string. */
 export function parseMetadata(source: string): ScriptMeta {
-	const meta: ScriptMeta = { matches: [] };
+	const matches: string[] = [];
+	const meta: ScriptMeta = { matches };
 	const block = source.match(USER_SCRIPT_BLOCK_REGEX);
 	if (!block) {
 		return meta;
@@ -20,7 +21,7 @@ export function parseMetadata(source: string): ScriptMeta {
 		const key = rawKey.toLowerCase();
 		const value = rawValue.trim();
 		if (key === "match") {
-			meta.matches.push(value);
+			matches.push(value);
 			continue;
 		}
 		if (key === "include" || key === "exclude") {

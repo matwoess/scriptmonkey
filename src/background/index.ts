@@ -1,4 +1,9 @@
-import type { ExtensionMessage, Script, UpdateInfo } from "../types";
+import type {
+	ExtensionMessage,
+	Script,
+	ScriptMeta,
+	UpdateInfo,
+} from "../types";
 import { validateScriptFile } from "../utils/validation";
 import {
 	compareVersions,
@@ -137,7 +142,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 chrome.tabs.onActivated.addListener((activeInfo) => {
 	chrome.tabs.get(activeInfo.tabId, (tab) => {
-		if (tab?.url) updateBadgeForTab(tab.id, tab.url).catch(() => {});
+		if (tab?.url) updateBadgeForTab(activeInfo.tabId, tab.url).catch(() => {});
 	});
 });
 
