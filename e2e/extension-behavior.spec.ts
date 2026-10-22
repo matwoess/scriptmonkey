@@ -742,4 +742,115 @@ console.log('downgraded');
 
 		await targetPage.close();
 	});
+
+	test("should search and filter scripts, clear search, and delete script in dashboard", async ({
+		page,
+		extensionId,
+	}) => {
+		await page.goto(`chrome-extension://${extensionId}/dashboard.html`);
+
+		const addBtnScript = path.join(
+			import.meta.dirname,
+			"fixtures/add_button.js",
+		);
+		const paraCountScript = path.join(
+			import.meta.dirname,
+			"fixtures/paragraph_counter.js",
+		);
+		await page
+			.locator("#file-input")
+			.setInputFiles([addBtnScript, paraCountScript]);
+
+		await expect(page.locator("#count")).toHaveText("(2)");
+		await expect(page.locator(".script-card")).toHaveCount(2);
+
+		// Filter by "Paragraph"
+		const searchInput = page.locator(".search-box input");
+		await searchInput.fill("Paragraph");
+
+		await expect(page.locator(".script-card")).toHaveCount(1);
+		await expect(page.locator(".script-card .card-name")).toHaveText(
+			"Test Script - Paragraph Counter",
+		);
+
+		// Clear search
+		await page.locator(".search-clear-btn").click();
+		await expect(page.locator(".script-card")).toHaveCount(2);
+
+		// Select "Test Script - Paragraph Counter" and delete from dashboard
+		await page
+			.locator(".script-card", { hasText: "Test Script - Paragraph Counter" })
+			.click();
+		await expect(page.locator(".editor-title-block h2")).toHaveText(
+			"Test Script - Paragraph Counter",
+		);
+
+		await page.locator("#btn-delete-details").click();
+		await expect(page.locator("#confirm-title")).toHaveText("Remove Script");
+		await page.locator("#confirm-ok").click();
+
+		await expect(page.locator("#count")).toHaveText("(1)");
+		await expect(page.locator(".script-card")).toHaveCount(1);
+		await expect(page.locator(".script-card .card-name")).toHaveText(
+			"Test Script - Add Button",
+		);
+	});
+
+	test("should toggle script enabled/disabled status in dashboard sidebar", async ({
+		page,
+		extensionId,
+	}) => {
+		await page.goto(`chrome-extension://${extensionId}/dashboard.html`);
+		const addBtnScript = path.join(
+			import.meta.dirname,
+			"fixtures/add_button.js",
+		);
+		await page.locator("#file-input").setInputFiles([addBtnScript]);
+
+		await expect(page.locator("#count")).toHaveText("(1)");
+		const card = page.locator(".script-card", {
+			hasText: "Test Script - Add Button",
+		});
+		await card.click();
+
+		const statusLabel = page.locator(".editor-title-block .status-label");
+		await expect(statusLabel).toHaveText("Enabled");
+
+		// Toggle off in sidebar
+		await card.locator(".toggle-slider").click();
+		await expect(statusLabel).toHaveText("Disabled");
+
+		// Toggle back on
+		await card.locator(".toggle-slider").click();
+		await expect(statusLabel).toHaveText("Enabled");
+	});
+
+	test("should open dashboard from popup manage button", async ({
+		page,
+		extensionId,
+		context,
+	}) => {
+		await page.goto(`chrome-extension://${extensionId}/index.html`);
+		const addBtnScript = path.join(
+			import.meta.dirname,
+			"fixtures/add_button.js",
+		);
+		await page.locator("input[type='file']").setInputFiles(addBtnScript);
+
+		const [dashboardPage] = await Promise.all([
+			context.waitForEvent("page"),
+			page.locator("#btn-manage").click(),
+		]);
+
+		await expect(dashboardPage).toHaveURL(
+			`chrome-extension://${extensionId}/dashboard.html`,
+		);
+		await expect(
+			dashboardPage.locator(".script-card", {
+				hasText: "Test Script - Add Button",
+			}),
+		).toBeVisible();
+
+		await dashboardPage.close();
+	});
 });
