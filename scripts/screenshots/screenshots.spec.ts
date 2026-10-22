@@ -159,7 +159,7 @@ test.describe("Generate Documentation Screenshots", () => {
 		await targetPage.goto("https://vercel.com/docs/getting-started");
 		await targetPage.bringToFront();
 
-		// Re-enable Reading Progress so all 3 matching scripts are active
+		// Re-enable Reading Progress so it is active on Vercel docs
 		await readingCard.locator(".toggle-slider").click();
 
 		// 4. Open Popup page
@@ -168,8 +168,8 @@ test.describe("Generate Documentation Screenshots", () => {
 		await targetPage.bringToFront();
 		await popupPage.goto(`chrome-extension://${extensionId}/index.html`);
 
-		await expect(popupPage.locator("#active-list .script-item")).toHaveCount(3);
-		await expect(popupPage.locator("#other-list .script-item")).toHaveCount(2);
+		await expect(popupPage.locator("#active-list .script-item")).toHaveCount(1);
+		await expect(popupPage.locator("#other-list .script-item")).toHaveCount(4);
 
 		// Hide scrollbars on popup page for clean screenshot
 		await popupPage.addStyleTag({
