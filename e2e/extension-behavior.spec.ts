@@ -684,4 +684,62 @@ console.log('downgraded');
 			page.locator(".card-name", { hasText: "New Script 2" }),
 		).toBeVisible();
 	});
+
+	test("should toggle a script enabled/disabled, updating badge and reloading matching page", async ({
+		page,
+		extensionId,
+		context,
+	}) => {
+		await page.goto(`chrome-extension://${extensionId}/index.html`);
+		const addBtnScript = path.join(
+			import.meta.dirname,
+			"fixtures/add_button.js",
+		);
+		await page.locator("input[type='file']").setInputFiles(addBtnScript);
+		await expect(page.locator(".script-name")).toHaveCount(1);
+
+		const targetPage = await context.newPage();
+		await targetPage.goto("https://example.com/site-a/");
+		await targetPage.bringToFront();
+
+		await page.reload();
+		const scriptItem = page.locator("#active-list .script-item", {
+			hasText: "Test Script - Add Button",
+		});
+		await expect(scriptItem).toBeVisible();
+
+		const toggleCheckbox = scriptItem.locator("input[type='checkbox']");
+		await expect(toggleCheckbox).toBeChecked();
+
+		let [background] = context.serviceWorkers();
+		if (!background) background = await context.waitForEvent("serviceworker");
+
+		const getBadge = async () =>
+			background.evaluate(async (url) => {
+				return new Promise((resolve) => {
+					chrome.tabs.query({ url }, (tabs) => {
+						if (tabs[0]?.id) {
+							chrome.action.getBadgeText({ tabId: tabs[0].id }, resolve);
+						} else resolve(null);
+					});
+				});
+			}, targetPage.url());
+
+		expect(await getBadge()).toBe("1");
+
+		// Toggle script OFF
+		const toggleSlider = scriptItem.locator(".toggle .slider");
+		await Promise.all([targetPage.waitForNavigation(), toggleSlider.click()]);
+
+		await expect(toggleCheckbox).not.toBeChecked();
+		expect(await getBadge()).toBe("");
+
+		// Toggle script back ON
+		await Promise.all([targetPage.waitForNavigation(), toggleSlider.click()]);
+
+		await expect(toggleCheckbox).toBeChecked();
+		expect(await getBadge()).toBe("1");
+
+		await targetPage.close();
+	});
 });
