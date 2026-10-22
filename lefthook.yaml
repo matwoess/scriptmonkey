@@ -1,5 +1,8 @@
 pre-commit:
   commands:
+    typecheck:
+      glob: "*.{ts,tsx}"
+      run: npm run typecheck
     biome:
       glob: "*.{js,ts,jsx,tsx,json,jsonc,css}"
       run: npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}

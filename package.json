@@ -15,6 +15,7 @@
 		"preview": "vite preview",
 		"icons": "node scripts/generate-icons.js",
 		"lint": "biome lint .",
+		"typecheck": "tsc --noEmit",
 		"format": "biome format --write .",
 		"format:check": "biome format .",
 		"postinstall": "lefthook install"

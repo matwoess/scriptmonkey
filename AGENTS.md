@@ -15,6 +15,7 @@ Uses **Biome** for formatting and linting.
 - **Check formatting:** `npm run format:check`
 - **Fix formatting:** `npm run format`
 - **Run linter:** `npm run lint`
+- **Type check:** `npm run typecheck`
 
 ## Testing
 Uses **Vitest** for unit tests and **Playwright** for E2E tests.
