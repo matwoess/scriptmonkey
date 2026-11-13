@@ -116,6 +116,10 @@ html {
 	object-fit: contain;
 }
 
+.btn-feedback {
+	margin-left: auto;
+}
+
 /* Sidebar action buttons */
 .sidebar-actions-row {
 	margin: 0 24px 12px;

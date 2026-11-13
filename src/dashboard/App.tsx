@@ -3,6 +3,7 @@ import { ensureSyntaxTree, syntaxTree } from "@codemirror/language";
 import CodeMirror, { type ViewUpdate } from "@uiw/react-codemirror";
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { FeedbackDialog } from "../components/FeedbackDialog";
 import { ScriptIcon } from "../components/ScriptIcon";
 import type { ExtensionMessage, Script, UpdateInfo } from "../types";
 import {
@@ -182,6 +183,7 @@ export default function App() {
 
 	// Drag & Drop state
 	const [isDragging, setIsDragging] = useState<boolean>(false);
+	const [isFeedbackOpen, setIsFeedbackOpen] = useState<boolean>(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const hasInitializedRef = useRef(false);
 
@@ -561,6 +563,14 @@ export default function App() {
 								alt="logo"
 							/>
 							<h1>Scriptmonkey</h1>
+							<button
+								type="button"
+								className="btn btn-secondary btn-feedback"
+								id="btn-feedback"
+								onClick={() => setIsFeedbackOpen(true)}
+							>
+								Feedback
+							</button>
 						</div>
 
 						<div className="sidebar-actions-row">
@@ -1537,6 +1547,12 @@ export default function App() {
 					</div>
 				</div>
 			)}
+
+			<FeedbackDialog
+				open={isFeedbackOpen}
+				onClose={() => setIsFeedbackOpen(false)}
+				scripts={scripts}
+			/>
 
 			<input
 				type="file"

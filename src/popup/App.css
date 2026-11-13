@@ -38,6 +38,14 @@ header h1 {
 	border-radius: 6px;
 }
 
+.btn-header.btn-icon {
+	width: 26px;
+	padding: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .banner {
 	margin: 12px 16px 0;
 	padding: 10px 14px;
