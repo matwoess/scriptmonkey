@@ -1,5 +1,7 @@
 import type React from "react";
 import { useCallback, useEffect, useState } from "react";
+import { FeedbackDialog } from "../components/FeedbackDialog";
+import { FeedbackIcon } from "../components/FeedbackIcon";
 import { ScriptIcon } from "../components/ScriptIcon";
 import type { ExtensionMessage, Script, UpdateInfo } from "../types";
 import { scriptMatchesUrl } from "../utils/matching";
@@ -53,6 +55,7 @@ export default function App() {
 	} | null>(null);
 	const [selectedScript, setSelectedScript] = useState<Script | null>(null);
 	const [isDragging, setIsDragging] = useState<boolean>(false);
+	const [isFeedbackOpen, setIsFeedbackOpen] = useState<boolean>(false);
 
 	const openDashboard = async (editScriptId?: string) => {
 		const url = chrome.runtime.getURL(
@@ -266,6 +269,16 @@ export default function App() {
 			<header>
 				<h1>Scriptmonkey</h1>
 				<div className="header-actions">
+					<button
+						type="button"
+						className="btn btn-header btn-icon"
+						id="btn-feedback"
+						title="Send feedback"
+						aria-label="Send feedback"
+						onClick={() => setIsFeedbackOpen(true)}
+					>
+						<FeedbackIcon size={14} />
+					</button>
 					{scripts.length > 0 && (
 						<button
 							type="button"
@@ -504,6 +517,12 @@ export default function App() {
 				multiple
 				hidden
 				onChange={handleAddFiles}
+			/>
+
+			<FeedbackDialog
+				open={isFeedbackOpen}
+				onClose={() => setIsFeedbackOpen(false)}
+				scripts={scripts}
 			/>
 
 			<div
