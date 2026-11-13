@@ -44,3 +44,10 @@ export type ExtensionMessage =
 	| { type: "updateAllScripts" }
 	| { type: "checkForUpdates" }
 	| { type: "saveScript"; id: string; source: string };
+
+export interface FeedbackPayload {
+	message: string;
+	version: string;
+	userAgent: string;
+	script?: { filename: string; source: string };
+}

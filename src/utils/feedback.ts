@@ -1,4 +1,4 @@
-import type { FeedbackPayload } from "../../feedback-api/api/feedback";
+import type { FeedbackPayload } from "../types";
 
 export const FEEDBACK_ENDPOINT =
 	"https://scriptmonkey-feedback.vercel.app/api/feedback";
