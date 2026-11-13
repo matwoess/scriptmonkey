@@ -853,4 +853,57 @@ console.log('downgraded');
 
 		await dashboardPage.close();
 	});
+
+	test("should send feedback with an attached script from the dashboard", async ({
+		page,
+		extensionId,
+		context,
+	}) => {
+		let body: Record<string, unknown> | undefined;
+		await context.route("**/api/feedback", (route) => {
+			body = route.request().postDataJSON();
+			route.fulfill({ status: 204 });
+		});
+
+		await page.goto(`chrome-extension://${extensionId}/dashboard.html`);
+		await page
+			.locator("input[type='file']")
+			.setInputFiles(path.join(import.meta.dirname, "fixtures/add_button.js"));
+		await page.locator("#btn-feedback").click();
+		await page.locator("#feedback-message").fill("Great extension");
+		await page
+			.locator("#feedback-script")
+			.selectOption({ label: "Test Script - Add Button" });
+		await page.locator("#feedback-submit").click();
+
+		await expect(page.locator("#feedback-success")).toBeVisible();
+		expect(body).toMatchObject({
+			message: "Great extension",
+			script: { filename: "add_button.js" },
+		});
+	});
+
+	test("should send feedback from popup header button", async ({
+		page,
+		extensionId,
+		context,
+	}) => {
+		let body: Record<string, unknown> | undefined;
+		await context.route("**/api/feedback", (route) => {
+			body = route.request().postDataJSON();
+			route.fulfill({ status: 204 });
+		});
+
+		await page.goto(`chrome-extension://${extensionId}/index.html`);
+		await page.locator("#btn-feedback").click();
+		await page
+			.locator("#feedback-message")
+			.fill("Quick question about permissions");
+		await page.locator("#feedback-submit").click();
+
+		await expect(page.locator("#feedback-success")).toBeVisible();
+		expect(body).toMatchObject({
+			message: "Quick question about permissions",
+		});
+	});
 });
