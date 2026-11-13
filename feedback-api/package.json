@@ -1,0 +1,8 @@
+{
+	"name": "scriptmonkey-feedback-api",
+	"private": true,
+	"type": "module",
+	"engines": {
+		"node": ">=22"
+	}
+}

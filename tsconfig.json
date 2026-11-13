@@ -26,6 +26,7 @@
 		"vite.config.ts",
 		"playwright.config.ts",
 		"e2e",
+		"feedback-api",
 		"scripts"
 	],
 	"exclude": ["node_modules"]
