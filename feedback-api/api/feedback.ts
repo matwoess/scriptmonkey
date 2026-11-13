@@ -1,9 +1,4 @@
-export interface FeedbackPayload {
-	message: string;
-	version: string;
-	userAgent: string;
-	script?: { filename: string; source: string };
-}
+import type { FeedbackPayload } from "../../src/types";
 
 interface ResendEmail {
 	from: string;
