@@ -63,7 +63,7 @@ export function buildEmail(
 	const attachments: { filename: string; content: string }[] = [];
 	if (payload.script) {
 		attachments.push({
-			filename: payload.script.filename,
+			filename: `${payload.script.filename}.txt`,
 			content: Buffer.from(payload.script.source).toString("base64"),
 		});
 	}

@@ -58,7 +58,7 @@ describe("buildEmail", () => {
 		);
 		expect(email.subject).toBe("[Scriptmonkey v1.0.0] Bug");
 		expect(email.attachments).toEqual([
-			{ filename: "a.user.js", content: "aGk=" },
+			{ filename: "a.user.js.txt", content: "aGk=" },
 		]);
 	});
 });
