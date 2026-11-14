@@ -46,7 +46,15 @@ npm run test         # run once
 npm run test:watch   # watch mode
 ```
 
-Tests live in `tests/`, mirroring the `src/` structure. Pure utility logic is kept separate from Chrome-API-dependent code in `src/background/utils.ts` so it can be tested without mocks.
+Tests live in `tests/` and `feedback-api/tests/`, mirroring the codebase structure. Pure utility logic is kept separate from Chrome-API-dependent code in `src/background/utils.ts` so it can be tested without mocks.
+
+### Feedback API (Vercel Function)
+
+The feedback endpoint lives in `feedback-api/` as a standalone Vercel Function:
+- **Location**: `feedback-api/api/feedback.ts`
+- **Environment variables**: `RESEND_API_KEY`, `FEEDBACK_FROM`, `FEEDBACK_TO`, `ALLOWED_ORIGINS`.
+- **Deployment**: Configured as an independent Vercel project with Root Directory set to `feedback-api` (preset: `Other`).
+- **Endpoint URL**: Configured in `src/utils/feedback.ts` via `FEEDBACK_ENDPOINT`.
 
 ### E2E Tests
 We use [Playwright](https://playwright.dev/) for end-to-end testing of the extension behavior.

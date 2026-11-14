@@ -28,6 +28,12 @@ graph TD
         MainWorld["MAIN Page World<br/>(Script Execution)"]
     end
 
+    subgraph FeedbackPipeline ["Feedback Pipeline"]
+        FeedbackDialog["Feedback Dialog<br/>(Popup & Dashboard)"]
+        FeedbackAPI["Vercel Serverless Function<br/>(feedback-api/api/feedback.ts)"]
+        ResendService["Resend API<br/>(Email Delivery)"]
+    end
+
     Popup -->|Reads / Writes Scripts| ChromeStorage
     Dashboard -->|Reads / Writes Scripts| ChromeStorage
     Popup -->|Triggers Actions| ServiceWorker
@@ -35,6 +41,11 @@ graph TD
     ServiceWorker <-->|Syncs Metadata| ChromeStorage
     ServiceWorker -->|Registers Scripts| UserScriptsAPI
     UserScriptsAPI -->|Injects & Runs| MainWorld
+
+    Popup -->|Opens| FeedbackDialog
+    Dashboard -->|Opens| FeedbackDialog
+    FeedbackDialog -->|POST /api/feedback| FeedbackAPI
+    FeedbackAPI -->|Dispatches Email| ResendService
 ```
 
 ## Core Components
@@ -56,7 +67,12 @@ graph TD
 - Leverages Chrome's native `chrome.userScripts` API to register and run scripts.
 - Executes user scripts directly in the document's `MAIN` execution world.
 
+### 4. Feedback Service (`feedback-api/`)
+
+- A lightweight, stateless serverless function hosted on Vercel (`api/feedback.ts`).
+- Validates payload size, verifies permitted `Origin` headers (supporting extension prefixes and wildcards), and forwards voluntary user feedback to the developer inbox using the Resend HTTP API.
+
 ## Data Flow & Storage
 
 - **Local Persistence**: Script code, configurations, and parsed metadata reside in `chrome.storage.local`.
-- **Privacy First**: No telemetry, analytics, or script contents are transmitted to external servers.
+- **Privacy First**: No telemetry, analytics, or background tracking. Voluntary feedback is only sent upon explicit user submission.
