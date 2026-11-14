@@ -45,3 +45,9 @@ This page details the technical features and capabilities supported by **Scriptm
 - **Secure Icon Caching**: Script icons declared via `@icon` are fetched once at install or metadata change, validated against security threats (SSRF, oversized payloads), and cached locally as data URIs to prevent remote tracking on popup and dashboard open.
 - **Ad-Free & Tracking-Free**: Contains zero advertisements, sponsored links, analytics tracking, or background telemetry.
 - **No External Sync**: Runs entirely local to the browser with no external cloud synchronization.
+
+## User Feedback
+
+- **Feedback Dialog**: Send anonymous feedback via the feedback icon in the popup header or next to the dashboard title.
+- **Optional Script Attachment**: Attach the source of an installed script to help reproduce issues.
+- **Minimal Data**: Only the message, chosen attachments, extension version, and browser user agent are sent. Nothing is sent unless you submit the form.
