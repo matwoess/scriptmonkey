@@ -1,11 +1,11 @@
 # Privacy Policy for Scriptmonkey
 
-Last updated: June 23, 2026
+Last updated: November 13, 2026
 
-Scriptmonkey is designed as a local, lightweight user script manager. We respect your privacy and are committed to protecting it. This extension does not collect, store, or transmit any of your personal data.
+Scriptmonkey is designed as a local, lightweight user script manager. We respect your privacy and are committed to protecting it. This extension does not collect or transmit any of your personal data, except feedback you explicitly choose to send.
 
 ## 1. No Data Collection or Transmission
-Scriptmonkey does **not** collect, store, or transmit any personal data, browsing history, web traffic, or the contents of your user scripts to external servers. All operations run entirely locally on your device. We do not use any third-party analytics, tracking tools, cookies, or telemetry.
+Apart from voluntary feedback (see section 4), Scriptmonkey does **not** collect, store, or transmit any personal data, browsing history, web traffic, or the contents of your user scripts to external servers. All operations run entirely locally on your device. We do not use any third-party analytics, tracking tools, cookies, or telemetry.
 
 ## 2. Chrome Extension Permissions & Data Use
 To function as a user script manager, Scriptmonkey requires the following permissions:
@@ -16,8 +16,11 @@ To function as a user script manager, Scriptmonkey requires the following permis
 ## 3. Third-Party Network Requests (Script Updates)
 If a user script includes an `@updateURL` or `@downloadURL` tag, Scriptmonkey will query that URL only when you manually check for updates. This request is sent directly to the script host. Scriptmonkey does not attach any identifying telemetry, tracking parameters, or personal data to these requests.
 
-## 4. Changes to This Policy
+## 4. Voluntary Feedback
+If you choose to submit the feedback form, Scriptmonkey sends your message, the extension version, and your browser's user agent to the developer email. If you choose to, the source of a selected user script is attached. No IP address, account, or other identifier is recorded by Scriptmonkey. Nothing is sent unless you explicitly submit the form.
+
+## 5. Changes to This Policy
 We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated "Last updated" date.
 
-## 5. Contact & Support
+## 6. Contact & Support
 If you have any questions or concerns regarding privacy, please open an issue on the [Scriptmonkey GitHub Repository](https://github.com/matwoess/Scriptmonkey/issues).
