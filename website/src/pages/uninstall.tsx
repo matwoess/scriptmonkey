@@ -187,7 +187,7 @@ export default function UninstallPage(): ReactNode {
 									Reinstall from Chrome Web Store
 								</a>
 								<Link className="btn btn-primary" to="/">
-									Back to Home
+									Go to Homepage
 								</Link>
 							</div>
 						</div>
