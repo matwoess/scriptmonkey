@@ -1,0 +1,201 @@
+.page {
+	min-height: calc(100vh - 140px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 3rem 1.25rem;
+	background: var(--sm-bg);
+}
+
+.card {
+	width: 100%;
+	max-width: 640px;
+	background: var(--sm-surface);
+	border: 1px solid var(--sm-border);
+	border-radius: 12px;
+	padding: 2.25rem;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.header {
+	text-align: center;
+	margin-bottom: 1.75rem;
+}
+
+.logo {
+	margin-bottom: 0.75rem;
+}
+
+.title {
+	font-size: 1.85rem;
+	font-weight: 800;
+	color: var(--sm-text-bright);
+	margin-bottom: 0.5rem;
+	letter-spacing: -0.02em;
+}
+
+.subtitle {
+	font-size: 0.98rem;
+	line-height: 1.6;
+	color: var(--sm-text);
+	margin: 0;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.fieldset {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+.legend {
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: var(--sm-text-bright);
+	margin-bottom: 0.75rem;
+}
+
+.reasonsList {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.reasonItem {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+}
+
+.reasonLabel {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.75rem;
+	padding: 0.7rem 0.9rem;
+	border: 1px solid var(--sm-border);
+	border-radius: 8px;
+	background: var(--sm-bg);
+	color: var(--sm-text-bright);
+	font-size: 0.92rem;
+	line-height: 1.4;
+	cursor: pointer;
+	transition:
+		border-color var(--duration-fast) var(--ease-standard),
+		background var(--duration-fast) var(--ease-standard);
+}
+
+.reasonLabel:hover {
+	border-color: var(--sm-accent);
+	background: var(--sm-surface-hover);
+}
+
+.reasonLabelChecked {
+	border-color: var(--sm-accent);
+	background: rgba(0, 210, 255, 0.08);
+}
+
+.checkbox {
+	margin-top: 0.18rem;
+	accent-color: var(--sm-accent);
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+	cursor: pointer;
+}
+
+.hintBox {
+	margin-left: 2.1rem;
+	padding: 0.65rem 0.85rem;
+	font-size: 0.85rem;
+	line-height: 1.5;
+	color: var(--sm-text);
+	background: rgba(0, 210, 255, 0.06);
+	border-left: 3px solid var(--sm-accent);
+	border-radius: 0 6px 6px 0;
+}
+
+.textareaGroup {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.label {
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: var(--sm-text-bright);
+}
+
+.textarea {
+	width: 100%;
+	padding: 0.75rem;
+	font-size: 0.92rem;
+	font-family: var(--font);
+	color: var(--sm-text-bright);
+	background: var(--sm-bg);
+	border: 1px solid var(--sm-border);
+	border-radius: 8px;
+	resize: vertical;
+}
+
+.textarea:focus-visible {
+	border-color: var(--sm-accent);
+	outline: none;
+}
+
+.errorText {
+	font-size: 0.85rem;
+	color: var(--danger);
+	margin: 0;
+}
+
+.footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	flex-wrap: wrap;
+	padding-top: 0.25rem;
+}
+
+.privacyNote {
+	font-size: 0.8rem;
+	color: var(--sm-muted);
+}
+
+.submitBtn {
+	height: 38px;
+	padding: 0 1.25rem;
+	font-size: 0.9rem;
+}
+
+.successBox {
+	text-align: center;
+	padding: 1.25rem 0.5rem 0.5rem;
+	border-top: 1px solid var(--sm-border);
+}
+
+.successTitle {
+	font-size: 1.35rem;
+	color: var(--sm-text-bright);
+	margin-bottom: 0.5rem;
+}
+
+.successText {
+	font-size: 0.95rem;
+	color: var(--sm-text);
+	margin-bottom: 1.5rem;
+	line-height: 1.6;
+}
+
+.successActions {
+	display: flex;
+	justify-content: center;
+	gap: 0.75rem;
+	flex-wrap: wrap;
+}
