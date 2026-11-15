@@ -2,7 +2,7 @@ import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Heading from "@theme/Heading";
 import Layout from "@theme/Layout";
-import { type FormEvent, type ReactNode, useEffect, useState } from "react";
+import { type ReactNode, type SubmitEvent, useEffect, useState } from "react";
 import styles from "./uninstall.module.css";
 
 const FEEDBACK_ENDPOINT =
@@ -103,7 +103,7 @@ export default function UninstallPage(): ReactNode {
 
 	const canSubmit = selectedReasons.length > 0 || details.trim().length > 0;
 
-	const handleSubmit = async (e: FormEvent) => {
+	const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (!canSubmit) return;
 

@@ -35,7 +35,7 @@ export function FeedbackDialog({ open, onClose, scripts }: Props) {
 		onClose();
 	};
 
-	const handleSubmit = async (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setStatus("sending");
 		setError("");
