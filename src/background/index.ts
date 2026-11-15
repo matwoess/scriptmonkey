@@ -14,6 +14,14 @@ import {
 } from "./utils";
 
 const STORAGE_KEY = "scriptmonkey_scripts";
+const UNINSTALL_URL_BASE = "https://matwoess.github.io/scriptmonkey/uninstall";
+
+function setUninstallUrl(): void {
+	const version = chrome.runtime.getManifest().version;
+	chrome.runtime
+		.setUninstallURL(`${UNINSTALL_URL_BASE}?v=${encodeURIComponent(version)}`)
+		.catch(() => {});
+}
 
 function canUseUserScripts(): boolean {
 	return Boolean(chrome.userScripts?.register);
@@ -164,12 +172,14 @@ async function syncRegisteredScripts(): Promise<void> {
 }
 
 chrome.runtime.onInstalled.addListener(() => {
+	setUninstallUrl();
 	syncRegisteredScripts().catch((error: unknown) => {
 		console.warn("[Scriptmonkey] Failed to sync registered scripts.", error);
 	});
 });
 
 chrome.runtime.onStartup.addListener(() => {
+	setUninstallUrl();
 	syncRegisteredScripts().catch((error: unknown) => {
 		console.warn("[Scriptmonkey] Failed to sync registered scripts.", error);
 	});
