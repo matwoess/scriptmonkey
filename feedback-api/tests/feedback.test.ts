@@ -61,6 +61,15 @@ describe("buildEmail", () => {
 			{ filename: "a.user.js.txt", content: "aGk=" },
 		]);
 	});
+
+	it("omits version tag when version is unknown", () => {
+		const email = buildEmail(
+			{ ...valid, version: "unknown", message: "Uninstall: Just testing" },
+			"from@x",
+			"to@x",
+		);
+		expect(email.subject).toBe("[Scriptmonkey] Uninstall: Just testing");
+	});
 });
 
 describe("handlers", () => {

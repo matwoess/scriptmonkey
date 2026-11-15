@@ -110,13 +110,13 @@ export default function UninstallPage(): ReactNode {
 		setStatus("sending");
 		setErrorMessage("");
 
-		const chosenLabels = REASONS.filter((r) =>
-			selectedReasons.includes(r.id),
-		).map((r) => `- ${r.label}`);
-
-		const parts = ["[Uninstall Feedback]"];
-		if (chosenLabels.length > 0) {
-			parts.push(`Reasons:\n${chosenLabels.join("\n")}`);
+		const chosen = REASONS.filter((r) => selectedReasons.includes(r.id)).map(
+			(r) => r.label,
+		);
+		const summary = chosen[0] ?? details.trim().split("\n")[0];
+		const parts = [`Uninstall: ${summary}`];
+		if (chosen.length > 0) {
+			parts.push(`Reasons:\n${chosen.map((label) => `- ${label}`).join("\n")}`);
 		}
 		if (details.trim()) {
 			parts.push(`Details:\n${details.trim()}`);

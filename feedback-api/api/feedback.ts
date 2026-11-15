@@ -67,10 +67,14 @@ export function buildEmail(
 			content: Buffer.from(payload.script.source).toString("base64"),
 		});
 	}
+	const tag =
+		payload.version && payload.version !== "unknown"
+			? `[Scriptmonkey v${payload.version}]`
+			: "[Scriptmonkey]";
 	return {
 		from,
 		to,
-		subject: `[Scriptmonkey v${payload.version}] ${firstLine}`,
+		subject: `${tag} ${firstLine}`,
 		text: `${payload.message}\n\n---\nVersion: ${payload.version}\nUser agent: ${payload.userAgent}`,
 		...(attachments.length && { attachments }),
 	};
