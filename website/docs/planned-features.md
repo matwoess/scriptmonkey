@@ -6,8 +6,6 @@ sidebar_position: 6
 
 This document outlines upcoming features, enhancements, and roadmap items planned for **Scriptmonkey**.
 
-- **User Feedback**:
-  - When uninstalling the extension, open a browser tab announcing regret and optionally asking for uninstall reason or improvement suggestions.
 - **Editor Enhancements**:
   - Add an auto-save configuration option to CodeMirror.
   - Implement script version history and change log tracking.

@@ -50,4 +50,5 @@ This page details the technical features and capabilities supported by **Scriptm
 
 - **Feedback Dialog**: Send anonymous feedback via the feedback icon in the popup header or next to the dashboard title.
 - **Optional Script Attachment**: Attach the source of an installed script to help reproduce issues.
+- **Uninstall Survey**: Opens an optional feedback page upon extension removal to share reasons or improvement ideas.
 - **Minimal Data**: Only the message, chosen attachments, extension version, and browser user agent are sent. Nothing is sent unless you submit the form.
